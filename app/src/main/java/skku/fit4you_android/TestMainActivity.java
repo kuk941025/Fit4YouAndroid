@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Util.Constants;
+import skku.fit4you_android.util.Constants;
 
 public class TestMainActivity extends AppCompatActivity {
     @BindView(R.id.test_list_view)
