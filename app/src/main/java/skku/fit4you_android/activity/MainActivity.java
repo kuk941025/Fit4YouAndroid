@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TextView toolTitle;
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         MainPageAdapter pageAdapter = new MainPageAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
+
         viewPager.addOnPageChangeListener(pageChangeListener);
         setSupportActionBar(toolbar);
-        toolTitle.setText(tabLayout.getTabAt(0).getText());
         tabLayout.setupWithViewPager(viewPager);
+        toolTitle.setText(tabLayout.getTabAt(0).getText());
 
     }
 
