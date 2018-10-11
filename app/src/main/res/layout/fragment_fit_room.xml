@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.FitRoomFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fit fragment" />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="fit fragment" />
 
-</FrameLayout>
+        <Button
+            android:id="@+id/fit_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show"/>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <include
+        android:id="@+id/fit_bottom_sheet"
+        layout="@layout/layout_fit_bottom_sheet"/>
+
+</android.support.design.widget.CoordinatorLayout>
