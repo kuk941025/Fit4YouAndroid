@@ -27,7 +27,6 @@ public class HomeFragment extends Fragment {
     private View fragView;
     private PopularClothesFragment popularClothesFragment;
     private PopularMallFragment popularMallFragment;
-    FragmentManager fragmentManager;
     public HomeFragment() {
         // Required empty public constructor
     }
