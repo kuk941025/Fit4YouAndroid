@@ -9,11 +9,18 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +30,10 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.home_container)
     FrameLayout frameLayout;
-
+    @BindView(R.id.home_toolbar_spinner_show_option)
+    Spinner spinnerOption;
+    @BindView(R.id.home_toolbar_spinner_filter)
+    Spinner spinnerFilter;
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
@@ -48,14 +58,32 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (popularMallFragment == null || popularClothesFragment == null) {
-            popularClothesFragment = new PopularClothesFragment();
-            popularMallFragment = new PopularMallFragment();
-            tabLayout.addOnTabSelectedListener(tabSelectedListener);
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
+            init();
         }
     }
 
+    private void initSpinner(){
+        ArrayList<String> optionArray = new ArrayList<>();
+        ArrayList<String> filterArray = new ArrayList<>();
+        Collections.addAll(optionArray, Constants.HomeShowOptions);
+        Collections.addAll(filterArray, Constants.HomeFilter);
+
+        ArrayAdapter<String> optionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, optionArray);
+        spinnerOption.setAdapter(optionAdapter);
+        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, filterArray);
+        spinnerFilter.setAdapter(filterAdapter);
+    }
+    private void initFrag(){
+        popularClothesFragment = new PopularClothesFragment();
+        popularMallFragment = new PopularMallFragment();
+        tabLayout.addOnTabSelectedListener(tabSelectedListener);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
+    }
+    private void init(){
+        initFrag();
+        initSpinner();
+    }
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {

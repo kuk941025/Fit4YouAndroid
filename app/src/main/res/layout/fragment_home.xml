@@ -16,8 +16,36 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/Widget.AppCompat.ListPopupWindow" />
+            app:popupTheme="@style/Widget.AppCompat.ListPopupWindow"
+            app:contentInsetStart="0dp"
+            >
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <Spinner
+                    android:id="@+id/home_toolbar_spinner_show_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Spinner>
+
+                <Spinner
+                    android:id="@+id/home_toolbar_spinner_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></Spinner>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.Toolbar>
         <android.support.design.widget.TabLayout
             android:id="@+id/home_tab"
             android:layout_width="match_parent"
@@ -47,4 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></FrameLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/home_fab"
+        android:layout_width="@dimen/fab_Size"
+        android:layout_height="@dimen/fab_Size"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/margin_side"
+        android:backgroundTint="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>
