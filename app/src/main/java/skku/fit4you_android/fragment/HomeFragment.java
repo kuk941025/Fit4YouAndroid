@@ -26,8 +26,8 @@ public class HomeFragment extends Fragment {
 
 
     private View fragView;
-    private PopularClothesFragment popularClothesFragment;
-    private PopularMallFragment popularMallFragment;
+    private PopularClothesFragment popularClothesFragment = null;
+    private PopularMallFragment popularMallFragment = null;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -47,10 +47,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        popularClothesFragment = new PopularClothesFragment();
-        popularMallFragment = new PopularMallFragment();
-        tabLayout.addOnTabSelectedListener(tabSelectedListener);
+        if (popularMallFragment == null || popularClothesFragment == null) {
+            popularClothesFragment = new PopularClothesFragment();
+            popularMallFragment = new PopularMallFragment();
+            tabLayout.addOnTabSelectedListener(tabSelectedListener);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
+        }
     }
 
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {

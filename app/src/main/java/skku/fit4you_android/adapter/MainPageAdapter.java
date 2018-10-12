@@ -20,8 +20,6 @@ public class MainPageAdapter extends FragmentPagerAdapter {
     private final int size = 4;
     private Context mContext;
 
-
-
     public MainPageAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
