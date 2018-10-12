@@ -24,6 +24,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.home_container)
     FrameLayout frameLayout;
 
+
     private View fragView;
     private PopularClothesFragment popularClothesFragment;
     private PopularMallFragment popularMallFragment;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         popularClothesFragment = new PopularClothesFragment();
         popularMallFragment = new PopularMallFragment();
         tabLayout.addOnTabSelectedListener(tabSelectedListener);
