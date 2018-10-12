@@ -38,6 +38,39 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/toolbar_main_icon"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/toolbar_fit_room_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/toolbar_height"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toRightOf="@id/toolbar_main_title"
+            app:layout_constraintRight_toRightOf="parent"
+            layout="@layout/layout_toolbar_avatar"/>
+
+        <include
+            android:id="@+id/toolbar_home_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toRightOf="@id/toolbar_main_title"
+            app:layout_constraintRight_toRightOf="parent"
+            layout="@layout/layout_toolbar_home"
+            />
+
+        <include
+            android:id="@+id/toolbar_news_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:layout_marginStart="@dimen/margin_side"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toRightOf="@id/toolbar_main_title"
+            app:layout_constraintRight_toRightOf="parent"
+            layout="@layout/layout_toolbar_news"
+            />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.Toolbar>
