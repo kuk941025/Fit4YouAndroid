@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.FitRoomFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="fit fragment" />
 
-        <Button
-            android:id="@+id/fit_test"
+
+        <ImageView
+            android:id="@+id/fit_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="show"/>
-    </android.support.design.widget.CoordinatorLayout>
+            android:scaleType="centerInside"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/img_avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <include
         android:id="@+id/fit_bottom_sheet"

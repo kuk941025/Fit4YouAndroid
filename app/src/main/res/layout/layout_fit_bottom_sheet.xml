@@ -34,12 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="@dimen/bottom_peek_height"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -51,7 +46,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2000dp"
-            android:background="#a1a1a1"
+            android:background="@color/colorLightWhite"
             android:orientation="vertical">
 
             <include
@@ -68,4 +63,10 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/bottom_peek_height"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

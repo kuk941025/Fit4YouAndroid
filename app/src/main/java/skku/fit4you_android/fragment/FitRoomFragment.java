@@ -21,14 +21,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import skku.fit4you_android.R;
-import skku.fit4you_android.widget.ExpandableLayout;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FitRoomFragment extends Fragment {
-    @BindView(R.id.fit_test)
-    Button btnTest;
     @BindView(R.id.fit_bottom_sheet)
     View bottomSheet;
     @BindView(R.id.fit_bottom_list_top)
@@ -63,16 +61,16 @@ public class FitRoomFragment extends Fragment {
 
 
 
-    @OnClick(R.id.fit_test)
-    void onClick(){
-        if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            btnTest.setText("Close sheet");
-        }else{
-            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            btnTest.setText("Expand test");
-        }
-    }
+//    @OnClick(R.id.fit_test)
+//    void onClick(){
+//        if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+//            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            btnTest.setText("Close sheet");
+//        }else{
+//            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//            btnTest.setText("Expand test");
+//        }
+//    }
 
     private void setBottomList(){
         //load top
@@ -97,6 +95,7 @@ public class FitRoomFragment extends Fragment {
             }
         });
     }
+
     private void setSheetBehavior(){
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -107,11 +106,9 @@ public class FitRoomFragment extends Fragment {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
-                        btnTest.setText("Close sheet");
                         break;
                     case BottomSheetBehavior.STATE_COLLAPSED:
                         break;
-
                     default:
                         break;
                 }
