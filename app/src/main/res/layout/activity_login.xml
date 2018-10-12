@@ -13,6 +13,7 @@
         android:scaleType="centerCrop"
         />
 
+
     <ImageView
         android:id="@+id/login_img_logo"
         android:background="#5378f2"
@@ -38,6 +39,7 @@
         android:background="@drawable/rounded_edittext"
         android:paddingLeft="@dimen/edit_rounded_padding"
         android:paddingRight="@dimen/edit_rounded_padding"
+        android:textSize="@dimen/text_default"
         app:layout_constraintBottom_toBottomOf="@+id/login_img_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +57,8 @@
         android:layout_marginBottom="8dp"
         android:paddingLeft="@dimen/edit_rounded_padding"
         android:paddingRight="@dimen/edit_rounded_padding"
+        android:textSize="@dimen/text_default"
+        android:inputType="textPassword"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,4 +111,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_layout_register" />
+
 </android.support.constraint.ConstraintLayout>
