@@ -18,7 +18,7 @@ import skku.fit4you_android.R;
  * A simple {@link Fragment} subclass.
  */
 public class SettingFragment extends Fragment {
-    private final static String[] options = {"Adjust my body size", "Create a page", "Followings"};
+    private final static String[] options = {"Update Personal Info", "Followings"};
     private View fragView = null;
     @BindView(R.id.setting_list_view)
     ListView listView;
