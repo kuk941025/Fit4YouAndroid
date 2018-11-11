@@ -24,7 +24,7 @@ public class PopularClothesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_popular_clothes, container, false);
+        return inflater.inflate(R.layout.fragment_home_clothing, container, false);
     }
 
 }

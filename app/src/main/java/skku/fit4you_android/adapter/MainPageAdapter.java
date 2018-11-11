@@ -5,14 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 import skku.fit4you_android.fragment.FitRoomFragment;
 import skku.fit4you_android.fragment.HomeFragment;
-import skku.fit4you_android.fragment.NewsFragment;
+import skku.fit4you_android.fragment.MyPageFragment;
 import skku.fit4you_android.fragment.SettingFragment;
 import skku.fit4you_android.util.Constants;
 
@@ -29,7 +25,7 @@ public class MainPageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) return new FitRoomFragment();
         else if (position == 1) return new HomeFragment();
-        else if (position == 2) return new NewsFragment();
+        else if (position == 2) return new MyPageFragment();
         else return new SettingFragment();
     }
 
