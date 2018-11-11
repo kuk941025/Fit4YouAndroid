@@ -70,12 +70,11 @@
             android:id="@+id/shopping_expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ael_expanded="false"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/shopping_cart_item_size"
-                android:text="yo"/>
+            app:ael_expanded="false">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/wishlist_item_height">
+            </android.support.v7.widget.RecyclerView>
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
