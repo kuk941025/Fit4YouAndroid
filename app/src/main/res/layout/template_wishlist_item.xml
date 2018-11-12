@@ -5,14 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/template_wishlist_cardview"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="@dimen/wishlist_item_layout_width"
     android:layout_height="@dimen/wishlist_item_layout_height"
     >
-    <!--<android.support.v7.widget.CardView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:cardElevation="5dp"-->
-        <!--app:cardCornerRadius="20dp">-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/template_wishlist_layout"
         android:layout_width="wrap_content"
@@ -67,5 +64,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_wishlist_name" />
     </android.support.constraint.ConstraintLayout>
-    <!--</android.support.v7.widget.CardView>-->
 </android.support.constraint.ConstraintLayout>

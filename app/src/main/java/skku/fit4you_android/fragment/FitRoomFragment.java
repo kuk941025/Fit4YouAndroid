@@ -146,11 +146,14 @@ public class FitRoomFragment extends Fragment {
         }
 
         topListAdapter = new WishListAdapter(topWishlists);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishTops.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishTops.setLayoutManager(topLayoutManager);
         recyclerWishTops.setAdapter(topListAdapter);
 
-
+        pantsListAdapter = new WishListAdapter(pantsWishlists);
+        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishPants.setLayoutManager(pantsLayoutManager);
+        recyclerWishPants.setAdapter(pantsListAdapter);
     }
 
 
