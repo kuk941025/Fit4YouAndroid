@@ -61,13 +61,13 @@
 
             <include
                 android:id="@+id/fit_bottom_list_top"
-                layout="@layout/layout_shopping_cart_list_btn"
+                layout="@layout/layout_wish_list_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/fit_bottom_list_pants"
-                layout="@layout/layout_shopping_cart_list_btn"
+                layout="@layout/layout_wish_list_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

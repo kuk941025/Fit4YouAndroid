@@ -13,12 +13,13 @@ import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SettingFragment extends Fragment {
-    private final static String[] options = {"Update Personal Info", "Followings"};
+    private final static String[] options = Constants.SettingOptions;
     private View fragView = null;
     @BindView(R.id.setting_list_view)
     ListView listView;

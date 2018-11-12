@@ -4,6 +4,19 @@ public class Wishlist {
     private int cid;
     private String name, dscrp;
 
+    public Wishlist() {
+    }
+
+    public Wishlist(int cid) {
+        this.cid = cid;
+    }
+
+    public Wishlist(int cid, String name, String dscrp) {
+        this.cid = cid;
+        this.name = name;
+        this.dscrp = dscrp;
+    }
+
     public int getCid() {
         return cid;
     }

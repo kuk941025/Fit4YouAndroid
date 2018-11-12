@@ -6,10 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +23,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import skku.fit4you_android.Model.Wishlist;
 import skku.fit4you_android.R;
+import skku.fit4you_android.adapter.WishListAdapter;
 
 
 /**
@@ -33,13 +38,15 @@ public class FitRoomFragment extends Fragment {
     View btnShowTop;
     @BindView(R.id.fit_bottom_list_pants)
     View btnShowPants;
-
+    private RecyclerView recyclerWishTops, recyclerWishPants;
     private BottomSheetBehavior sheetBehavior;
+    private WishListAdapter topListAdapter, pantsListAdapter;
     private View fragView = null;
+    private ArrayList<Wishlist> topWishlists, pantsWishlists;
     public FitRoomFragment() {
+
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +64,7 @@ public class FitRoomFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setSheetBehavior();
         setBottomList();
+        setWishlistView();
     }
 
 
@@ -81,12 +89,13 @@ public class FitRoomFragment extends Fragment {
     private void setBottomCategoryTitle(View view, String title){
         //set texts on category
         TextView txtCategoryTitle, txtItemNum;
-        txtCategoryTitle = view.findViewById(R.id.shopping_cart_list_btn_title);
-        txtItemNum = view.findViewById(R.id.shopping_cart_list_btn_num_items);
+        //shopping_cart_list_btn_title
+        txtCategoryTitle = view.findViewById(R.id.wish_list_btn_title);
+        txtItemNum = view.findViewById(R.id.wish_list_btn_num_items);
         txtCategoryTitle.setText(title);
         txtItemNum.setText("0 items selected");
-        final View layout = view.findViewById(R.id.shopping_cart_list_layout);
-        final ExpandableRelativeLayout expandableView = view.findViewById(R.id.shopping_expandable_layout);
+        final View layout = view.findViewById(R.id.wish_list_layout);
+        final ExpandableRelativeLayout expandableView = view.findViewById(R.id.wish_expandable_layout);
         expandableView.collapse();
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,12 +121,36 @@ public class FitRoomFragment extends Fragment {
                     default:
                         break;
                 }
+                topListAdapter.notifyDataSetChanged();
             }
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
             }
         });
+    }
+
+    private void setWishlistView(){
+        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
+        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
+
+        topWishlists = new ArrayList<>();
+        pantsWishlists = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++){
+            Wishlist wish = new Wishlist(i);
+            wish.setDscrp("wish" + i);
+            wish.setName("title" + i);
+            topWishlists.add(wish);
+            pantsWishlists.add(wish);
+        }
+
+        topListAdapter = new WishListAdapter(topWishlists);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishTops.setLayoutManager(linearLayoutManager);
+        recyclerWishTops.setAdapter(topListAdapter);
+
+
     }
 
 
