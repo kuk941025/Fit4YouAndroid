@@ -54,23 +54,24 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <View
-        android:id="@+id/shopping"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorLightGray"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<View-->
+        <!--android:id="@+id/shopping"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/colorLightGray"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-    <View
-        android:id="@+id/shopping_test"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorLightGray"
-        app:layout_constraintTop_toBottomOf="@id/wish_list_layout" />
+    <!--<View-->
+        <!--android:id="@+id/shopping_test"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/colorLightGray"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/wish_list_layout" />-->
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/borderbottom_layout"
         app:layout_constraintTop_toBottomOf="@id/wish_list_layout">
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
