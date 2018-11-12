@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+    >
+
+    <TextView
+        android:id="@+id/template_post_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Clothing Title"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/template_post_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="50,000 won"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_name"
+        app:layout_constraintStart_toEndOf="@+id/template_post_item_name"
+        app:layout_constraintTop_toTopOf="@+id/template_post_item_name" />
+
+    <TextView
+        android:id="@+id/template_post_item_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginStart="@dimen/margin_side"
+        android:text="User Name"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/template_post_item_name" />
+
+    <TextView
+        android:id="@+id/template_post_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="2018-10-16"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_user_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/template_post_item_user_name"
+        app:layout_constraintTop_toTopOf="@+id/template_post_item_user_name" />
+
+    <ImageView
+        android:id="@+id/template_post_item_add_wishlist"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/template_post_item_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_side"
+        app:layout_constraintTop_toBottomOf="@id/template_post_item_date">
+        <include layout="@layout/template_post_item_clothing"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/template_post_item_hash_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:text="#hash_tag #hashbrown"
+        android:textSize="@dimen/text_default"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/template_post_item_frame" />
+
+    <ImageView
+        android:id="@+id/template_post_item_like"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/template_post_item_hash_tags" />
+
+    <TextView
+        android:id="@+id/template_post_item_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="1892 likes 100 comments"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_like"
+        app:layout_constraintStart_toEndOf="@+id/template_post_item_like"
+        app:layout_constraintTop_toTopOf="@+id/template_post_item_like" />
+</android.support.constraint.ConstraintLayout>
