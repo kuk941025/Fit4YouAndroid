@@ -21,7 +21,8 @@ public class PopularMallFragment extends Fragment {
     RecyclerView recyclerStyles;
 
     View fragView;
-    boolean notficeFlag = false;
+    boolean isRefreshed = false, isFirst = true;
+
     public PopularMallFragment() {
         // Required empty public constructor
     }
@@ -31,25 +32,32 @@ public class PopularMallFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (fragView == null){
+        if (fragView == null) {
             fragView = inflater.inflate(R.layout.fragment_home_styling, container, false);
             ButterKnife.bind(this, fragView);
         }
-        if (notficeFlag ){
-            notficeFlag  = false;
-            notifyFrag();
+        if (isRefreshed) {
+            refreshMallList();
         }
         return fragView;
     }
 
-    public void notifyFrag(){
-       // Toast.makeText(getContext(), "Mall noticed", Toast.LENGTH_SHORT).show();
-        if (getContext() == null){
-            notficeFlag  = true;
-        }
-        else{
-            Toast.makeText(getContext(), "Mall noticed", Toast.LENGTH_SHORT).show();
-        }
+    private void refreshMallList() {
+        if (!isFirst) return;
+        isRefreshed = false;
+        isFirst = false;
+
+        
+
+    }
+
+    public void notifyFrag() {
+
+        if (getContext() != null && !isRefreshed) {
+            isRefreshed = true;
+            refreshMallList();
+        } else isRefreshed = true;
+
     }
 
 }

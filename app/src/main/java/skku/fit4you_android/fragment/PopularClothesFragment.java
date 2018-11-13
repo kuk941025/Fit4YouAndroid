@@ -20,8 +20,9 @@ import skku.fit4you_android.R;
 public class PopularClothesFragment extends Fragment {
     @BindView(R.id.home_clothing_recycler_clothing)
     RecyclerView recyclerClothing;
-    boolean notficeFlag = false;
+    boolean isRefreshed = false, isFirst = true;
     private View fragView;
+
     public PopularClothesFragment() {
         // Required empty public constructor
     }
@@ -33,12 +34,10 @@ public class PopularClothesFragment extends Fragment {
         // Inflate the layout for this fragment
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_home_clothing, container, false);
-//            Toast.makeText(getContext(), "Created", Toast.LENGTH_SHORT).show();
             ButterKnife.bind(this, fragView);
         }
-        if (notficeFlag){
-            notficeFlag = false;
-            notifyFrag();
+        if (isRefreshed){
+            refreshClothingList();
         }
         return fragView;
     }
@@ -49,16 +48,19 @@ public class PopularClothesFragment extends Fragment {
         super.onResume();
     }
 
-
-    private void initClothingList(){
-
+    private void refreshClothingList(){
+        if (!isFirst) return;
+        Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+        isRefreshed = false;
+        isFirst = false;
     }
 
     public void notifyFrag(){
-        if (getContext() == null) notficeFlag = true;
-        else{
-            Toast.makeText(getContext(), "Clothes noticed.", Toast.LENGTH_SHORT).show();
+        if (getContext() != null && !isRefreshed){
+            isRefreshed = true;
+            refreshClothingList();
         }
+        else isRefreshed = true;
     }
 
 }

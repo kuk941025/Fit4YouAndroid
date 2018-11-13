@@ -37,10 +37,6 @@ public class MainPageAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return fragsList.get(position);
-//        if (position == 0) return new FitRoomFragment();
-//        else if (position == 1) return new HomeFragment();
-//        else if (position == 2) return new MyPageFragment();
-//        else return new SettingFragment();
     }
 
     @Override
