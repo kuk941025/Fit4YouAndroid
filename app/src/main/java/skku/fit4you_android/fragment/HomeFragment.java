@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -91,9 +93,11 @@ public class HomeFragment extends Fragment {
             Fragment selectedFragment = popularMallFragment;
             if (pos == 0){
                 selectedFragment = popularClothesFragment;
+                popularClothesFragment.notifyFrag();
             }
             else if (pos == 1){
                 selectedFragment = popularMallFragment;
+                popularMallFragment.notifyFrag();
             }
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, selectedFragment).commit();
             getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
@@ -109,4 +113,9 @@ public class HomeFragment extends Fragment {
 
         }
     };
+
+    public void homeFragSelected(){
+        if (tabLayout.getSelectedTabPosition() == 0) popularClothesFragment.notifyFrag();
+        else popularMallFragment.notifyFrag();
+    }
 }

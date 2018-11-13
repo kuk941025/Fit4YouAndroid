@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:scrollbars="vertical"
     >
 
@@ -69,11 +70,18 @@
 
     <FrameLayout
         android:id="@+id/template_post_item_frame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_side"
         app:layout_constraintTop_toBottomOf="@id/template_post_item_date">
-        <include layout="@layout/template_post_item_clothing"/>
+        <include
+            android:id="@+id/template_post_item_view_clothing"
+            android:visibility="gone"
+            layout="@layout/template_post_item_clothing"/>
+        <include
+            android:id="@+id/template_post_item_view_style"
+            android:visibility="gone"
+            layout="@layout/template_post_item_style"/>
     </FrameLayout>
 
     <TextView

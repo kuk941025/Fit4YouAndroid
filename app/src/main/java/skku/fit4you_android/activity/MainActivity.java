@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.MainPageAdapter;
+import skku.fit4you_android.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_view_pager)
@@ -34,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
     View toolNewsLayout;
 
     private ArrayList<View> viewToolbars;
+    private MainPageAdapter pageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        MainPageAdapter pageAdapter = new MainPageAdapter(this, getSupportFragmentManager());
+        pageAdapter = new MainPageAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
 
         viewPager.addOnPageChangeListener(pageChangeListener);
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             for (View v : viewToolbars)
                 v.setVisibility(View.GONE);
             if (viewToolbars.size() > position) viewToolbars.get(position).setVisibility(View.VISIBLE);
+
+            pageAdapter.notifyFragSelected(position);
         }
 
         @Override
