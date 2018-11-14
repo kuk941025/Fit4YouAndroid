@@ -28,9 +28,8 @@
         android:id="@+id/home_styling_recycler_styles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_side"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/margin_side"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_styling_horizontal_scroll"></android.support.v7.widget.RecyclerView>

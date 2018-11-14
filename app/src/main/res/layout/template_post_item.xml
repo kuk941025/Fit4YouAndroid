@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:scrollbars="vertical"
+    android:layout_marginTop="@dimen/margin_side"
+    android:layout_marginBottom="@dimen/margin_side"
     >
 
     <TextView

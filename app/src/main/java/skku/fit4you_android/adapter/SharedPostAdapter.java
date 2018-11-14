@@ -34,7 +34,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
     @Override
     public void onBindViewHolder(@NonNull postViewHolder holder, int position) {
-        if (sharedPosts.get(position).getType_of_post() == SharedPost.getPostClothing()){
+        SharedPost selectedPost = sharedPosts.get(position);
+        if (selectedPost.getType_of_post() == SharedPost.getPostClothing()){
             holder.viewClothing.setVisibility(View.VISIBLE);
             holder.viewStyle.setVisibility(View.GONE);
         }
@@ -42,6 +43,10 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             holder.viewClothing.setVisibility(View.GONE);
             holder.viewStyle.setVisibility(View.VISIBLE);
         }
+
+        holder.txtItemName.setText(selectedPost.getClothing_name());
+        holder.txtUserName.setText(selectedPost.getUser_name());
+
     }
 
     @Override
