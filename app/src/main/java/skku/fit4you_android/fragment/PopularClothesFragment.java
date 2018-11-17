@@ -65,7 +65,7 @@ public class PopularClothesFragment extends Fragment {
         //set recycler view
         sharedPosts = new ArrayList<>();
         loadClothingList();
-        sharedPostAdapter = new SharedPostAdapter(sharedPosts);
+        sharedPostAdapter = new SharedPostAdapter(getContext(),sharedPosts);
         recyclerClothing.setAdapter(sharedPostAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -76,7 +76,7 @@ public class PopularClothesFragment extends Fragment {
 
     }
     private void loadClothingList(){
-        for (int i = 0; i < 50; i++){
+        for (int i = 0; i < 20; i++){
             //temp data
             SharedPost post = new SharedPost();
             post.setType_of_post(SharedPost.POST_CLOTHING);

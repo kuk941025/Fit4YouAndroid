@@ -48,7 +48,7 @@ public class MyPageFragment extends Fragment {
     private void initPostList(){
         sharedPosts = new ArrayList<>();
         loadNewsFeed();
-        sharedPostAdapter = new SharedPostAdapter(sharedPosts);
+        sharedPostAdapter = new SharedPostAdapter(getContext(), sharedPosts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerNewsFeed.setAdapter(sharedPostAdapter);
         recyclerNewsFeed.setLayoutManager(layoutManager);

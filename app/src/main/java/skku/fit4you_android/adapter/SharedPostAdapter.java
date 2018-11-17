@@ -1,6 +1,9 @@
 package skku.fit4you_android.adapter;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,9 +24,10 @@ import skku.fit4you_android.R;
 
 public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.postViewHolder> {
     private ArrayList<SharedPost> sharedPosts;
-
-    public SharedPostAdapter(ArrayList<SharedPost> sharedPosts) {
+    private Context mContext;
+    public SharedPostAdapter(Context mContext, ArrayList<SharedPost> sharedPosts) {
         this.sharedPosts = sharedPosts;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -38,6 +43,12 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         if (selectedPost.getType_of_post() == SharedPost.getPostClothing()){
             holder.viewClothing.setVisibility(View.VISIBLE);
             holder.viewStyle.setVisibility(View.GONE);
+            //set viewpager adpater
+            List<Drawable> temp = new ArrayList<>();
+            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_add));
+            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_avatar));
+            PostImageViewAdapter postImageViewAdapter = new PostImageViewAdapter(mContext, temp);
+            holder.clothingViewPager.setAdapter(postImageViewAdapter);
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);
@@ -46,6 +57,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         holder.txtItemName.setText(selectedPost.getClothing_name());
         holder.txtUserName.setText(selectedPost.getUser_name());
+
+
 
     }
 

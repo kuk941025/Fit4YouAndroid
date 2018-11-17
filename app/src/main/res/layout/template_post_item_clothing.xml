@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
     <android.support.v4.view.ViewPager
         android:id="@+id/template_post_item_clothing_view_pager"
-        android:background="@color/colorLightGray"
         android:layout_width="match_parent"
         android:layout_height="@dimen/template_post_viewpager_height">
     </android.support.v4.view.ViewPager>

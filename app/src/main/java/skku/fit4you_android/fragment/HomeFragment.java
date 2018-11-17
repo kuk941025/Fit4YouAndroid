@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
             fragView = inflater.inflate(R.layout.fragment_home, container, false);
             ButterKnife.bind(this, fragView);
         }
+
         return fragView;
     }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="@dimen/template_post_viewpager_height">
+    <ImageView
+        android:id="@+id/template_post_item_clothing_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

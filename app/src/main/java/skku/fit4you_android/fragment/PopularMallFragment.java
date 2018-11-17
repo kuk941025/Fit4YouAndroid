@@ -57,7 +57,7 @@ public class PopularMallFragment extends Fragment {
 
         sharedPosts = new ArrayList<>();
         loadMallList();
-        sharedPostAdapter = new SharedPostAdapter(sharedPosts);
+        sharedPostAdapter = new SharedPostAdapter(getContext(), sharedPosts);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerStyles.setAdapter(sharedPostAdapter);
@@ -65,7 +65,7 @@ public class PopularMallFragment extends Fragment {
     }
 
     private void loadMallList(){
-        for (int i = 0; i < 50; i++){
+        for (int i = 0; i < 20; i++){
             //temp data
             SharedPost post = new SharedPost();
             post.setType_of_post(SharedPost.POST_STYLE_SHARE);
