@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorLightGray"
+    android:background="@color/colorBrightGray"
+    android:layout_marginTop="@dimen/margin_short"
+    android:layout_marginBottom="@dimen/margin_short"
     >
 
     <TextView
-        android:id="@+id/template_comment_item_title"
+        android:id="@+id/template_comment_item_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side"
@@ -28,9 +30,9 @@
         android:text="100 Likes"
         android:textColor="@color/colorPrimary"
         android:layout_marginStart="@dimen/margin_side"
-        app:layout_constraintBottom_toBottomOf="@+id/template_comment_item_title"
-        app:layout_constraintStart_toEndOf="@+id/template_comment_item_title"
-        app:layout_constraintTop_toTopOf="@+id/template_comment_item_title" />
+        app:layout_constraintBottom_toBottomOf="@+id/template_comment_item_user"
+        app:layout_constraintStart_toEndOf="@+id/template_comment_item_user"
+        app:layout_constraintTop_toTopOf="@+id/template_comment_item_user" />
 
     <TextView
         android:id="@+id/template_comment_item_contents"
@@ -44,5 +46,5 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/template_comment_item_title" />
+        app:layout_constraintTop_toBottomOf="@+id/template_comment_item_user" />
 </android.support.constraint.ConstraintLayout>
