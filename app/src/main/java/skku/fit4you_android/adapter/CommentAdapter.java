@@ -33,7 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         holder.txtContents.setText(comments.get(position).getContents());
         holder.txtUser.setText(comments.get(position).getUser());
-        holder.txtLikes.setText(Integer.toString(comments.get(position).getLikes()));
+        holder.txtLikes.setText(Integer.toString(comments.get(position).getLikes()) + " Likes");
     }
 
     @Override

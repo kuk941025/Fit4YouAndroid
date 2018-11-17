@@ -1,5 +1,9 @@
 package skku.fit4you_android.activity;
 
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,18 +11,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.Model.Comment;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.CommentAdapter;
+import skku.fit4you_android.adapter.PostImageViewAdapter;
 
 public class DetailPostActivity extends AppCompatActivity {
     @BindView(R.id.detail_post_recycler_comments)
     RecyclerView recyclerComments;
-
+    @BindView(R.id.detail_post_view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.detail_post_tab_layout)
+    TabLayout tabLayout;
     private CommentAdapter commentAdapter;
+    private PostImageViewAdapter imageViewAdapter;
     private ArrayList<Comment> comments;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
         hide_keyboard();
         setRecyclerComments();
+        setImageViewAdapter();
     }
 
     private void hide_keyboard(){
@@ -49,5 +60,17 @@ public class DetailPostActivity extends AppCompatActivity {
         recyclerComments.setAdapter(commentAdapter);
 
         recyclerComments.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void setImageViewAdapter(){
+        List<Drawable> temp = new ArrayList<>();
+        temp.add(ContextCompat.getDrawable(this, R.drawable.img_add));
+        temp.add(ContextCompat.getDrawable(this, R.drawable.img_avatar));
+        temp.add(ContextCompat.getDrawable(this, R.drawable.img_search));
+
+        imageViewAdapter = new PostImageViewAdapter(this, temp);
+        viewPager.setAdapter(imageViewAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

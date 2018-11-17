@@ -48,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/template_post_viewpager_height"
                 android:layout_marginTop="@dimen/margin_side"
-                android:background="@color/colorLightGray"
                 app:layout_constraintTop_toBottomOf="@+id/detail_post_txt_price" />
 
             <android.support.design.widget.TabLayout
