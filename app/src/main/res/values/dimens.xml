@@ -8,8 +8,10 @@
     <dimen name="elevation_tool">1dp</dimen>
     <dimen name="edit_text_large">40dp</dimen>
     <dimen name="edit_rounded_padding">10dp</dimen>
+    <dimen name="text_small">14dp</dimen>
     <dimen name="text_default">16dp</dimen>
     <dimen name="text_large">18dp</dimen>
+    <dimen name="text_extra_large">22dp</dimen>
     <dimen name="text_tool_title">20dp</dimen>
     <dimen name="bottom_peek_height">45dp</dimen>
     <dimen name="wishlist_item_height">500dp</dimen>
