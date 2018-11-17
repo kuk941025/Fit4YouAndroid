@@ -7,6 +7,8 @@ public class Wishlist {
     public Wishlist() {
     }
 
+
+
     public Wishlist(int cid) {
         this.cid = cid;
     }
