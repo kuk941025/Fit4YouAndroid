@@ -4,7 +4,7 @@
         <shape
             android:innerRadius="0dp"
             android:shape="ring"
-            android:thickness="8dp"
+            android:thickness="@dimen/tab_indicator_thickness"
             android:useLevel="false">
             <solid android:color="@color/colorPrimaryDark"/>
         </shape>

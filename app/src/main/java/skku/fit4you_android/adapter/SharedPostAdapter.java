@@ -3,6 +3,7 @@ package skku.fit4you_android.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +49,9 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_add));
             temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_avatar));
             PostImageViewAdapter postImageViewAdapter = new PostImageViewAdapter(mContext, temp);
+
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
+            holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);
@@ -92,6 +95,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         View viewClothing;
         @BindView(R.id.template_post_item_view_style)
         View viewStyle;
+        @BindView(R.id.templatE_post_item_clothing_tab_layout)
+        TabLayout tabLayout;
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
