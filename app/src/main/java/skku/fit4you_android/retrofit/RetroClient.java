@@ -2,8 +2,14 @@ package skku.fit4you_android.retrofit;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
 public class RetroClient {
     private RetroApiService apiService;
@@ -31,6 +37,25 @@ public class RetroClient {
         if (service == null)
             throw new RuntimeException("API service null");
         return  retrofit.create(service);
+    }
+
+    public void postLogin(HashMap <String, Object> parameters, final RetroCallback callback){
+        apiService.postLogin(parameters).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()){
+                    callback.onSuccess(response.code(), response.body());
+                }
+                else{
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
     }
 
 
