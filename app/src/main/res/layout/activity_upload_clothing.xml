@@ -6,63 +6,98 @@
     android:layout_height="match_parent"
     tools:context=".activity.UploadClothingActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="511dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/OuterConstraintLayout_UploadClothing"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="16dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
 
         <TextView
+            android:id="@+id/text_Clothing_Picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:gravity="center_horizontal"
             android:text="옷 사진"
             android:textColor="#000000"
-            android:textSize="40sp" />
+            android:textSize="@dimen/text_extra_large"
+            app:layout_constraintBottom_toTopOf="@+id/text_Collect_Clothing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/fuck"
+            android:id="@+id/text_Collect_Clothing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="옷 사진 한 장을 골라주세요!"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text_default"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintTop_toBottomOf="@+id/text_Clothing_Picture"
+            tools:layout_editor_absoluteX="0dp" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20sp"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_Collect_Clothing">
 
             <ImageView
                 android:id="@+id/clothing_image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="8dp"
                 android:maxWidth="200dp"
-                android:maxHeight="200dp" />
+                android:maxHeight="200dp"
+                app:layout_constraintBottom_toTopOf="@+id/UploadPicture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/UploadPicture"
                 android:layout_width="200dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:background="#6767ff"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorPrimary"
                 android:text="사진 선택"
-
-                android:textSize="15sp" />
-        </LinearLayout>
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clothing_image"
+                app:layout_constraintVertical_bias="1.0" />
+        </android.support.constraint.ConstraintLayout>
 
         <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="20dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="@dimen/margin_side"
+            android:paddingBottom="@dimen/margin_side"
+            app:layout_constraintBottom_toTopOf="@+id/btn_push"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,15 +110,18 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="옷 이름: " />
+
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="옷 이름: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/cname"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -92,15 +130,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="비용: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="비용: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/cost"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -109,15 +149,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="성별: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="성별: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/gender"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -126,15 +168,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="헤시테그: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="헤시테그: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/hashTag"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -143,15 +187,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="사이즈: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="사이즈: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/size"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -160,15 +206,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="둘레: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="둘레: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/waist"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -177,15 +225,17 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="기장: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="기장: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/length"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -194,31 +244,40 @@
 
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="계절: " />
+                        android:layout_marginLeft="@dimen/margin_side"
+                        android:text="계절: "
+                        android:textSize="@dimen/text_default" />
 
                     <EditText
                         android:id="@+id/weather"
                         android:layout_width="150dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_default" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_push"
-                    android:layout_width="285dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="#ff0000"
-                    android:text="옷 정보 입력 완료"
-                    android:textColor="#ffffff" />
+
             </LinearLayout>
         </ScrollView>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_push"
+            android:layout_width="285dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            android:text="옷 정보 입력 완료"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
