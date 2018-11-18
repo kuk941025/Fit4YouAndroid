@@ -1,4 +1,4 @@
-package skku.fit4you_android.Model;
+package skku.fit4you_android.model;
 
 public class Comment {
     String user, contents;

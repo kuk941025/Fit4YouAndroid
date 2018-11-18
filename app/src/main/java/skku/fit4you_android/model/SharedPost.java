@@ -1,4 +1,4 @@
-package skku.fit4you_android.Model;
+package skku.fit4you_android.model;
 
 import java.util.Date;
 

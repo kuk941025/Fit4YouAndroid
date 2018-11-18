@@ -15,7 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Model.Comment;
+import skku.fit4you_android.model.Comment;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.CommentAdapter;
 import skku.fit4you_android.adapter.PostImageViewAdapter;
