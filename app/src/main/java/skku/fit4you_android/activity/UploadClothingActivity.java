@@ -31,7 +31,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         ivImage  = (ImageView) findViewById(R.id.clothing_image);
         selectImg.setOnClickListener(new Button.OnClickListener(){
-            TextView Text1 = (TextView) findViewById(R.id.fuck);
+//            TextView Text1 = (TextView) findViewById(R.id.fuck);
             @Override
             public void onClick(View v) {//여기서 옷을 구현하면된다.
                 DialogImage();
