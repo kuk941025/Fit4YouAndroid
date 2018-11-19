@@ -6,9 +6,10 @@
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/template_following_layout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:background="@drawable/borderbottom_layout"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/margin_side">
@@ -44,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/borderbottom_layout"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/template_following_layout_top">
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
             android:id="@+id/template_following_layout_expandable"
