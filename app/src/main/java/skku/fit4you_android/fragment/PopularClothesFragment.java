@@ -2,7 +2,6 @@ package skku.fit4you_android.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Model.SharedPost;
+import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Model.Wishlist;
+import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishitemViewHolder> {

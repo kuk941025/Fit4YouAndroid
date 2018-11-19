@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Model.SharedPost;
+import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
 

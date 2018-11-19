@@ -1,6 +1,5 @@
 package skku.fit4you_android.adapter;
 
-import android.support.annotation.BinderThread;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skku.fit4you_android.Model.Comment;
+import skku.fit4you_android.model.Comment;
 import skku.fit4you_android.R;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
