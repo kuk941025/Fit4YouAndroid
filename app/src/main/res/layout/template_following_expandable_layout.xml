@@ -54,6 +54,7 @@
             app:ael_expanded="false">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/template_following_recycler_user"
+                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
