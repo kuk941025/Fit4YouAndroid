@@ -7,7 +7,7 @@
     tools:context=".activity.UploadClothingActivity">
     <include
         android:id="@+id/toolbar_Upload_Clothing"
-        layout="@layout/layout_toolbar_Upload_Clothing"
+        layout="@layout/layout_toolbar_upload_clothing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,6 +20,7 @@
         android:layout_marginTop="@dimen/margin_side"
         android:gravity="center_horizontal"
         android:text="옷 사진"
+        android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="@dimen/text_extra_large"
         app:layout_constraintBottom_toTopOf="@+id/text_Collect_Clothing"
@@ -31,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="옷 사진 한 장을 골라주세요!"
+        android:text="옷 사진을 골라주세요!"
         android:textColor="#000000"
         android:textSize="@dimen/text_default"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout1"
