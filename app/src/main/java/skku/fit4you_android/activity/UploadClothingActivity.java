@@ -28,7 +28,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         EditText cname = (EditText) findViewById(R.id.cname);
         String text_cname = cname.getText().toString();
         Button selectImg = (Button) findViewById(R.id.UploadPicture);
-        Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
+        //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         ivImage  = (ImageView) findViewById(R.id.clothing_image);
         selectImg.setOnClickListener(new Button.OnClickListener(){
 //            TextView Text1 = (TextView) findViewById(R.id.fuck);
