@@ -10,8 +10,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        externalNativeBuild{
-            cmake{
+        externalNativeBuild {
+            cmake {
                 cppFlags ""
             }
         }
@@ -23,8 +23,8 @@ android {
         }
     }
 
-    externalNativeBuild{
-        cmake{
+    externalNativeBuild {
+        cmake {
             path "CMakeLists.txt"
         }
     }

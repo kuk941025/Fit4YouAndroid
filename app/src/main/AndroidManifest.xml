@@ -41,7 +41,8 @@
             android:name=".activity.UploadClothingActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.DetailPostActivity" />
-        <activity android:name=".activity.OpenCVTest"></activity>
+        <activity android:name=".activity.OpenCVTest" />
+        <activity android:name=".activity.OpenCVNativeTest"></activity>
     </application>
 
 </manifest>

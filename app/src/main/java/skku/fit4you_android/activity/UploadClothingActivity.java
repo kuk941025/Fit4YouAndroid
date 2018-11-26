@@ -20,7 +20,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
         ButterKnife.bind(this);
-        
+
         viewPager.setAdapter(new UploadClothingAdapter(this,getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 
