@@ -35,12 +35,34 @@
         android:text="옷 사진을 골라주세요!"
         android:textColor="#000000"
         android:textSize="@dimen/text_default"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout1"
+        app:layout_constraintBottom_toTopOf="@+id/UC_view_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_Clothing_Picture"
         tools:layout_editor_absoluteX="0dp" />
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/UC_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/UC_tab_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_Collect_Clothing"></android.support.v4.view.ViewPager>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/UC_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorLightWhite"
+        android:elevation="@dimen/elevation_tab"
+        app:tabIndicatorHeight="0dp"
+        app:layout_constraintBottom_toTopOf="@id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/UC_view_pager"
+        app:tabMode="fixed"
+        >
+    </android.support.design.widget.TabLayout>
+    <!--
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout1"
             android:layout_width="match_parent"
@@ -83,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clothing_image"
                 app:layout_constraintVertical_bias="1.0" />
         </android.support.constraint.ConstraintLayout>
-
+        -->
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
@@ -92,7 +114,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_push"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout1"
+            app:layout_constraintTop_toBottomOf="@+id/UC_tab_layout"
             tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
