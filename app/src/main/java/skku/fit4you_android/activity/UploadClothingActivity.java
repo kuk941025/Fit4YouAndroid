@@ -1,31 +1,31 @@
 package skku.fit4you_android.activity;
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.io.InputStream;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.adapter.UploadClothingAdapter;
+
 
 public class UploadClothingActivity extends AppCompatActivity {
+    @BindView(R.id.UC_view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.UC_tab_layout)
+    TabLayout tabLayout;
 
-    ImageView ivImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
-        EditText cname = (EditText) findViewById(R.id.cname);
+        viewPager.setAdapter(new UploadClothingAdapter(this,getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+        ButterKnife.bind(this);
+
+    }
+
+        /*EditText cname = (EditText) findViewById(R.id.cname);
         String text_cname = cname.getText().toString();
         Button selectImg = (Button) findViewById(R.id.UploadPicture);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
@@ -98,5 +98,5 @@ public class UploadClothingActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
-    }
+        */
 }
