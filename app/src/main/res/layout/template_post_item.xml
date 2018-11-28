@@ -103,7 +103,7 @@
         android:layout_height="@dimen/icon_size"
         android:layout_marginStart="@dimen/margin_side"
         android:layout_marginTop="@dimen/margin_side"
-        android:background="@color/colorPrimary"
+        android:src="@drawable/img_like_clicked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/template_post_item_hash_tags" />
 
@@ -115,6 +115,7 @@
         android:layout_marginBottom="8dp"
         android:text="1892 likes 100 comments"
         android:textColor="@color/colorBlack"
+        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintBottom_toBottomOf="@+id/template_post_item_like"
         app:layout_constraintStart_toEndOf="@+id/template_post_item_like"
         app:layout_constraintTop_toTopOf="@+id/template_post_item_like" />

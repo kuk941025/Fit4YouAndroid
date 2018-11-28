@@ -45,6 +45,7 @@ public class OpenCVNativeTest extends AppCompatActivity
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
+
                     mOpenCvCameraView.enableView();
                 } break;
                 default:

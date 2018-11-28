@@ -10,9 +10,9 @@
         android:id="@+id/toolbar_fit_pay"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:padding="@dimen/margin_side"
         android:scaleType="fitXY"
         android:src="@drawable/img_pay"
+        android:layout_marginRight="@dimen/margin_side"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

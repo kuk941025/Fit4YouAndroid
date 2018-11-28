@@ -35,11 +35,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <ImageView
                     android:id="@+id/my_page_btn_search"
                     android:layout_width="@dimen/icon_size"
                     android:layout_height="@dimen/icon_size"
                     android:layout_marginEnd="8dp"
+                    android:src="@drawable/img_search"
                     app:layout_constraintBottom_toBottomOf="@+id/my_page_edit_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/my_page_edit_search" />

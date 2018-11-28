@@ -15,7 +15,7 @@
     <dimen name="text_tool_title">20dp</dimen>
     <dimen name="bottom_peek_height">45dp</dimen>
     <dimen name="wishlist_item_height">500dp</dimen>
-    <dimen name="icon_size">32dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
     <dimen name="fab_Size">60dp</dimen>
     <dimen name="wishlist_item_layout_height">380dp</dimen>
     <dimen name="wishlist_item_layout_width">250dp</dimen>

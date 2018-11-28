@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-
                 t.getCause().printStackTrace();
             }
 
