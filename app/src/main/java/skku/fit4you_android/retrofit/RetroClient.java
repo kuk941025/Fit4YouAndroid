@@ -14,6 +14,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
 public class RetroClient {
@@ -49,11 +50,10 @@ public class RetroClient {
     public static RequestBody createRequestBody(@NonNull String str){
         return RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), str);
     }
-
     public void postLogin(HashMap <String, Object> parameters, final RetroCallback callback){
-        apiService.postLogin(parameters).enqueue(new Callback<ResponseSuccess>() {
+        apiService.postLogin(parameters).enqueue(new Callback<ResponseLogin>() {
             @Override
-            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+            public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
                 if (response.isSuccessful()){
                     callback.onSuccess(response.code(), response.body());
                 }
@@ -63,8 +63,8 @@ public class RetroClient {
             }
 
             @Override
-            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
-                callback.onError(t);
+            public void onFailure(Call<ResponseLogin> call, Throwable t) {
+                    callback.onError(t);
             }
         });
     }

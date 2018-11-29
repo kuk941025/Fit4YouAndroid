@@ -12,6 +12,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.util.Constants;
 
@@ -19,7 +20,7 @@ public interface RetroApiService {
     final String BASE_URL = Constants.baseURL;
     @FormUrlEncoded
     @POST("/login")
-    Call<ResponseSuccess> postLogin(@FieldMap HashMap<String, Object> parameter);
+    Call<ResponseLogin> postLogin(@FieldMap HashMap<String, Object> parameter);
 
     @Multipart
     @POST("/register")
