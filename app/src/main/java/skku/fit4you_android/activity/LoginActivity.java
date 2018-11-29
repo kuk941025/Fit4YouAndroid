@@ -14,8 +14,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import skku.fit4you_android.R;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.Response;
+import skku.fit4you_android.retrofit.response.ResponseLogin;
+import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_img_background)
@@ -52,7 +56,15 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                ResponseLogin responseLogin = (ResponseLogin) receivedData;
+                if (responseLogin.success == Response.RESPONSE_RECEIVED){
+                    Toast.makeText(getApplicationContext(), "Login success uid: " + responseLogin.uid, Toast.LENGTH_SHORT).show();
+                    FitApp.getInstance().setUid(Integer.parseInt(responseLogin.uid));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
