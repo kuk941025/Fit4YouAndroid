@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBrightGray"
+    android:background="@color/colorLightWhite"
     tools:context=".activity.RegisterActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_side"
-            android:layout_marginTop="@dimen/margin_long_long"
+            android:layout_marginTop="@dimen/margin_side"
             android:text="기본정보"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/text_default"
@@ -101,7 +101,7 @@
             android:layout_marginEnd="8dp"
             android:textSize="@dimen/text_large"
             app:activeBgColor="@color/colorPrimaryDark"
-            app:inactiveBgColor="@color/colorLightWhite"
+            app:inactiveBgColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_nickname"
@@ -210,9 +210,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_long_long"
             android:layout_marginStart="@dimen/margin_side"
             android:layout_marginEnd="@dimen/margin_side"
+            android:layout_marginBottom="@dimen/margin_side"
             android:text="회원가입"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"

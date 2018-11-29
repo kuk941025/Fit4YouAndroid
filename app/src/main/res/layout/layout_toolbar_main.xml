@@ -14,12 +14,12 @@
 
         <ImageView
             android:id="@+id/toolbar_main_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="#c6abab"
+
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
