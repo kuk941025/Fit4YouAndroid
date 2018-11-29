@@ -75,7 +75,7 @@ public class PopularClothesFragment extends Fragment {
 
     }
     private void loadClothingList(){
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 10; i++){
             //temp data
             SharedPost post = new SharedPost();
             post.setType_of_post(SharedPost.POST_CLOTHING);

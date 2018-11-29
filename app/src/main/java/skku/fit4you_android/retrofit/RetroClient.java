@@ -1,9 +1,14 @@
 package skku.fit4you_android.retrofit;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,6 +19,7 @@ import skku.fit4you_android.retrofit.response.ResponseSuccess;
 public class RetroClient {
     private RetroApiService apiService;
     public static String baseURL = RetroApiService.BASE_URL;
+    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
     private static Context mContext;
     private static Retrofit retrofit;
 
@@ -29,6 +35,7 @@ public class RetroClient {
         retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(baseURL).build();
     }
 
+
     public RetroClient createBaseApi(){
         apiService = create(RetroApiService.class);
         return this;
@@ -39,8 +46,31 @@ public class RetroClient {
         return  retrofit.create(service);
     }
 
+    public static RequestBody createRequestBody(@NonNull String str){
+        return RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), str);
+    }
+
     public void postLogin(HashMap <String, Object> parameters, final RetroCallback callback){
         apiService.postLogin(parameters).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()){
+                    callback.onSuccess(response.code(), response.body());
+                }
+                else{
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postRegister(MultipartBody.Part file, Map<String, RequestBody> partMap,  final RetroCallback callback){
+        apiService.postRegister(file, partMap).enqueue(new Callback<ResponseSuccess>() {
             @Override
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 if (response.isSuccessful()){
