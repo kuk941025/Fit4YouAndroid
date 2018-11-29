@@ -1,14 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBrightGray"
     tools:context=".activity.RegisterActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register activity"
-        />
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/register_toolbar"
+            layout="@layout/layout_toolbar_main"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/register_txt_basic_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_long_long"
+            android:text="기본정보"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_default"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_toolbar" />
+
+        <EditText
+            android:id="@+id/register_userid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="아이디를 입력해 주세요"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_txt_basic_info" />
+
+        <EditText
+            android:id="@+id/register_pw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="비밀번호를 입력해 주세요"
+            android:inputType="textPassword"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_userid" />
+
+        <EditText
+            android:id="@+id/register_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="실명을 입력해 주세요"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_pw" />
+
+        <EditText
+            android:id="@+id/register_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="닉네임을 입력해 주세요"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_name" />
+
+        <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+            android:id="@+id/register_toggle_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="8dp"
+            android:textSize="@dimen/text_large"
+            app:activeBgColor="@color/colorPrimaryDark"
+            app:inactiveBgColor="@color/colorLightWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_nickname"
+            app:separatorColor="@color/colorBrightGray"
+            app:textToggleLeft="남자"
+            app:textToggleRight="여자"
+            app:toggleWidth="130dp"/>
+
+        <TextView
+            android:id="@+id/register_txt_physical_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="신체정보"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_default"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_side"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_toggle_gender" />
+
+        <EditText
+            android:id="@+id/register_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="키를 입력해주세요."
+            android:inputType="number"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_txt_physical_info"
+            />
+
+        <EditText
+            android:id="@+id/register_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="몸무게를 입력해주세요."
+            android:inputType="number"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_height"
+            />
+
+        <Button
+            android:id="@+id/register_btn_calculate_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:text="자동으로 측정"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_weight" />
+
+        <EditText
+            android:id="@+id/register_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="상의 사이즈를 입력해주세요."
+            android:inputType="number"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_btn_calculate_body"
+            />
+
+        <EditText
+            android:id="@+id/register_waist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:background="@color/colorWhite"
+            android:hint="허리 둘레를 입력해주세요."
+            android:inputType="number"
+            android:padding="@dimen/margin_side"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_top"
+            />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
