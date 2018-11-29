@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class FollowingManagementAdapter extends RecyclerView.Adapter<FollowingMa
         @BindView(R.id.template_following_txt_user_name)
         TextView txtUserName;
         @BindView(R.id.template_following_btn_delete)
-        Button btnDelete;
+        ImageView btnDelete;
         public followingViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

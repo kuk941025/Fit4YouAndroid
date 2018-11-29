@@ -79,7 +79,7 @@
                 android:layout_marginStart="@dimen/margin_side"
                 android:layout_marginTop="@dimen/margin_side"
                 android:layout_marginBottom="@dimen/margin_side"
-                android:background="@color/colorPrimary"
+                android:src="@drawable/img_like_clicked"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_post_mall_title"
                 tools:layout_editor_absoluteX="108dp" />

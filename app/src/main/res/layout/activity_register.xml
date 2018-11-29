@@ -204,5 +204,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_top"
             />
+
+        <Button
+            android:id="@+id/register_btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="@dimen/margin_side"
+            android:layout_marginStart="@dimen/margin_side"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:text="회원가입"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_waist"
+            />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
