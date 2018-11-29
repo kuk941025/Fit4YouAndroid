@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -81,8 +82,13 @@ public class RegisterActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolTitle.setText("Register");
         toolImage.setVisibility(View.VISIBLE);
-        toolImage.setImageDrawable(getResources().getDrawable(R.drawable.img_back));
+        toolImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.img_back, null));
 
+    }
+
+    @OnClick(R.id.toolbar_main_icon)
+    void onGoBackClicked(){
+        finish();
     }
 
     @OnClick(R.id.register_btn_register)

@@ -1,5 +1,6 @@
 package skku.fit4you_android.activity;
 
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.FollowingManagementAdapter;
 import skku.fit4you_android.model.FollowingUser;
@@ -24,6 +26,8 @@ public class FollowingManagementActivity extends AppCompatActivity {
     ImageView imgToolIcon;
     @BindView(R.id.following_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.toolbar_main_title)
+    TextView toolTitle;
     @BindView(R.id.following_layout_followers)
     View viewFollowers;
     @BindView(R.id.following_layout_followings)
@@ -31,6 +35,8 @@ public class FollowingManagementActivity extends AppCompatActivity {
 
     private RecyclerView recyclerFollowers, recyclerFollowings;
     private FollowingManagementAdapter followerAdapter, followingAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +88,13 @@ public class FollowingManagementActivity extends AppCompatActivity {
     }
     private void setToolbar(){
         setSupportActionBar(toolbar);
+        toolTitle.setText("Following Management");
         imgToolIcon.setVisibility(View.VISIBLE);
+        imgToolIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.img_back, null));
+    }
+
+    @OnClick(R.id.toolbar_main_icon)
+    void onGoBackClicked(){
+        finish();
     }
 }
