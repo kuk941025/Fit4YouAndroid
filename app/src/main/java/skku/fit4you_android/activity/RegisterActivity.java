@@ -3,8 +3,10 @@ package skku.fit4you_android.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.service.voice.VoiceInteractionSession;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,9 +72,12 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView imageProfile;
     @BindView(R.id.register_profile_txt)
     TextView txtProfileTxt;
+    @BindView(R.id.register_email)
+    EditText editEmail;
 
 
     private static final int PICK_IMAGE = 100;
+    private Uri selectedImage = null;
     private RetroClient retroClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +104,63 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//        startActivityForResult(intent, PICK_IMAGE);
+        String imgPathStr;
+        File file = null;
+        RequestBody requestFile = null;
+        if (checkValidity()){
+            if (selectedImage != null) {
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgPathStr = cursor.getString(columnIndex);
+                cursor.close();
+
+                file = new File(imgPathStr);
+                requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            }
+
+            Map <String, RequestBody> params = new HashMap<>();
+
+            params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
+            params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
+            params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
+            params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
+            int userGender = toggleGender.getCheckedTogglePosition() + 1;
+            params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
+            params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
+            params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
+            params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
+            params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
+            params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
+            //create
+//            File file = new File(imgPathStr);
+//
+//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            retroClient.postRegister(MultipartBody.Part.createFormData("image", file.getName(), requestFile), params, new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+                    Log.d("result", "error");
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    Log.d("success", "error");
+                }
+
+                @Override
+                public void onFailure(int code) {
+                    Log.d("fail", "error");
+                }
+            });
+        }
+    }
+
+    @OnClick(R.id.register_profile)
+    void onSelectProfileClicked(){
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("*/*");
         startActivityForResult(galleryIntent, PICK_IMAGE);
     }
@@ -112,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-            Uri selectedImage = data.getData();
+            selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -122,44 +180,8 @@ public class RegisterActivity extends AppCompatActivity {
             String imgPathStr = cursor.getString(columnIndex);
             cursor.close();
 
-
-
-
-            if (checkValidity()){
-                Map <String, RequestBody> params = new HashMap<>();
-
-                params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
-                params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
-                params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
-                params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
-                int userGender = toggleGender.getCheckedTogglePosition() + 1;
-                params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
-                params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
-                params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
-                params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
-                params.put("intro", RetroClient.createRequestBody("hi"));
-                params.put("email", RetroClient.createRequestBody("kuk941025@gmail.com"));
-                //create
-                File file = new File(imgPathStr);
-
-                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                retroClient.postRegister(MultipartBody.Part.createFormData("image", file.getName(), requestFile), params, new RetroCallback() {
-                    @Override
-                    public void onError(Throwable t) {
-                        Log.d("result", "error");
-                    }
-
-                    @Override
-                    public void onSuccess(int code, Object receivedData) {
-                        Log.d("success", "error");
-                    }
-
-                    @Override
-                    public void onFailure(int code) {
-                        Log.d("fail", "error");
-                    }
-                });
-            }
+            imageProfile.setImageBitmap(BitmapFactory.decodeFile(imgPathStr));
+            txtProfileTxt.setText("");
         }
 
 
