@@ -23,6 +23,7 @@ import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
+import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.util.Constants;
 
@@ -76,6 +77,26 @@ public class LoginActivity extends AppCompatActivity {
                 if (responseLogin.success == Response.RESPONSE_RECEIVED){
                     Toast.makeText(getApplicationContext(), "Login success uid: " + responseLogin.uid, Toast.LENGTH_SHORT).show();
                     FitApp.getInstance().setUid(Integer.parseInt(responseLogin.uid));
+
+                    //get user information
+                    retroClient.postGetUserInfo(responseLogin.uid, new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            FitApp.getInstance().setUserData((ResponseRegister) receivedData);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+                            Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();

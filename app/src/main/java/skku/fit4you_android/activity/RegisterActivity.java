@@ -170,37 +170,20 @@ public class RegisterActivity extends AppCompatActivity {
     private void setModifiedPage(){
         registerUser.setText("수정하기");
         final Context context = this;
-        retroClient.postGetUserInfo(String.valueOf(FitApp.getInstance().getUid()), new RetroCallback() {
-            @Override
-            public void onError(Throwable t) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
-            }
+        ResponseRegister responseRegister = FitApp.getInstance().getUserData();
+        editUserId.setText(responseRegister.userid);
+        editName.setText(responseRegister.uname);
+        editEmail.setText(responseRegister.email);
+        editNickname.setText(responseRegister.nickname);
+        toggleGender.setCheckedTogglePosition(responseRegister.gender - 1);
+        editIntro.setText(responseRegister.intro);
+        editHeight.setText(Integer.toString(responseRegister.height));
+        editWeight.setText(Integer.toString(responseRegister.weight));
+        editTop.setText(Integer.toString(responseRegister.topsize));
+        editWaist.setText(Integer.toString(responseRegister.waist));
+        Glide.with(context).load(RetroApiService.IMAGE_URL + responseRegister.photo).into(imageProfile);
+        txtProfileTxt.setText("");
 
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
-                ResponseRegister responseRegister = (ResponseRegister) receivedData;
-
-
-                editUserId.setText(responseRegister.userid);
-                editName.setText(responseRegister.uname);
-                editEmail.setText(responseRegister.email);
-                editNickname.setText(responseRegister.nickname);
-                toggleGender.setCheckedTogglePosition(responseRegister.gender - 1);
-                editIntro.setText(responseRegister.intro);
-                editHeight.setText(Integer.toString(responseRegister.height));
-                editWeight.setText(Integer.toString(responseRegister.weight));
-                editTop.setText(Integer.toString(responseRegister.topsize));
-                editWaist.setText(Integer.toString(responseRegister.waist));
-                Glide.with(context).load("http://35.243.137.231/loadimage/profile/image_1543348890496_%EB%B0%95%EC%A4%80%EA%B7%9C.jpg").into(imageProfile);
-                txtProfileTxt.setText("");
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void registerUser(){
