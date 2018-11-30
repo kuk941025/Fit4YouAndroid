@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.apache.commons.io.FileUtils;
 import org.opencv.android.Utils;
 
@@ -43,6 +45,7 @@ import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.util.Constants;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -166,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setModifiedPage(){
         registerUser.setText("수정하기");
-
+        final Context context = this;
         retroClient.postGetUserInfo(String.valueOf(FitApp.getInstance().getUid()), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
@@ -176,6 +179,21 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
+                ResponseRegister responseRegister = (ResponseRegister) receivedData;
+
+
+                editUserId.setText(responseRegister.userid);
+                editName.setText(responseRegister.uname);
+                editEmail.setText(responseRegister.email);
+                editNickname.setText(responseRegister.nickname);
+                toggleGender.setCheckedTogglePosition(responseRegister.gender - 1);
+                editIntro.setText(responseRegister.intro);
+                editHeight.setText(Integer.toString(responseRegister.height));
+                editWeight.setText(Integer.toString(responseRegister.weight));
+                editTop.setText(Integer.toString(responseRegister.topsize));
+                editWaist.setText(Integer.toString(responseRegister.waist));
+                Glide.with(context).load("http://35.243.137.231/loadimage/profile/image_1543348890496_%EB%B0%95%EC%A4%80%EA%B7%9C.jpg").into(imageProfile);
+                txtProfileTxt.setText("");
             }
 
             @Override

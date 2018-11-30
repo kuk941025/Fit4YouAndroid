@@ -7,22 +7,22 @@
     tools:context=".fragment.PopularMallFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <HorizontalScrollView
-        android:id="@+id/home_styling_horizontal_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-        <LinearLayout
-            android:id="@+id/home_styling_liner_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <include layout="@layout/item_hashtag"/>
-            <include layout="@layout/item_hashtag"/>
-            <include layout="@layout/item_hashtag"/>
-            <include layout="@layout/item_hashtag"/>
-        </LinearLayout>
-    </HorizontalScrollView>
+    <!--<HorizontalScrollView-->
+        <!--android:id="@+id/home_styling_horizontal_scroll"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbars="none">-->
+        <!--<LinearLayout-->
+            <!--android:id="@+id/home_styling_liner_layout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<include layout="@layout/item_hashtag"/>-->
+            <!--<include layout="@layout/item_hashtag"/>-->
+            <!--<include layout="@layout/item_hashtag"/>-->
+            <!--<include layout="@layout/item_hashtag"/>-->
+        <!--</LinearLayout>-->
+    <!--</HorizontalScrollView>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_styling_recycler_styles"

@@ -1,6 +1,7 @@
 package skku.fit4you_android.activity;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import skku.fit4you_android.R;
 import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.retrofit.RetroCallback;
@@ -58,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("userid", editId.getText().toString());
         parameters.put("pw", editPw .getText().toString());
+
 
         retroClient.postLogin(parameters, new RetroCallback() {
             @Override
