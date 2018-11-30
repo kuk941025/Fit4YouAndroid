@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 import org.opencv.android.Utils;
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private Uri selectedImage = null;
     private RetroClient retroClient;
+    private String imgPathStr = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +106,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
-        String imgPathStr;
         File file = null;
         RequestBody requestFile = null;
+        MultipartBody.Part multiFile = null;
         if (checkValidity()){
-            if (selectedImage != null) {
+            if (imgPathStr != null) {
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -120,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 file = new File(imgPathStr);
                 requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multiFile = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
             }
 
             Map <String, RequestBody> params = new HashMap<>();
@@ -139,20 +142,21 @@ public class RegisterActivity extends AppCompatActivity {
 //            File file = new File(imgPathStr);
 //
 //            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-            retroClient.postRegister(MultipartBody.Part.createFormData("image", file.getName(), requestFile), params, new RetroCallback() {
+            retroClient.postRegister(multiFile, params, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {
                     Log.d("result", "error");
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(int code, Object receivedData) {
-                    Log.d("success", "error");
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(int code) {
-                    Log.d("fail", "error");
+                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -177,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String imgPathStr = cursor.getString(columnIndex);
+            imgPathStr = cursor.getString(columnIndex);
             cursor.close();
 
             imageProfile.setImageBitmap(BitmapFactory.decodeFile(imgPathStr));
