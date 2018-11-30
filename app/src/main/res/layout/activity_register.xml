@@ -20,14 +20,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/register_toolbar"
+        >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/margin_side">
-
-
+            android:paddingBottom="60dp">
             <TextView
                 android:id="@+id/register_txt_basic_info"
                 android:layout_width="wrap_content"
@@ -39,7 +38,7 @@
                 android:textSize="@dimen/text_default"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_toolbar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/register_userid"
