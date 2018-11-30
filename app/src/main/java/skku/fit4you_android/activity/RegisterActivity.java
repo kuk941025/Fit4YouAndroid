@@ -182,6 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTop.setText(Integer.toString(responseRegister.topsize));
         editWaist.setText(Integer.toString(responseRegister.waist));
         Glide.with(context).load(RetroApiService.IMAGE_URL + responseRegister.photo).into(imageProfile);
+        imageProfile.setBackgroundColor(getResources().getColor(R.color.colorLightGray, null));
         txtProfileTxt.setText("");
 
     }

@@ -20,7 +20,7 @@ import skku.fit4you_android.util.Constants;
 
 public interface RetroApiService {
     final String BASE_URL = Constants.baseURL;
-    final String IMAGE_URL = Constants.baseURL + "loadimage/";
+    final String IMAGE_URL = Constants.baseURL + "/loadimage/";
     @FormUrlEncoded
     @POST("/login")
     Call<ResponseLogin> postLogin(@FieldMap HashMap<String, Object> parameter);

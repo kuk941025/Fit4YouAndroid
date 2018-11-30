@@ -1,5 +1,6 @@
 package skku.fit4you_android.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,16 +59,20 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_btn_sign_in)
     void onSignInClicked(){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("userid", editId.getText().toString());
         parameters.put("pw", editPw .getText().toString());
 
-
+        progressDialog.setTitle("wait...");
+        progressDialog.setMessage("Logging in...");
+        progressDialog.show();
         retroClient.postLogin(parameters, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                 t.getCause().printStackTrace();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -82,11 +87,13 @@ public class LoginActivity extends AppCompatActivity {
                     retroClient.postGetUserInfo(responseLogin.uid, new RetroCallback() {
                         @Override
                         public void onError(Throwable t) {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void onSuccess(int code, Object receivedData) {
+                            progressDialog.dismiss();
                             FitApp.getInstance().setUserData((ResponseRegister) receivedData);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -94,18 +101,22 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(int code) {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
                 else{
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int code) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+
             }
         });
 
