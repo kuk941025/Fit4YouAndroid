@@ -1,9 +1,11 @@
 package skku.fit4you_android.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,7 @@ import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.util.Constants;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_img_background)
@@ -28,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText editId;
     @BindView(R.id.login_edit_pw)
     EditText editPw;
+    @BindView(R.id.login_text_sign_up)
+    TextView txtSignUp;
 
     private RetroClient retroClient;
     @Override
@@ -39,6 +44,13 @@ public class LoginActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.login_bg).into(imgBackground);
 
         retroClient = RetroClient.getInstance(this).createBaseApi();
+    }
+
+    @OnClick(R.id.login_text_sign_up)
+    void onSignUpClicked(){
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        intent.putExtra("Modify", Constants.REGISTER_NOT_MODIFIED);
+        startActivity(intent);
     }
 
     @OnClick(R.id.login_btn_sign_in)

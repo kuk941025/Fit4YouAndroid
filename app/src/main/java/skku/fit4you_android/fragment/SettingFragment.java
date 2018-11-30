@@ -1,18 +1,22 @@
 package skku.fit4you_android.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.activity.RegisterActivity;
 import skku.fit4you_android.util.Constants;
 
 /**
@@ -46,5 +50,17 @@ public class SettingFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);
         listView.setDivider(null);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                    intent.putExtra("Modify", Constants.REGISTER_MODIFIED);
+                    startActivity(intent);
+                }
+            }
+        });
     }
+
+
 }

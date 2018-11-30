@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,9 +39,11 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import skku.fit4you_android.R;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.util.Constants;
 
 public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_toolbar)
@@ -75,20 +78,26 @@ public class RegisterActivity extends AppCompatActivity {
     TextView txtProfileTxt;
     @BindView(R.id.register_email)
     EditText editEmail;
-
+    @BindView(R.id.register_btn_register)
+    Button registerUser;
 
     private static final int PICK_IMAGE = 100;
     private Uri selectedImage = null;
     private RetroClient retroClient;
     private String imgPathStr = null;
+    private int isModified;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         ButterKnife.bind(this);
         setToolbar();
         retroClient = RetroClient.getInstance(this).createBaseApi();
+
+
+        Intent intent = getIntent();
+        isModified = intent.getIntExtra("Modify", Constants.REGISTER_NOT_MODIFIED);
+        if (isModified == Constants.REGISTER_MODIFIED) setModifiedPage();
     }
 
     private void setToolbar(){
@@ -106,60 +115,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
-        File file = null;
-        RequestBody requestFile = null;
-        MultipartBody.Part multiFile = null;
-        if (checkValidity()){
-            if (imgPathStr != null) {
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgPathStr = cursor.getString(columnIndex);
-                cursor.close();
-
-                file = new File(imgPathStr);
-                requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                multiFile = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-            }
-
-            Map <String, RequestBody> params = new HashMap<>();
-
-            params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
-            params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
-            params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
-            params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
-            int userGender = toggleGender.getCheckedTogglePosition() + 1;
-            params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
-            params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
-            params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
-            params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
-            params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
-            params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
-            //create
-//            File file = new File(imgPathStr);
-//
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-            retroClient.postRegister(multiFile, params, new RetroCallback() {
-                @Override
-                public void onError(Throwable t) {
-                    Log.d("result", "error");
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onSuccess(int code, Object receivedData) {
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(int code) {
-                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                }
-            });
+        if (isModified == Constants.REGISTER_MODIFIED) {
+            registerUser();
         }
+        else{
+
+        }
+
     }
 
     @OnClick(R.id.register_profile)
@@ -199,6 +162,84 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void setModifiedPage(){
+        registerUser.setText("수정하기");
+
+        retroClient.postGetUserInfo(String.valueOf(FitApp.getInstance().getUid()), new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void registerUser(){
+        File file = null;
+        RequestBody requestFile = null;
+        MultipartBody.Part multiFile = null;
+        if (checkValidity()) {
+            if (imgPathStr != null) {
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgPathStr = cursor.getString(columnIndex);
+                cursor.close();
+
+                file = new File(imgPathStr);
+                requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                multiFile = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+            }
+
+            Map<String, RequestBody> params = new HashMap<>();
+
+            params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
+            params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
+            params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
+            params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
+            int userGender = toggleGender.getCheckedTogglePosition() + 1;
+            params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
+            params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
+            params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
+            params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
+            params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
+            params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
+            //create
+//            File file = new File(imgPathStr);
+//
+//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            retroClient.postRegister(multiFile, params, new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+                    Log.d("result", "error");
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int code) {
+                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 }
