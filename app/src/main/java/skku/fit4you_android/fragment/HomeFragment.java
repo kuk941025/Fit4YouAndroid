@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,9 @@ public class HomeFragment extends Fragment {
     Spinner spinnerOption;
     @BindView(R.id.home_toolbar_spinner_filter)
     Spinner spinnerFilter;
+    @BindView(R.id.home_items_nested_scroll)
+    NestedScrollView nestedScrollView;
+
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
@@ -52,6 +57,19 @@ public class HomeFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_home, container, false);
             ButterKnife.bind(this, fragView);
+
+            nestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    View view = (View) nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                    int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
+                    if (diff <= 0){
+                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
         }
 
         return fragView;

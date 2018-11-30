@@ -3,6 +3,7 @@ package skku.fit4you_android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import skku.fit4you_android.adapter.SharedPostAdapter;
 public class PopularClothesFragment extends Fragment {
     @BindView(R.id.home_clothing_recycler_clothing)
     RecyclerView recyclerClothing;
+
     boolean isRefreshed = false, isFirst = true;
     private View fragView;
 
@@ -42,7 +44,6 @@ public class PopularClothesFragment extends Fragment {
             fragView = inflater.inflate(R.layout.fragment_home_clothing, container, false);
             ButterKnife.bind(this, fragView);
 
-
         }
         if (isRefreshed){
             initClothingList();
@@ -55,6 +56,7 @@ public class PopularClothesFragment extends Fragment {
 
         super.onResume();
     }
+
 
     private void initClothingList(){
         if (!isFirst) return;
