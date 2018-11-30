@@ -1,13 +1,17 @@
 package skku.fit4you_android.retrofit;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +38,13 @@ public class RetroClient {
     }
 
     private RetroClient(Context mContext){
-        retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(baseURL).build();
+//        retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(baseURL).build();
+        OkHttpClient.Builder okHttpClient = new OkHttpClient().newBuilder().connectTimeout(60 * 5, TimeUnit.SECONDS)
+                .readTimeout(60 * 5, TimeUnit.SECONDS).writeTimeout(60 * 5, TimeUnit.SECONDS);
+        okHttpClient.interceptors().add(new AddCookiesInterceptor());
+        okHttpClient.interceptors().add(new ReceivedCookiesInterceptor());
+
+        retrofit = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient.build()).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
 
@@ -51,6 +61,7 @@ public class RetroClient {
     public static RequestBody createRequestBody(@NonNull String str){
         return RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), str);
     }
+
     public void postLogin(HashMap <String, Object> parameters, final RetroCallback callback){
         apiService.postLogin(parameters).enqueue(new Callback<ResponseLogin>() {
             @Override

@@ -1,0 +1,28 @@
+package skku.fit4you_android.retrofit;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import java.io.IOException;
+import java.util.HashSet;
+
+import okhttp3.Interceptor;
+import okhttp3.Response;
+import skku.fit4you_android.app.FitApp;
+
+public class ReceivedCookiesInterceptor implements Interceptor {
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+            HashSet<String> cookies = new HashSet<>();
+            for (String header : originalResponse.headers("Set-Cookie")) {
+                cookies.add(header);
+            }
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(FitApp.getInstance().getApplicationContext());
+            pref.edit().putStringSet("cookies", cookies).apply();
+//            Methods.setCookies(FitApp.getInstance().getApplicationContext(), cookies);
+        }
+        return originalResponse;
+    }
+}
