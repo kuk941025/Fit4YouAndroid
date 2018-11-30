@@ -64,6 +64,12 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editWaist;
     @BindView(R.id.register_top)
     EditText editTop;
+    @BindView(R.id.register_intro)
+    EditText editIntro;
+    @BindView(R.id.register_profile)
+    ImageView imageProfile;
+    @BindView(R.id.register_profile_txt)
+    TextView txtProfileTxt;
 
 
     private static final int PICK_IMAGE = 100;
