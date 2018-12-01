@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -27,6 +28,7 @@ import butterknife.OnClick;
 import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.WishListAdapter;
+import skku.fit4you_android.util.AvatarCreator;
 
 
 /**
@@ -43,6 +45,8 @@ public class FitRoomFragment extends Fragment {
     ImageView imgAvatar;
     @BindView(R.id.fit_add_wishlist)
     ImageView imgAddVatar;
+    @BindView(R.id.fit_layout_avatar)
+    RelativeLayout layoutAvatar;
 
     private RecyclerView recyclerWishTops, recyclerWishPants;
     private BottomSheetBehavior sheetBehavior;
@@ -65,7 +69,8 @@ public class FitRoomFragment extends Fragment {
             fragView.post(new Runnable() {
                 @Override
                 public void run() {
-
+                    AvatarCreator avatarCreator = new AvatarCreator(getContext(), layoutAvatar);
+                    avatarCreator.createAvatar();
                     Log.d("Height", imgAvatar.getHeight() + ".");
                 }
             });
