@@ -16,6 +16,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.activity.FollowingManagementActivity;
 import skku.fit4you_android.activity.RegisterActivity;
 import skku.fit4you_android.util.Constants;
 
@@ -53,9 +54,13 @@ public class SettingFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0){ //update personal info clicked
                     Intent intent = new Intent(getActivity(), RegisterActivity.class);
                     intent.putExtra("Modify", Constants.REGISTER_MODIFIED);
+                    startActivity(intent);
+                }
+                else if (position == 1){ //Followings clicked
+                    Intent intent = new Intent(getActivity(), FollowingManagementActivity.class);
                     startActivity(intent);
                 }
             }

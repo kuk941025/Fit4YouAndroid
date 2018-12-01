@@ -15,7 +15,7 @@ public class Constants {
     public static final String[] TabNames = {"Fit Room", "Home", "My Page", "Setting"};
     public static final String[] HomeShowOptions = {"Latest", "Most Liked", "Most Views"};
     public static final String[] HomeFilter = {"Only Following", "20s Popular", "30s Popular"};
-    public static final String[] SettingOptions = {"Update Personal Info", "Followings", "History"};
+    public static final String[] SettingOptions = {"Update Personal Info", "Followings"};
     public static final String baseURL = "http://35.243.137.231";
     public static final int REGISTER_MODIFIED = 1;
     public static final int REGISTER_NOT_MODIFIED = 0;
