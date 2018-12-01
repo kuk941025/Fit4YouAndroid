@@ -60,7 +60,12 @@
             android:layout_height="2000dp"
             android:background="@color/colorLightWhite"
             android:orientation="vertical">
-
+            <include
+                android:id="@+id/fit_bottom_list_outers"
+                layout="@layout/layout_wish_list_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
             <include
                 android:id="@+id/fit_bottom_list_top"
                 layout="@layout/layout_wish_list_btn"

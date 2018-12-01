@@ -41,6 +41,8 @@ public class FitRoomFragment extends Fragment {
     View btnShowTop;
     @BindView(R.id.fit_bottom_list_pants)
     View btnShowPants;
+    @BindView(R.id.fit_bottom_list_outers)
+    View btnShowOuter;
     @BindView(R.id.fit_avatar)
     ImageView imgAvatar;
     @BindView(R.id.fit_add_wishlist)
@@ -48,11 +50,12 @@ public class FitRoomFragment extends Fragment {
     @BindView(R.id.fit_layout_avatar)
     RelativeLayout layoutAvatar;
 
-    private RecyclerView recyclerWishTops, recyclerWishPants;
+
+    private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
     private BottomSheetBehavior sheetBehavior;
-    private WishListAdapter topListAdapter, pantsListAdapter;
+    private WishListAdapter topListAdapter, pantsListAdapter, outerListAdapter;
     private View fragView = null;
-    private ArrayList<Wishlist> topWishlists, pantsWishlists;
+    private ArrayList<Wishlist> topWishlists, pantsWishlists, outerWishlists;
     public FitRoomFragment() {
 
         // Required empty public constructor
@@ -155,16 +158,19 @@ public class FitRoomFragment extends Fragment {
     private void setWishlistView(){
         recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
         recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
+        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
 
         topWishlists = new ArrayList<>();
         pantsWishlists = new ArrayList<>();
+        outerWishlists = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 20; i++){
             Wishlist wish = new Wishlist(i);
             wish.setDscrp("wish" + i);
             wish.setName("title" + i);
             topWishlists.add(wish);
             pantsWishlists.add(wish);
+            outerWishlists.add(wish);
         }
 
         topListAdapter = new WishListAdapter(topWishlists);
@@ -176,6 +182,11 @@ public class FitRoomFragment extends Fragment {
         LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerWishPants.setLayoutManager(pantsLayoutManager);
         recyclerWishPants.setAdapter(pantsListAdapter);
+
+        outerListAdapter = new WishListAdapter(outerWishlists);
+        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishOuter.setLayoutManager(outerLayoutManager);
+        recyclerWishOuter.setAdapter(outerListAdapter);
     }
 
 }
