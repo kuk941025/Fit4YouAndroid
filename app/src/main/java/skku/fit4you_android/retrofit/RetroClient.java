@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import skku.fit4you_android.retrofit.response.ReponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
+import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
@@ -145,4 +148,93 @@ public class RetroClient {
         });
     }
 
+    public void postWrite(HashMap<String, Object> params, final RetroCallback callback){
+        apiService.postPostWrite(params).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getPostList(String uid, int sortOption, int gender, final RetroCallback callback){
+        apiService.getPostList(uid, sortOption, gender).enqueue(new Callback<List<ResponsePost>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePost>> call, Response<List<ResponsePost>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getUserPostList(String uid, final RetroCallback callback){
+        apiService.getUserPostList(uid).enqueue(new Callback<List<ResponsePost>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePost>> call, Response<List<ResponsePost>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getPostInfo(String pid, final RetroCallback callback){
+        apiService.getPostInfo(pid).enqueue(new Callback<ReponsePostInfo>() {
+            @Override
+            public void onResponse(Call<ReponsePostInfo> call, Response<ReponsePostInfo> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ReponsePostInfo> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postPostModify(String pid, HashMap<String, Object> params, final RetroCallback callback){
+        apiService.postPostModify(pid, params).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postPostDelete(String pid, final RetroCallback callback){
+        apiService.postPostDelete(pid).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

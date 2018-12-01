@@ -1,6 +1,7 @@
 package skku.fit4you_android.retrofit;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -9,11 +10,15 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
+import skku.fit4you_android.retrofit.response.ReponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
+import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.util.Constants;
@@ -21,24 +26,49 @@ import skku.fit4you_android.util.Constants;
 public interface RetroApiService {
     final String BASE_URL = Constants.baseURL;
     final String IMAGE_URL = Constants.baseURL + "/loadimage/";
+
     @FormUrlEncoded
     @POST("/login")
     Call<ResponseLogin> postLogin(@FieldMap HashMap<String, Object> parameter);
 
     @Multipart
     @POST("/register")
-    Call <ResponseSuccess> postRegister(@Part MultipartBody.Part file, @PartMap()Map<String, RequestBody> partMap);
+    Call<ResponseSuccess> postRegister(@Part MultipartBody.Part file, @PartMap() Map<String, RequestBody> partMap);
 
     @FormUrlEncoded
     @POST("/register/getinfo")
-    Call <ResponseRegister> postGetUserInfo(@Field("uid") String uid);
+    Call<ResponseRegister> postGetUserInfo(@Field("uid") String uid);
 
     @FormUrlEncoded
     @POST("/register/modify")
-    Call <ResponseSuccess> postRegisterModify(@FieldMap HashMap<String, Object> parameter);
+    Call<ResponseSuccess> postRegisterModify(@FieldMap HashMap<String, Object> parameter);
 
     @FormUrlEncoded
     @POST("/register/delete")
-    Call <ResponseSuccess> postRegisterDelete(@Field("userid") String uid, @Field("pw") String pw);
+    Call<ResponseSuccess> postRegisterDelete(@Field("userid") String uid, @Field("pw") String pw);
 
+    @FormUrlEncoded
+    @POST("/post")
+    Call<ResponseSuccess> postPostWrite(@FieldMap HashMap<String, Object> parameter);
+
+    @FormUrlEncoded
+    @GET("/post/{uid}")
+    Call <List<ResponsePost>> getPostList(@Path("uid") String uid, @Field("sortoption") int sortOption, @Field("gender") int gender);
+
+    @FormUrlEncoded
+    @GET("/post/user/{uid}")
+    Call <List<ResponsePost>> getUserPostList(@Path("uid") String uid);
+
+    @FormUrlEncoded
+    @GET("/post/specific/{pid}")
+    Call <ReponsePostInfo> getPostInfo(@Path("pid") String pid);
+
+    @FormUrlEncoded
+    @POST("/post/modify/{pid}")
+    Call <ResponseSuccess> postPostModify(@Path("pid") String pid, @FieldMap HashMap<String, Object> parameter);
+
+    @FormUrlEncoded
+    @POST("post/delete/{pid}")
+    Call <ResponseSuccess> postPostDelete(@Path("pid") String pid);
 }
+
