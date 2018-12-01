@@ -1,5 +1,6 @@
 package skku.fit4you_android.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import skku.fit4you_android.R;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishitemViewHolder> {
     private ArrayList<Wishlist> wishlists;
     private ImageView imgActualClothing;
+    private int selectedCid = -1; //not selected
 
     public WishListAdapter(ArrayList<Wishlist> wishlists, ImageView imgActualClothing) {
         this.wishlists = wishlists;
@@ -33,14 +35,23 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
     }
 
     @Override
-    public void onBindViewHolder(@NonNull wishitemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull wishitemViewHolder holder, final int position) {
         holder.textDscrp.setText(wishlists.get(position).getDscrp());
         holder.textName.setText(wishlists.get(position).getName());
+        if (wishlists.get(position).getCid() == selectedCid){
+            holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.gray_light, null));
+        }
+        else holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.colorLightWhite, null));
         holder.layoutWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
-                imgActualClothing.setVisibility(View.VISIBLE);
+                int pastSelected = selectedCid;
+                selectedCid = position;
+                notifyItemChanged(position);
+                notifyItemChanged(pastSelected);
+                if (pastSelected == selectedCid) {imgActualClothing.setVisibility(View.GONE); selectedCid = -1;}
+                else imgActualClothing.setVisibility(View.VISIBLE);
             }
         });
     }

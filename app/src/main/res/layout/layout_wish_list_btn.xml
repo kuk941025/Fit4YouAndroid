@@ -75,8 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/wish_list_layout">
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-            android:paddingTop="@dimen/margin_side"
-            android:paddingBottom="@dimen/margin_side"
+
             android:id="@+id/wish_expandable_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
