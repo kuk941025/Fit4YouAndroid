@@ -17,7 +17,7 @@ public class AvatarCreator {
     private int layout_height, layout_width;
     private ImageView imgHead, imgLeftArm, imgRightArm, imgBody, imgLeg;
     private int px_per_cm;
-    final private int TOP_MARGIN = 20;
+    final private int TOP_MARGIN = 40;
     public AvatarCreator(Context mContext, RelativeLayout layoutAvatar) {
         this.mContext = mContext;
         this.layoutAvatar = layoutAvatar;
@@ -36,6 +36,7 @@ public class AvatarCreator {
     }
 
     public void createAvatar(){
+        layoutAvatar.removeAllViews(); //reset layoutAvatar
         imgHead = new ImageView(mContext);
         imgLeftArm = new ImageView(mContext);
         imgRightArm = new ImageView(mContext);
@@ -43,7 +44,6 @@ public class AvatarCreator {
         imgLeg = new ImageView(mContext);
 
         //get cm in pixel
-
         this.bodySize = setBodySize();
 
         //draw head
@@ -74,10 +74,10 @@ public class AvatarCreator {
         layoutAvatar.addView(imgLeg);
 
         //draw left arm
-        RelativeLayout.LayoutParams leftarmPararms = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        leftarmPararms.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width());
-        leftarmPararms.topMargin = headParams.height + TOP_MARGIN;
-        imgLeftArm.setLayoutParams(leftarmPararms);
+        RelativeLayout.LayoutParams leftarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
+        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width());
+        leftarmParams.topMargin = headParams.height + TOP_MARGIN;
+        imgLeftArm.setLayoutParams(leftarmParams);
         imgLeftArm.setBackgroundColor(Color.BLACK);
 
         layoutAvatar.addView(imgLeftArm);
@@ -95,13 +95,13 @@ public class AvatarCreator {
     private BodySize setBodySize(){
         //temporary set bodysize of avatar
         BodySize rtrBodySize = new BodySize();
-        rtrBodySize.setHead_height(30);
+        rtrBodySize.setHead_height(25);
         rtrBodySize.setHead_width(20);
         rtrBodySize.setBody_height(60);
         rtrBodySize.setBody_width(41);
         rtrBodySize.setLeg_height(90);
         rtrBodySize.setLeg_width(41);
-        rtrBodySize.setArm_width(30);
+        rtrBodySize.setArm_width(20);
         rtrBodySize.setArm_height(75);
         return  rtrBodySize;
     }
