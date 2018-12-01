@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/fit_actual_clothes"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -21,8 +21,47 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintVertical_weight="3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fit_layout_avatar"
-            />
+            app:layout_constraintBottom_toTopOf="@id/fit_layout_avatar">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/fit_img_outer"
+                    android:layout_width="@dimen/fit_real_clothing_width"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+                <ImageView
+                    android:id="@+id/fit_img_top"
+                    android:layout_width="@dimen/fit_real_clothing_width"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toRightOf="@id/fit_img_outer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/fit_img_pants"
+                    />
+
+                <ImageView
+                    android:id="@+id/fit_img_pants"
+                    android:layout_width="@dimen/fit_real_clothing_width"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toRightOf="@id/fit_img_outer"
+                    app:layout_constraintTop_toBottomOf="@id/fit_img_top"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
         <RelativeLayout
             android:id="@+id/fit_layout_avatar"
             android:layout_width="match_parent"

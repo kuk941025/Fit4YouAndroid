@@ -24,4 +24,5 @@
     <dimen name="template_post_img_preview_height">450dp</dimen>
     <dimen name="tab_indicator_thickness">5dp</dimen>
     <dimen name="profile_pic_height">200dp</dimen>
+    <dimen name="fit_real_clothing_width">100dp</dimen>
 </resources>
