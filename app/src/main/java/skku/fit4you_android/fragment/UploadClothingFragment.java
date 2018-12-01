@@ -25,7 +25,7 @@ public class UploadClothingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (fragView == null){
-            fragView = inflater.inflate(R.layout.fragment_fit_room, container, false);
+            fragView = inflater.inflate(R.layout.fragment_upload_clothing, container, false);
             ButterKnife.bind(this, fragView);
         }
         return fragView;
