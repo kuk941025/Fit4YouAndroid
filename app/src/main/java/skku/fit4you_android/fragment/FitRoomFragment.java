@@ -1,6 +1,8 @@
 package skku.fit4you_android.fragment;
 
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,9 +10,11 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.WishListAdapter;
@@ -34,6 +39,11 @@ public class FitRoomFragment extends Fragment {
     View btnShowTop;
     @BindView(R.id.fit_bottom_list_pants)
     View btnShowPants;
+    @BindView(R.id.fit_avatar)
+    ImageView imgAvatar;
+    @BindView(R.id.fit_add_wishlist)
+    ImageView imgAddVatar;
+
     private RecyclerView recyclerWishTops, recyclerWishPants;
     private BottomSheetBehavior sheetBehavior;
     private WishListAdapter topListAdapter, pantsListAdapter;
@@ -51,6 +61,14 @@ public class FitRoomFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_fit_room, container, false);
             ButterKnife.bind(this, fragView);
+
+            fragView.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    Log.d("Height", imgAvatar.getHeight() + ".");
+                }
+            });
         }
         return fragView;
     }
@@ -63,6 +81,9 @@ public class FitRoomFragment extends Fragment {
         setWishlistView();
     }
 
+    @OnClick(R.id.fit_add_wishlist)
+    void onAddWishlistClicked(){;
+    }
 
 
 //    @OnClick(R.id.fit_test)
@@ -151,8 +172,5 @@ public class FitRoomFragment extends Fragment {
         recyclerWishPants.setLayoutManager(pantsLayoutManager);
         recyclerWishPants.setAdapter(pantsListAdapter);
     }
-
-
-
 
 }
