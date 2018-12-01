@@ -49,6 +49,12 @@ public class FitRoomFragment extends Fragment {
     ImageView imgAddVatar;
     @BindView(R.id.fit_layout_avatar)
     RelativeLayout layoutAvatar;
+    @BindView(R.id.fit_img_real_outer)
+    ImageView imgRealOuter;
+    @BindView(R.id.fit_img_real_top)
+    ImageView imgRealTop;
+    @BindView(R.id.fit_img_real_pants)
+    ImageView imgRealPants;
 
 
     private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
@@ -174,17 +180,17 @@ public class FitRoomFragment extends Fragment {
             outerWishlists.add(wish);
         }
 
-        topListAdapter = new WishListAdapter(topWishlists);
+        topListAdapter = new WishListAdapter(topWishlists, imgRealTop);
         LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerWishTops.setLayoutManager(topLayoutManager);
         recyclerWishTops.setAdapter(topListAdapter);
 
-        pantsListAdapter = new WishListAdapter(pantsWishlists);
+        pantsListAdapter = new WishListAdapter(pantsWishlists, imgRealPants);
         LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerWishPants.setLayoutManager(pantsLayoutManager);
         recyclerWishPants.setAdapter(pantsListAdapter);
 
-        outerListAdapter = new WishListAdapter(outerWishlists);
+        outerListAdapter = new WishListAdapter(outerWishlists, imgRealOuter);
         LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerWishOuter.setLayoutManager(outerLayoutManager);
         recyclerWishOuter.setAdapter(outerListAdapter);

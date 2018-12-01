@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,11 @@ import skku.fit4you_android.R;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishitemViewHolder> {
     private ArrayList<Wishlist> wishlists;
+    private ImageView imgActualClothing;
 
-    public WishListAdapter(ArrayList<Wishlist> wishlists) {
+    public WishListAdapter(ArrayList<Wishlist> wishlists, ImageView imgActualClothing) {
         this.wishlists = wishlists;
+        this.imgActualClothing = imgActualClothing;
     }
 
     @NonNull
@@ -33,6 +36,13 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
     public void onBindViewHolder(@NonNull wishitemViewHolder holder, int position) {
         holder.textDscrp.setText(wishlists.get(position).getDscrp());
         holder.textName.setText(wishlists.get(position).getName());
+        holder.layoutWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
+                imgActualClothing.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -47,6 +57,8 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         ImageView imgClothing;
         @BindView(R.id.template_wishlist_name)
         TextView textName;
+        @BindView(R.id.template_layout_wishlist)
+        View layoutWishlist;
         public wishitemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

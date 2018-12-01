@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/template_wishlist_cardview"
+    android:id="@+id/template_layout_wishlist"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="@dimen/wishlist_item_layout_width"
