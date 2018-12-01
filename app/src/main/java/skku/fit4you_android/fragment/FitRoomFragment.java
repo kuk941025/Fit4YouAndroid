@@ -109,6 +109,7 @@ public class FitRoomFragment extends Fragment {
         //load top
         setBottomCategoryTitle(btnShowTop, "Top");
         setBottomCategoryTitle(btnShowPants, "Pants");
+        setBottomCategoryTitle(btnShowOuter, "Outers");
     }
 
     private void setBottomCategoryTitle(View view, String title){
