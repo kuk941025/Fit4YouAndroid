@@ -1,5 +1,6 @@
 package skku.fit4you_android.model;
 
+//All values are in cm
 public class BodySize {
     private int head_width, head_height;
     private int arm_width, arm_height;
