@@ -2,7 +2,7 @@ package skku.fit4you_android.model;
 
 public class Clothing {
     private String cname, hashtag, link, mallname, basicimage, photo1, photo2, photo3;
-    private int views, cost, season, gender;
+    private int views, cost, season, gender, id, uid, oid;
 
     public Clothing(String cname) {
         this.cname = cname;
@@ -102,5 +102,29 @@ public class Clothing {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getOid() {
+        return oid;
+    }
+
+    public void setOid(int oid) {
+        this.oid = oid;
     }
 }
