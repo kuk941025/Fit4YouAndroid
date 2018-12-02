@@ -19,7 +19,8 @@ public class AvatarCreator {
     private ImageView imgHead, imgLeftArm, imgRightArm, imgBody, imgLeg;
     private int px_per_cm;
     final private int TOP_MARGIN = 40;
-    final private int PADDING_SHOULDER = 10;
+    final private int PADDING_SHOULDER_WIDTH = 10;
+    final private int PADDING_SHOULDER_HEIGHT = 9;
     public AvatarCreator(Context mContext, RelativeLayout layoutAvatar) {
         this.mContext = mContext;
         this.layoutAvatar = layoutAvatar;
@@ -78,8 +79,8 @@ public class AvatarCreator {
 
         //draw left arm
         RelativeLayout.LayoutParams leftarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width()) + PADDING_SHOULDER;
-        leftarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER;
+        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width()) + PADDING_SHOULDER_WIDTH;
+        leftarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER_HEIGHT + 1;
         imgLeftArm.setLayoutParams(leftarmParams);
         imgLeftArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_left_arm));
 //        imgLeftArm.setBackgroundColor(Color.BLUE);
@@ -88,14 +89,17 @@ public class AvatarCreator {
 
         //draw right arm
         RelativeLayout.LayoutParams rightarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width - PADDING_SHOULDER - 4;
-        rightarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER + 1;
+        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width - PADDING_SHOULDER_WIDTH - 4;
+        rightarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER_HEIGHT + 2;
         imgRightArm.setLayoutParams(rightarmParams);
         imgRightArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_right_arm));
         imgRightArm.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgRightArm);
     }
 
+    public void tryClothing(){
+
+    }
     private BodySize setBodySize(){
         //temporary set bodysize of avatar
         BodySize rtrBodySize = new BodySize();
