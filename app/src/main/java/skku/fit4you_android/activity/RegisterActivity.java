@@ -3,7 +3,9 @@ package skku.fit4you_android.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.service.voice.VoiceInteractionSession;
@@ -23,6 +25,7 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.io.FileUtils;
 import org.opencv.android.Utils;
+import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.InputStream;
@@ -84,6 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_btn_register)
     Button registerUser;
 
+    public native HashMap<String, String> getBodyInformation(long matAddrInput);
+    static {
+        System.loadLibrary("opencv_java3");
+        System.loadLibrary("native-lib");
+    }
     private static final int PICK_IMAGE = 100;
     private Uri selectedImage = null;
     private RetroClient retroClient;
@@ -114,11 +122,12 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.toolbar_main_icon)
     void onGoBackClicked(){
         finish();
+        //getBodyInformation(null);
     }
 
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
-
+        registerUser();
         if (isModified == Constants.REGISTER_MODIFIED) {
             registerUser();
         }
@@ -188,6 +197,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(){
+//        int end = 1;
+//        Bitmap bitmap = ((BitmapDrawable)imageProfile.getDrawable()).getBitmap();
+//        Mat mat = new Mat();
+//        Utils.bitmapToMat(bitmap, mat);
+//        HashMap<String, String> test = getBodyInformation(mat.nativeObj);
+//        test.get("Test");
+//        if (end == 1) return;
         File file = null;
         RequestBody requestFile = null;
         MultipartBody.Part multiFile = null;

@@ -20,10 +20,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import skku.fit4you_android.retrofit.response.ReponsePostInfo;
+import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.retrofit.response.ResponseWishList;
 
 public class RetroClient {
     private RetroApiService apiService;
@@ -233,6 +235,36 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getWishlist(final RetroCallback callback){
+        apiService.getWishList().enqueue(new Callback<List<ResponseWishList>>() {
+            @Override
+            public void onResponse(Call<List<ResponseWishList>> call, Response<List<ResponseWishList>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseWishList>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getSpecificClothing(String cid, final RetroCallback callback){
+        apiService.getSpecificClothing(cid).enqueue(new Callback<ResponseClothing>() {
+            @Override
+            public void onResponse(Call<ResponseClothing> call, Response<ResponseClothing> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseClothing> call, Throwable t) {
                 callback.onError(t);
             }
         });

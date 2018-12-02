@@ -17,10 +17,12 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import skku.fit4you_android.retrofit.response.ReponsePostInfo;
+import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.retrofit.response.ResponseWishList;
 import skku.fit4you_android.util.Constants;
 
 public interface RetroApiService {
@@ -59,7 +61,7 @@ public interface RetroApiService {
     @GET("/post/user/{uid}")
     Call <List<ResponsePost>> getUserPostList(@Path("uid") String uid);
 
-    @FormUrlEncoded
+
     @GET("/post/specific/{pid}")
     Call <ReponsePostInfo> getPostInfo(@Path("pid") String pid);
 
@@ -70,5 +72,13 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("post/delete/{pid}")
     Call <ResponseSuccess> postPostDelete(@Path("pid") String pid);
+
+
+    @GET("/wishlist")
+    Call <List<ResponseWishList>> getWishList();
+
+    @GET("/clothing/specific/{cid}")
+    Call <ResponseClothing> getSpecificClothing(@Path("cid") String cid);
+
 }
 
