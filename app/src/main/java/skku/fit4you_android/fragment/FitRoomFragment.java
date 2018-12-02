@@ -1,6 +1,7 @@
 package skku.fit4you_android.fragment;
 
 
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
@@ -74,13 +75,14 @@ public class FitRoomFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_fit_room, container, false);
             ButterKnife.bind(this, fragView);
-
+            layoutAvatar.setBackgroundColor(Color.GRAY);
             fragView.post(new Runnable() {
                 @Override
                 public void run() {
                     AvatarCreator avatarCreator = new AvatarCreator(getContext(), layoutAvatar);
                     avatarCreator.createAvatar();
-                    Log.d("Height", imgAvatar.getHeight() + ".");
+
+                    Log.d("Height", layoutAvatar.getHeight() + ", " + layoutAvatar.getWidth());
                 }
             });
         }

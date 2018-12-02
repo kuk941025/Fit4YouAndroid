@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import skku.fit4you_android.R;
 import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.BodySize;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
@@ -18,6 +19,7 @@ public class AvatarCreator {
     private ImageView imgHead, imgLeftArm, imgRightArm, imgBody, imgLeg;
     private int px_per_cm;
     final private int TOP_MARGIN = 40;
+    final private int PADDING_SHOULDER = 10;
     public AvatarCreator(Context mContext, RelativeLayout layoutAvatar) {
         this.mContext = mContext;
         this.layoutAvatar = layoutAvatar;
@@ -51,8 +53,8 @@ public class AvatarCreator {
         headParams.leftMargin = layout_width / 2 - (cm2px(bodySize.getHead_width()) / 2);
         headParams.topMargin = TOP_MARGIN;
         imgHead.setLayoutParams(headParams);
-        imgHead.setBackgroundColor(Color.BLACK);
-
+        imgHead.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_head));
+        imgHead.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgHead);
 
         //draw body
@@ -60,8 +62,9 @@ public class AvatarCreator {
         bodyParams.leftMargin = layout_width / 2 - (cm2px(bodySize.getBody_width()) / 2);
         bodyParams.topMargin = headParams.height + TOP_MARGIN;
         imgBody.setLayoutParams(bodyParams);
-        imgBody.setBackgroundColor(Color.BLUE);
-
+        imgBody.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_body));
+        imgBody.setScaleType(ImageView.ScaleType.FIT_XY);
+        imgBody.setBackgroundColor(Color.GRAY);
         layoutAvatar.addView(imgBody);
 
         //draw leg
@@ -69,26 +72,27 @@ public class AvatarCreator {
         legParams.leftMargin = layout_width / 2 - (cm2px(bodySize.getLeg_width()) / 2);
         legParams.topMargin = headParams.height + bodyParams.height + TOP_MARGIN;
         imgLeg.setLayoutParams(legParams);
-        imgLeg.setBackgroundColor(Color.BLACK);
-
+        imgLeg.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_leg));
+        imgLeg.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgLeg);
 
         //draw left arm
         RelativeLayout.LayoutParams leftarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width());
-        leftarmParams.topMargin = headParams.height + TOP_MARGIN;
+        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width()) + PADDING_SHOULDER;
+        leftarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER;
         imgLeftArm.setLayoutParams(leftarmParams);
-        imgLeftArm.setBackgroundColor(Color.BLACK);
-
+        imgLeftArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_left_arm));
+//        imgLeftArm.setBackgroundColor(Color.BLUE);
+        imgLeftArm.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgLeftArm);
 
         //draw right arm
         RelativeLayout.LayoutParams rightarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width;
-        rightarmParams.topMargin = headParams.height + TOP_MARGIN;
+        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width - PADDING_SHOULDER - 4;
+        rightarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER + 1;
         imgRightArm.setLayoutParams(rightarmParams);
-        imgRightArm.setBackgroundColor(Color.BLACK);
-
+        imgRightArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_right_arm));
+        imgRightArm.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgRightArm);
     }
 
@@ -99,7 +103,7 @@ public class AvatarCreator {
         rtrBodySize.setHead_width(20);
         rtrBodySize.setBody_height(60);
         rtrBodySize.setBody_width(41);
-        rtrBodySize.setLeg_height(90);
+        rtrBodySize.setLeg_height(150);
         rtrBodySize.setLeg_width(41);
         rtrBodySize.setArm_width(20);
         rtrBodySize.setArm_height(75);
