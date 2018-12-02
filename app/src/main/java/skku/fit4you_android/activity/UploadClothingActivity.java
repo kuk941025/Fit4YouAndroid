@@ -35,6 +35,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
     ImageView DefaultImage;
+    static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,14 @@ public class UploadClothingActivity extends AppCompatActivity {
         Button selectDefault = (Button) findViewById(R.id.UploadDefault);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         //화면 크기 구하는 곳
-
+        Button selectColor = (Button) findViewById(R.id.setColor);
+        selectColor.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(UploadClothingActivity.this,ColorActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
+            }
+        });
         final Context mContext = this;
         selectDefault.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -66,6 +74,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                     @Override
                     public void onPositiveClicked(Drawable img) {
                         setDefaultImage(img);
+
                     }
                 });
                 ListDialog.show();
@@ -81,6 +90,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     }
     public void setDefaultImage(Drawable img){
         DefaultImage.setImageDrawable(img);
+
     }
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -130,6 +140,12 @@ public class UploadClothingActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }
+        else if(requestCode == REQUEST_CODE){
+            if(resultCode==RESULT_OK){
+                Log.d("Color:", data.getStringExtra("Color"));
+
             }
         }
     }

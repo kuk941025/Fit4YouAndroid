@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -24,6 +25,7 @@ import skku.fit4you_android.etc.SetDefaultImageDialogListener;
 public class SetDefaultImageDialog extends Dialog{
     ListView LV;
     ImageView img;
+
     private SetDefaultImageDialogListener dialogListener;
     private Context context;
     public SetDefaultImageDialog(Context context){
