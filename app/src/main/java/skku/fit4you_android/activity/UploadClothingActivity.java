@@ -1,9 +1,11 @@
 package skku.fit4you_android.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,13 +26,16 @@ import butterknife.ButterKnife;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.dialog.SetDefaultImageDialog;
+import skku.fit4you_android.etc.SetDefaultImageDialogListener;
 
 
 public class UploadClothingActivity extends AppCompatActivity {
     @BindView(R.id.UC_view_pager)
     ViewPager viewPager;
     UploadClothingAdapter UCAdapter;
-    ImageView ivImage, DefaultImage;
+    ImageView ivImage;
+    ImageView DefaultImage;
+    private SetDefaultImageDialog ListDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,33 +45,42 @@ public class UploadClothingActivity extends AppCompatActivity {
         viewPager.setAdapter(UCAdapter);
         viewPager.setOnPageChangeListener(pageChangeListener);
         EditText cname = (EditText) findViewById(R.id.cname);
-        ImageView DefaultImage = (ImageView) findViewById(R.id.default_image);
+        DefaultImage = (ImageView) findViewById(R.id.default_image);//default image
         String text_cname = cname.getText().toString();
         Button selectImg = (Button) findViewById(R.id.UploadPicture);
         Button selectDefault = (Button) findViewById(R.id.UploadDefault);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         //화면 크기 구하는 곳
-        final SetDefaultImageDialog ListDialog = new SetDefaultImageDialog(this);
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        int width = dm.widthPixels; //디바이스 화면 너비
-        int height = dm.heightPixels;
-        WindowManager.LayoutParams wm = ListDialog.getWindow().getAttributes();
-        wm.copyFrom(ListDialog.getWindow().getAttributes());
 
+        final Context mContext = this;
         selectDefault.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {//여기서 옷을 구현하면된다.
+                ListDialog = new SetDefaultImageDialog(mContext);
+                DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+                int width = dm.widthPixels; //디바이스 화면 너비
+                int height = dm.heightPixels;
+                WindowManager.LayoutParams wm = ListDialog.getWindow().getAttributes();
+                wm.copyFrom(ListDialog.getWindow().getAttributes());
+                ListDialog.setDialogListener(new SetDefaultImageDialogListener() {
+                    @Override
+                    public void onPositiveClicked(Drawable img) {
+                        setDefaultImage(img);
+                    }
+                });
                 ListDialog.show();
             }
         });
         selectImg.setOnClickListener(new Button.OnClickListener() {
-            //            TextView Text1 = (TextView) findViewById(R.id.fuck);
 
             @Override
             public void onClick(View v) {//여기서 옷을 구현하면된다.
                 DialogImage();
             }
         });
+    }
+    public void setDefaultImage(Drawable img){
+        DefaultImage.setImageDrawable(img);
     }
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override

@@ -51,7 +51,6 @@ public class ImageListAdapter extends BaseAdapter {
         /* 각 위젯에 세팅된 아이템을 뿌려준다 */
         iv_img.setImageDrawable(myItem.getImg());
         tv_name.setText(myItem.getImgname());
-
         /* (위젯에 대한 이벤트리스너를 지정하고 싶다면 여기에 작성하면된다..)  */
         return convertView;
     }
