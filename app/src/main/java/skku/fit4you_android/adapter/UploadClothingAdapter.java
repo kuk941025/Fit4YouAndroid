@@ -13,7 +13,6 @@ public class UploadClothingAdapter extends FragmentPagerAdapter {
     private final int size = 3;
     private Context mContext;
     private List<Fragment> fragsList;
-
     public UploadClothingAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;

@@ -1,8 +1,24 @@
 package skku.fit4you_android.activity;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import java.io.InputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
@@ -12,33 +28,48 @@ import skku.fit4you_android.adapter.UploadClothingAdapter;
 public class UploadClothingActivity extends AppCompatActivity {
     @BindView(R.id.UC_view_pager)
     ViewPager viewPager;
-    @BindView(R.id.UC_tab_layout)
-    TabLayout tabLayout;
-
+    UploadClothingAdapter UCAdapter;
+    ImageView ivImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
         ButterKnife.bind(this);
-
-        viewPager.setAdapter(new UploadClothingAdapter(this,getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-
-    }
-
-        /*EditText cname = (EditText) findViewById(R.id.cname);
+        UCAdapter = new UploadClothingAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(UCAdapter);
+        viewPager.setOnPageChangeListener(pageChangeListener);
+        EditText cname = (EditText) findViewById(R.id.cname);
         String text_cname = cname.getText().toString();
         Button selectImg = (Button) findViewById(R.id.UploadPicture);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
-        ivImage  = (ImageView) findViewById(R.id.clothing_image);
-        selectImg.setOnClickListener(new Button.OnClickListener(){
-//            TextView Text1 = (TextView) findViewById(R.id.fuck);
+        selectImg.setOnClickListener(new Button.OnClickListener() {
+            //            TextView Text1 = (TextView) findViewById(R.id.fuck);
+
             @Override
             public void onClick(View v) {//여기서 옷을 구현하면된다.
                 DialogImage();
             }
         });
     }
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            Log.d("Fit scrolled: ", position + ".");
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            Fragment fragging = UCAdapter.getItem(position);
+            Log.d("Fit: ", position + ".");
+            ivImage = (ImageView) fragging.getView().findViewById(R.id.clothing_image);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            Log.d("Fit changed: ", state + ".");
+        }
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -56,8 +87,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }
-        else if (requestCode == 0) {
+        } else if (requestCode == 0) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 try {
@@ -72,6 +102,7 @@ public class UploadClothingActivity extends AppCompatActivity {
             }
         }
     }
+
     private void DialogImage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("사진 가져오기");
@@ -80,7 +111,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(i,0);
+                        startActivityForResult(i, 0);
                     }
                 });
         builder.setNeutralButton("앨범에서",
@@ -89,7 +120,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(intent,1);
+                        startActivityForResult(intent, 1);
                     }
                 });
         builder.setNegativeButton("취소",
@@ -99,5 +130,6 @@ public class UploadClothingActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
-        */
+
+    }
 }
