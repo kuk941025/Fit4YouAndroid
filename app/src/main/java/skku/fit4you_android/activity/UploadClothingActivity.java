@@ -11,25 +11,26 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import java.io.InputStream;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
+import skku.fit4you_android.dialog.SetDefaultImageDialog;
 
 
 public class UploadClothingActivity extends AppCompatActivity {
     @BindView(R.id.UC_view_pager)
     ViewPager viewPager;
     UploadClothingAdapter UCAdapter;
-    ImageView ivImage;
+    ImageView ivImage, DefaultImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +40,25 @@ public class UploadClothingActivity extends AppCompatActivity {
         viewPager.setAdapter(UCAdapter);
         viewPager.setOnPageChangeListener(pageChangeListener);
         EditText cname = (EditText) findViewById(R.id.cname);
+        ImageView DefaultImage = (ImageView) findViewById(R.id.default_image);
         String text_cname = cname.getText().toString();
         Button selectImg = (Button) findViewById(R.id.UploadPicture);
+        Button selectDefault = (Button) findViewById(R.id.UploadDefault);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
+        //화면 크기 구하는 곳
+        final SetDefaultImageDialog ListDialog = new SetDefaultImageDialog(this);
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+        int width = dm.widthPixels; //디바이스 화면 너비
+        int height = dm.heightPixels;
+        WindowManager.LayoutParams wm = ListDialog.getWindow().getAttributes();
+        wm.copyFrom(ListDialog.getWindow().getAttributes());
+
+        selectDefault.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {//여기서 옷을 구현하면된다.
+                ListDialog.show();
+            }
+        });
         selectImg.setOnClickListener(new Button.OnClickListener() {
             //            TextView Text1 = (TextView) findViewById(R.id.fuck);
 
