@@ -84,6 +84,8 @@ public interface RetroApiService {
     Call <List<ResponseClothing>> getClothingAll(@Path("page_num") String page_num, @Path("option_num") String option_num,
                                                  @Path("gender") String gender, @Path("season") String season);
 
+    @GET("/post/all/{page_num}/{option_num}")
+    Call <List<ResponsePost>> getPostAll(@Path("page_num") String page_num, @Path("option_num") String option_num);
 
 }
 

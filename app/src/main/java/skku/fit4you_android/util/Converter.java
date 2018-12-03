@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
+import skku.fit4you_android.retrofit.response.ResponsePost;
 
 public class Converter {
     public static Bitmap drawableToBitmap (Drawable drawable) {
@@ -56,5 +57,22 @@ public class Converter {
             sharedPosts.add(sharedPost);
         }
 
+    }
+
+    public static void responsePostToSharedPost(ArrayList<ResponsePost> responsePosts, ArrayList<SharedPost> sharedPosts){
+        for (ResponsePost post : responsePosts){
+            SharedPost sharedPost = new SharedPost();
+            sharedPost.setClothing_name(post.title);
+            sharedPost.setCost(post.totalcost);
+            sharedPost.setViews(post.views);
+            sharedPost.setDate(post.createdAt);
+            sharedPost.setUid(post.uid);
+            sharedPost.setNum_likes(post.like);
+            sharedPost.setIsLike(post.islike);
+            sharedPost.setNum_comments(post.commentnum);
+            sharedPost.setPhoto1(post.avatarimage);
+            sharedPost.setPhoto2(post.clothingimage);
+            sharedPosts.add(sharedPost);
+        }
     }
 }

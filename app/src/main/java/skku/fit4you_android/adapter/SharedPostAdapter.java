@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
+import skku.fit4you_android.retrofit.RetroApiService;
 
 public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.postViewHolder> {
     private ArrayList<SharedPost> sharedPosts;
@@ -61,6 +65,9 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         else{
             holder.viewClothing.setVisibility(View.GONE);
             holder.viewStyle.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(RetroApiService.IMAGE_URL + sharedPosts.get(position).getPhoto2())
+                    .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreview);
+
         }
 
         holder.txtItemName.setText(selectedPost.getClothing_name());
@@ -102,6 +109,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         View viewStyle;
         @BindView(R.id.templatE_post_item_clothing_tab_layout)
         TabLayout tabLayout;
+        @BindView(R.id.template_post_item_style_preview)
+        ImageView imgPreview;
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
