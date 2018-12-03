@@ -7,7 +7,15 @@ public class SharedPost {
     public static int POST_STYLE_SHARE = 2;
     private String clothing_name, user_name, hash_tags;
     private Date date;
-    private int price, type_of_post, num_likes, num_comments;
+    private int price, type_of_post, num_likes, num_comments, cost;
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public static int getPostClothing() {
         return POST_CLOTHING;

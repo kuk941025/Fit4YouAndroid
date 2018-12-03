@@ -51,6 +51,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
+            holder.txtClothingCost.setText(sharedPosts.get(position).getCost());
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);
@@ -74,8 +75,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         TextView txtItemName;
         @BindView(R.id.template_post_item_user_name)
         TextView txtUserName;
-        @BindView(R.id.template_post_item_clothing_dscrp)
-        TextView txtClothingDscrp;
+        @BindView(R.id.template_post_item_clothing_cost)
+        TextView txtClothingCost;
         @BindView(R.id.template_post_item_add_wishlist)
         ImageView imgAddWishlist;
         @BindView(R.id.template_post_item_clothing_view_pager)
