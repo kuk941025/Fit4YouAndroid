@@ -70,7 +70,7 @@ public class FitRoomFragment extends Fragment {
     private View fragView = null;
     private ArrayList<Wishlist> topWishlists, pantsWishlists, outerWishlists, combinedWishlist;
     private RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
-    private int flag_last_wish = 0;
+    private int flag_last_wish = 0, send_cnt = 0;;
     List<ResponseWishList> responseWishLists;
     public FitRoomFragment() {
 
@@ -125,30 +125,24 @@ public class FitRoomFragment extends Fragment {
         setSheetBehavior();
         setBottomList();
 
-        ArrayList<Wishlist> test = new ArrayList<>();
-        for (int i = 0; i < 1; i++){
-            Wishlist wish = new Wishlist(i);
-            wish.setDscrp("wish" + i);
-            wish.setName("title" + i);
-            test.add(wish);
-        }
-        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
-        outerListAdapter = new WishListAdapter(test, imgRealOuter);
-        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishOuter.setLayoutManager(outerLayoutManager);
-        recyclerWishOuter.setAdapter(outerListAdapter);
 
-        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
-        pantsListAdapter = new WishListAdapter(test, imgRealPants);
-        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishPants.setLayoutManager(pantsLayoutManager);
-        recyclerWishPants.setAdapter(pantsListAdapter);
-
-        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
-        topListAdapter = new WishListAdapter(test, imgRealTop);
-        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishTops.setLayoutManager(topLayoutManager);
-        recyclerWishTops.setAdapter(topListAdapter);
+//        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
+//        outerListAdapter = new WishListAdapter(test, imgRealOuter);
+//        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishOuter.setLayoutManager(outerLayoutManager);
+//        recyclerWishOuter.setAdapter(outerListAdapter);
+//
+//        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
+//        pantsListAdapter = new WishListAdapter(test, imgRealPants);
+//        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishPants.setLayoutManager(pantsLayoutManager);
+//        recyclerWishPants.setAdapter(pantsListAdapter);
+//
+//        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
+//        topListAdapter = new WishListAdapter(test, imgRealTop);
+//        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishTops.setLayoutManager(topLayoutManager);
+//        recyclerWishTops.setAdapter(topListAdapter);
         getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
     }
 
@@ -184,6 +178,7 @@ public class FitRoomFragment extends Fragment {
                 expandableView.toggle();
             }
         });
+
     }
 
     private void setSheetBehavior(){
@@ -252,11 +247,9 @@ public class FitRoomFragment extends Fragment {
         }
 
 
-        int cnt = 0;
+        send_cnt=0;
         for (final Wishlist wishlist : combinedWishlist){
-            if (combinedWishlist.size() - 1 <= ++cnt){
-                flag_last_wish = 1;
-            }
+
             retroClient.getSpecificClothing(Integer.toString(wishlist.getCid()), new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {
@@ -269,7 +262,9 @@ public class FitRoomFragment extends Fragment {
                     wishlist.setName(responseClothing.cname);
                     wishlist.setDscrp(Integer.toString(responseClothing.cost));
                     wishlist.setImgURL(responseClothing.photo1);
-                    if (flag_last_wish == 1) setWishlistToView();
+                    send_cnt++;
+                    if (send_cnt >= combinedWishlist.size())
+                        setWishlistToView();
                 }
 
                 @Override
@@ -294,35 +289,35 @@ public class FitRoomFragment extends Fragment {
             }
         }
 
-        topListAdapter.setWishlists(topWishlists);
-        topListAdapter.notifyItemMoved(0, topWishlists.size() - 1);
-        pantsListAdapter.setWishlists(pantsWishlists);
-        outerListAdapter.setWishlists(outerWishlists);
+//        topListAdapter.setWishlists(topWishlists);
+//        topListAdapter.notifyItemMoved(0, topWishlists.size() - 1);
+//        pantsListAdapter.setWishlists(pantsWishlists);
+//        outerListAdapter.setWishlists(outerWishlists);
 
-        pantsListAdapter.notifyDataSetChanged();
-        outerListAdapter.notifyDataSetChanged();
+//        pantsListAdapter.notifyDataSetChanged();
+//        outerListAdapter.notifyDataSetChanged();
         //
-//        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
-//        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
-//        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
-//
-//
-//        topListAdapter = new WishListAdapter(topWishlists, imgRealTop);
-//        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishTops.setLayoutManager(topLayoutManager);
-//        recyclerWishTops.setAdapter(topListAdapter);
-//
-//        pantsListAdapter = new WishListAdapter(pantsWishlists, imgRealPants);
-//        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishPants.setLayoutManager(pantsLayoutManager);
-//        recyclerWishPants.setAdapter(pantsListAdapter);
-//
-//        outerListAdapter = new WishListAdapter(test, imgRealOuter);
-//        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishOuter.setLayoutManager(outerLayoutManager);
-//        recyclerWishOuter.setAdapter(outerListAdapter);
+        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
+        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
+        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
+        ExpandableRelativeLayout relativeLayout = btnShowTop.findViewById(R.id.wish_expandable_layout);
 
+        topListAdapter = new WishListAdapter(topWishlists, imgRealTop);
+        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishTops.setLayoutManager(topLayoutManager);
+        recyclerWishTops.setAdapter(topListAdapter);
 
+        pantsListAdapter = new WishListAdapter(pantsWishlists, imgRealPants);
+        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishPants.setLayoutManager(pantsLayoutManager);
+        recyclerWishPants.setAdapter(pantsListAdapter);
+
+        outerListAdapter = new WishListAdapter(outerWishlists, imgRealOuter);
+        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerWishOuter.setLayoutManager(outerLayoutManager);
+        recyclerWishOuter.setAdapter(outerListAdapter);
+
+        relativeLayout.invalidate();
         flag_last_wish = 0;
     }
 

@@ -4,7 +4,6 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
-#include <map>
 #include <utility>
 #include <string.h>
 using namespace cv;
