@@ -16,11 +16,12 @@ import skku.fit4you_android.R;
 public class ColorActivity extends AppCompatActivity {
     Button btn_ok;
     ColorPickerView CPV;
-    String color;
+    String color,currentColor;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.colorpicker);
-        Intent intent = new Intent(this.getIntent());
+        Intent intent = getIntent();
+        currentColor = intent.getExtras().getString("Color");
         btn_ok  = (Button) findViewById(R.id.btn_okColor);
         CPV = (ColorPickerView) findViewById(R.id.colorPickerView);
         btn_ok.setOnClickListener(new Button.OnClickListener(){
@@ -29,6 +30,7 @@ public class ColorActivity extends AppCompatActivity {
                 Intent intentResult = getIntent();
                 intentResult.putExtra("Color",color);
                 Log.d("in colorpicker:",color);
+                CPV.saveData();
                 setResult(RESULT_OK,intentResult);
                 finish();
             }

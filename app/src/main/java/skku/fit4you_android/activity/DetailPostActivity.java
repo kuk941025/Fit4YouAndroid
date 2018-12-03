@@ -8,7 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +34,36 @@ public class DetailPostActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private PostImageViewAdapter imageViewAdapter;
     private ArrayList<Comment> comments;
+    Boolean isLike;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_post);
 
         ButterKnife.bind(this);
-
+        final ImageView likeimage = (ImageView) findViewById(R.id.detail_post_img_like);
+        isLike = false;
+        if(isLike){
+            likeimage.setImageResource(R.drawable.img_like_clicked);
+        }
+        else{
+            likeimage.setImageResource(R.drawable.img_like);
+        }
+        likeimage.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(isLike){
+                    likeimage.setImageResource(R.drawable.img_like);
+                    Log.d("DetailPost: ","unlike");
+                    isLike = false;
+                }
+                else{
+                    likeimage.setImageResource(R.drawable.img_like_clicked);
+                    Log.d("DetailPost: ","like");
+                    isLike = true;
+                }
+            }
+        });
         hide_keyboard();
         setRecyclerComments();
         setImageViewAdapter();
@@ -73,4 +100,5 @@ public class DetailPostActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
     }
+
 }

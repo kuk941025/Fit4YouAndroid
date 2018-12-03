@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
@@ -35,6 +36,8 @@ public class UploadClothingActivity extends AppCompatActivity {
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
     ImageView DefaultImage;
+    String color;
+    Button selectDefault,selectColor,selectImg;
     static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
     @Override
@@ -48,15 +51,20 @@ public class UploadClothingActivity extends AppCompatActivity {
         EditText cname = (EditText) findViewById(R.id.cname);
         DefaultImage = (ImageView) findViewById(R.id.default_image);//default image
         String text_cname = cname.getText().toString();
-        Button selectImg = (Button) findViewById(R.id.UploadPicture);
-        Button selectDefault = (Button) findViewById(R.id.UploadDefault);
+        selectImg = (Button) findViewById(R.id.UploadPicture);
+        selectDefault = (Button) findViewById(R.id.UploadDefault);
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         //화면 크기 구하는 곳
-        Button selectColor = (Button) findViewById(R.id.setColor);
+
+        selectColor = (Button) findViewById(R.id.setColor);
+        ColorDrawable btnColor = (ColorDrawable) selectColor.getBackground();
+        color = String.valueOf(btnColor.getColor());
+        Log.d("initial Color:",color);
         selectColor.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(UploadClothingActivity.this,ColorActivity.class);
+                intent.putExtra("Color",color);
                 startActivityForResult(intent,REQUEST_CODE);
             }
         });
@@ -144,8 +152,9 @@ public class UploadClothingActivity extends AppCompatActivity {
         }
         else if(requestCode == REQUEST_CODE){
             if(resultCode==RESULT_OK){
-                Log.d("Color:", data.getStringExtra("Color"));
-
+                color = data.getStringExtra("Color");
+                Log.d("Color:", color);
+                selectColor.setBackgroundColor(Integer.parseInt(color));
             }
         }
     }
