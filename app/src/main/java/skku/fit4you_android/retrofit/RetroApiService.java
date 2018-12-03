@@ -80,5 +80,10 @@ public interface RetroApiService {
     @GET("/clothing/specific/{cid}")
     Call <ResponseClothing> getSpecificClothing(@Path("cid") String cid);
 
+    @GET("/clothing/all/{page_num}/{option_num}/{gender}/{season}")
+    Call <List<ResponseClothing>> getClothingAll(@Path("page_num") String page_num, @Path("option_num") String option_num,
+                                                 @Path("gender") String gender, @Path("season") String season);
+
+
 }
 

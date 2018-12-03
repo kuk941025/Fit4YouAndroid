@@ -63,6 +63,7 @@ public class PopularClothesFragment extends Fragment {
         isRefreshed = false;
         isFirst = false;
 
+
         //set recycler view
         sharedPosts = new ArrayList<>();
         loadClothingList();
@@ -74,7 +75,6 @@ public class PopularClothesFragment extends Fragment {
         //end of setting recycler view
 
         Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
-
     }
     private void loadClothingList(){
         for (int i = 0; i < 10; i++){

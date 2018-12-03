@@ -269,4 +269,19 @@ public class RetroClient {
             }
         });
     }
+
+    public void getClothingAll(String page_num, String option_num, String gender, String season, final RetroCallback callback){
+        apiService.getClothingAll(page_num, option_num, gender, season).enqueue(new Callback<List<ResponseClothing>>() {
+            @Override
+            public void onResponse(Call<List<ResponseClothing>> call, Response<List<ResponseClothing>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseClothing>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }
