@@ -5,9 +5,50 @@ import java.util.Date;
 public class SharedPost {
     public static int POST_CLOTHING = 1;
     public static int POST_STYLE_SHARE = 2;
-    private String clothing_name, user_name, hash_tags;
+    private String clothing_name, user_name, hash_tags, mallURL, mall_name, basic_image;
+    private String photo1, photo2, photo3, isLike;
     private Date date;
-    private int price, type_of_post, num_likes, num_comments, cost;
+    private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid;
+
+    public String getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(String isLike) {
+        this.isLike = isLike;
+    }
+
+    public int getOid() {
+        return oid;
+    }
+
+    public void setOid(int oid) {
+        this.oid = oid;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getMall_name() {
+        return mall_name;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public void setMall_name(String mall_name) {
+        this.mall_name = mall_name;
+    }
 
     public int getCost() {
         return cost;
@@ -15,6 +56,54 @@ public class SharedPost {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public String getMallURL() {
+        return mallURL;
+    }
+
+    public void setMallURL(String mallURL) {
+        this.mallURL = mallURL;
+    }
+
+    public String getBasic_image() {
+        return basic_image;
+    }
+
+    public void setBasic_image(String basic_image) {
+        this.basic_image = basic_image;
+    }
+
+    public String getPhoto1() {
+        return photo1;
+    }
+
+    public void setPhoto1(String photo1) {
+        this.photo1 = photo1;
+    }
+
+    public String getPhoto2() {
+        return photo2;
+    }
+
+    public void setPhoto2(String photo2) {
+        this.photo2 = photo2;
+    }
+
+    public String getPhoto3() {
+        return photo3;
+    }
+
+    public void setPhoto3(String photo3) {
+        this.photo3 = photo3;
     }
 
     public static int getPostClothing() {

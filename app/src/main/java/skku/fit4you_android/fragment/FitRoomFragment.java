@@ -124,25 +124,6 @@ public class FitRoomFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setSheetBehavior();
         setBottomList();
-
-
-//        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
-//        outerListAdapter = new WishListAdapter(test, imgRealOuter);
-//        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishOuter.setLayoutManager(outerLayoutManager);
-//        recyclerWishOuter.setAdapter(outerListAdapter);
-//
-//        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
-//        pantsListAdapter = new WishListAdapter(test, imgRealPants);
-//        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishPants.setLayoutManager(pantsLayoutManager);
-//        recyclerWishPants.setAdapter(pantsListAdapter);
-//
-//        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
-//        topListAdapter = new WishListAdapter(test, imgRealTop);
-//        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-//        recyclerWishTops.setLayoutManager(topLayoutManager);
-//        recyclerWishTops.setAdapter(topListAdapter);
         getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
     }
 

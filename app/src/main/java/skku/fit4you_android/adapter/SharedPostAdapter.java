@@ -51,7 +51,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
-            holder.txtClothingCost.setText(sharedPosts.get(position).getCost());
+            //holder.txtClothingCost.setText(sharedPosts.get(position).getCost());
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);

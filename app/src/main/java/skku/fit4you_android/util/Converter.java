@@ -5,6 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+
+import skku.fit4you_android.model.SharedPost;
+import skku.fit4you_android.retrofit.response.ResponseClothing;
+
 public class Converter {
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
@@ -26,5 +31,30 @@ public class Converter {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    public static void responseClothingToSharedPost(ArrayList<ResponseClothing> responseClothings, ArrayList<SharedPost> sharedPosts){
+        for (ResponseClothing clothing : responseClothings){
+            SharedPost sharedPost = new SharedPost();
+            sharedPost.setClothing_name(clothing.cname);
+            sharedPost.setViews(clothing.views);
+            sharedPost.setHash_tags(clothing.hashtag);
+            sharedPost.setCost(clothing.cost);
+            sharedPost.setMallURL(clothing.link);
+            sharedPost.setMall_name(clothing.mallname);
+            sharedPost.setGender(clothing.gender);
+            sharedPost.setBasic_image(clothing.basicimage);
+            sharedPost.setPhoto1(clothing.photo1);
+            sharedPost.setPhoto2(clothing.photo2);
+            sharedPost.setPhoto3(clothing.photo3);
+            sharedPost.setUid(clothing.uid);
+            sharedPost.setOid(clothing.oid);
+            sharedPost.setNum_likes(clothing.like);
+            sharedPost.setIsLike(clothing.islike);
+            sharedPost.setType_of_post(SharedPost.POST_CLOTHING);
+
+            sharedPosts.add(sharedPost);
+        }
+
     }
 }

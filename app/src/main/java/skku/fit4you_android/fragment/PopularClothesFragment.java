@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +22,8 @@ import skku.fit4you_android.adapter.SharedPostAdapter;
 import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.ResponseClothing;
+import skku.fit4you_android.util.Converter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +74,6 @@ public class PopularClothesFragment extends Fragment {
 
         //set recycler view
         sharedPosts = new ArrayList<>();
-        loadClothingList();
         sharedPostAdapter = new SharedPostAdapter(getContext(),sharedPosts);
         recyclerClothing.setAdapter(sharedPostAdapter);
 
@@ -79,7 +81,8 @@ public class PopularClothesFragment extends Fragment {
         recyclerClothing.setLayoutManager(layoutManager);
         //end of setting recycler view
 
-        Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+        loadClothingList();
+
     }
     private void loadClothingList(){
         retroClient.getClothingAll("1", "1", "0", "1", new RetroCallback() {
@@ -91,6 +94,9 @@ public class PopularClothesFragment extends Fragment {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+                Converter.responseClothingToSharedPost((ArrayList<ResponseClothing>) receivedData, sharedPosts);
+                sharedPostAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
