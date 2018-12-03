@@ -87,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.register_btn_register)
     Button registerUser;
 
-    public native HashMap<String, String> getBodyInformation(long matAddrInput);
+    public native String[] receiveData();
+    public native String[] sendData(String[] strArray);
     static {
         System.loadLibrary("opencv_java3");
         System.loadLibrary("native-lib");
@@ -127,6 +128,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
+
+        String[] test = receiveData();
+        String[] str = new String[2];
+        str[0] = "yo"; str[1] = "hey";
+        String[] received = sendData(str);
+
         registerUser();
         if (isModified == Constants.REGISTER_MODIFIED) {
             registerUser();
