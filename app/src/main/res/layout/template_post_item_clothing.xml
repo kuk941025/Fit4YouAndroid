@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.view.ViewPager
+    <skku.fit4you_android.widget.HeightWrappingViewPager
         android:id="@+id/template_post_item_clothing_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/template_post_viewpager_height">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content">
+    </skku.fit4you_android.widget.HeightWrappingViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/templatE_post_item_clothing_tab_layout"

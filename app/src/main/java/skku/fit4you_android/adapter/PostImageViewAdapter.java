@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -41,7 +42,8 @@ public class PostImageViewAdapter extends PagerAdapter {
         view = inflater.inflate(R.layout.template_post_item_clothing_img, container, false);
         ButterKnife.bind(this, view);
 //        imgClothing.setImageDrawable(imageURL.get(position));
-        Glide.with(context).load(RetroApiService.IMAGE_URL + imageURL.get(position)).into(imgClothing);
+
+        Glide.with(context).load(RetroApiService.IMAGE_URL + imageURL.get(position)).apply(RequestOptions.fitCenterTransform()).into(imgClothing);
         container.addView(view);
         return view;
     }
