@@ -18,6 +18,9 @@ import butterknife.ButterKnife;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
+import skku.fit4you_android.retrofit.RetroApiService;
+import skku.fit4you_android.retrofit.RetroCallback;
+import skku.fit4you_android.retrofit.RetroClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +34,8 @@ public class PopularClothesFragment extends Fragment {
 
     private SharedPostAdapter sharedPostAdapter;
     private ArrayList<SharedPost> sharedPosts;
+    private RetroClient retroClient;
+
     public PopularClothesFragment() {
         // Required empty public constructor
     }
@@ -43,7 +48,7 @@ public class PopularClothesFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_home_clothing, container, false);
             ButterKnife.bind(this, fragView);
-
+            retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
         }
         if (isRefreshed){
             initClothingList();
@@ -77,14 +82,30 @@ public class PopularClothesFragment extends Fragment {
         Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
     }
     private void loadClothingList(){
-        for (int i = 0; i < 10; i++){
-            //temp data
-            SharedPost post = new SharedPost();
-            post.setType_of_post(SharedPost.POST_CLOTHING);
-            post.setClothing_name("Clothing name" + i);
-            post.setUser_name("User Name" + i);
-            sharedPosts.add(post);
-        }
+        retroClient.getClothingAll("1", "1", "0", "1", new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int code) {
+
+            }
+        });
+//        for (int i = 0; i < 10; i++){
+//            //temp data
+//            SharedPost post = new SharedPost();
+//            post.setType_of_post(SharedPost.POST_CLOTHING);
+//            post.setClothing_name("Clothing name" + i);
+//            post.setUser_name("User Name" + i);
+//            sharedPosts.add(post);
+//        }
     }
     public void notifyFrag(){
         if (getContext() != null && !isRefreshed){

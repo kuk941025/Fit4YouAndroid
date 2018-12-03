@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +33,7 @@ import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.dialog.SetDefaultImageDialog;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
-import skku.fit4you_android.util.ImageConverter;
+import skku.fit4you_android.util.Converter;
 
 
 public class UploadClothingActivity extends AppCompatActivity {
@@ -114,7 +113,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     }
     public void setDefaultImage(Drawable img){
         DefaultImage.setImageDrawable(img);
-        bitSelectedImage = ImageConverter.drawableToBitmap(img);
+        bitSelectedImage = Converter.drawableToBitmap(img);
     }
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
