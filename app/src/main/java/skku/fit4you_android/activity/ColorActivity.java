@@ -11,12 +11,16 @@ import com.skydoves.colorpickerpreference.ColorEnvelope;
 import com.skydoves.colorpickerpreference.ColorListener;
 import com.skydoves.colorpickerpreference.ColorPickerView;
 
+import java.util.ArrayList;
+
 import skku.fit4you_android.R;
 
 public class ColorActivity extends AppCompatActivity {
+    public static String RESULT_COLOR_RGB = "Color RGB";
     Button btn_ok;
     ColorPickerView CPV;
     String color,currentColor;
+    ArrayList<Integer> colorRGB = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.colorpicker);
@@ -30,6 +34,9 @@ public class ColorActivity extends AppCompatActivity {
                 Intent intentResult = getIntent();
                 intentResult.putExtra("Color",color);
                 Log.d("in colorpicker:",color);
+                intentResult.putIntegerArrayListExtra(RESULT_COLOR_RGB, colorRGB);
+
+
                 CPV.saveData();
                 setResult(RESULT_OK,intentResult);
                 finish();
@@ -39,6 +46,9 @@ public class ColorActivity extends AppCompatActivity {
             @Override
             public void onColorSelected(ColorEnvelope colorEnvelope) {
                 int colorint = colorEnvelope.getColor();
+                colorRGB.clear();
+                int[] intRGB = colorEnvelope.getColorRGB();
+                for (Integer values : intRGB) colorRGB.add(values);
                 btn_ok.setBackgroundColor(colorint);
                 color = String.valueOf(colorint);
                 //colorEnvelope.getColor(); // int

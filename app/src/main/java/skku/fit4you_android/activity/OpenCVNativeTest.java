@@ -37,8 +37,6 @@ public class OpenCVNativeTest extends AppCompatActivity
         System.loadLibrary("native-lib");
     }
 
-
-
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {

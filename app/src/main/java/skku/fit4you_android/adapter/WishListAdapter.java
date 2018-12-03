@@ -34,11 +34,15 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         return new wishitemViewHolder(view);
     }
 
+    public void setWishlists(ArrayList<Wishlist> wishlists) {
+        this.wishlists = wishlists;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull wishitemViewHolder holder, final int position) {
         holder.textDscrp.setText(wishlists.get(position).getDscrp());
         holder.textName.setText(wishlists.get(position).getName());
-        if (wishlists.get(position).getCid() == selectedCid){
+        if (wishlists.get(position).getWid() == selectedCid){
             holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.gray_light, null));
         }
         else holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.colorLightWhite, null));
@@ -47,9 +51,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
             public void onClick(View v) {
 //                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
                 int pastSelected = selectedCid;
-                selectedCid = position;
+                selectedCid = wishlists.get(position).getWid();
                 notifyItemChanged(position);
-                notifyItemChanged(pastSelected);
+                notifyItemChanged(pastSelected, wishlists.size());
                 if (pastSelected == selectedCid) {imgActualClothing.setVisibility(View.GONE); selectedCid = -1;}
                 else imgActualClothing.setVisibility(View.VISIBLE);
             }

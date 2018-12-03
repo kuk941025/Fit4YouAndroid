@@ -21,13 +21,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.dialog.SetDefaultImageDialog;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
+import skku.fit4you_android.util.ImageConverter;
 
 
 public class UploadClothingActivity extends AppCompatActivity {
@@ -38,8 +45,17 @@ public class UploadClothingActivity extends AppCompatActivity {
     ImageView DefaultImage;
     String color;
     Button selectDefault,selectColor,selectImg;
+    private Bitmap bitSelectedImage = null;
     static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
+
+    public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
+    static {
+        System.loadLibrary("opencv_java3");
+        System.loadLibrary("native-lib");
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +114,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     }
     public void setDefaultImage(Drawable img){
         DefaultImage.setImageDrawable(img);
-
+        bitSelectedImage = ImageConverter.drawableToBitmap(img);
     }
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -153,12 +169,27 @@ public class UploadClothingActivity extends AppCompatActivity {
         else if(requestCode == REQUEST_CODE){
             if(resultCode==RESULT_OK){
                 color = data.getStringExtra("Color");
+                ArrayList<Integer> colorRGB = data.getIntegerArrayListExtra(ColorActivity.RESULT_COLOR_RGB);
                 Log.d("Color:", color);
                 selectColor.setBackgroundColor(Integer.parseInt(color));
+                updateImageColor(colorRGB);
+
+
             }
         }
     }
+    private void updateImageColor(ArrayList<Integer> colorRGB){
 
+//        DefaultImage.buildDrawingCache();
+//        Bitmap bitmap = DefaultImage.getDrawingCache();
+        Mat mat = new Mat();
+        Utils.bitmapToMat(bitSelectedImage, mat);
+        addColorToClothing(mat.getNativeObjAddr(), colorRGB.get(0), colorRGB.get(1), colorRGB.get(2));
+        Bitmap bitResult = bitSelectedImage.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.matToBitmap(mat, bitResult);
+
+        DefaultImage.setImageBitmap(bitResult);
+    }
     private void DialogImage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("사진 가져오기");

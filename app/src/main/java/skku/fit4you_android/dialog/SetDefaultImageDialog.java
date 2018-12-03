@@ -43,7 +43,7 @@ public class SetDefaultImageDialog extends Dialog{
         setContentView(R.layout.dialog_select_image);
         LV = (ListView)findViewById(R.id.ImageList);
 
-        ImageListAdapter LA = new ImageListAdapter();
+        ImageListAdapter LA = new ImageListAdapter(getContext());
         // 포문 등록
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_hood),
                 "clothing_hood") ;

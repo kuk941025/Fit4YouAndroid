@@ -294,34 +294,35 @@ public class FitRoomFragment extends Fragment {
             }
         }
 
-        ArrayList<Wishlist> test = new ArrayList<>();
-        for (int i = 0; i < 10; i++){
-            Wishlist wish = new Wishlist(i);
-            wish.setDscrp("wish" + i);
-            wish.setName("title" + i);
-            test.add(wish);
-        }
-        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
-        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
-        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
+        topListAdapter.setWishlists(topWishlists);
+        topListAdapter.notifyItemMoved(0, topWishlists.size() - 1);
+        pantsListAdapter.setWishlists(pantsWishlists);
+        outerListAdapter.setWishlists(outerWishlists);
+
+        pantsListAdapter.notifyDataSetChanged();
+        outerListAdapter.notifyDataSetChanged();
+        //
+//        recyclerWishTops = btnShowTop.findViewById(R.id.wish_recylcer_clothings);
+//        recyclerWishPants = btnShowPants.findViewById(R.id.wish_recylcer_clothings);
+//        recyclerWishOuter = btnShowOuter.findViewById(R.id.wish_recylcer_clothings);
+//
+//
+//        topListAdapter = new WishListAdapter(topWishlists, imgRealTop);
+//        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishTops.setLayoutManager(topLayoutManager);
+//        recyclerWishTops.setAdapter(topListAdapter);
+//
+//        pantsListAdapter = new WishListAdapter(pantsWishlists, imgRealPants);
+//        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishPants.setLayoutManager(pantsLayoutManager);
+//        recyclerWishPants.setAdapter(pantsListAdapter);
+//
+//        outerListAdapter = new WishListAdapter(test, imgRealOuter);
+//        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
+//        recyclerWishOuter.setLayoutManager(outerLayoutManager);
+//        recyclerWishOuter.setAdapter(outerListAdapter);
 
 
-        topListAdapter = new WishListAdapter(topWishlists, imgRealTop);
-        LinearLayoutManager topLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishTops.setLayoutManager(topLayoutManager);
-        recyclerWishTops.setAdapter(topListAdapter);
-
-        pantsListAdapter = new WishListAdapter(pantsWishlists, imgRealPants);
-        LinearLayoutManager pantsLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishPants.setLayoutManager(pantsLayoutManager);
-        recyclerWishPants.setAdapter(pantsListAdapter);
-
-        outerListAdapter = new WishListAdapter(test, imgRealOuter);
-        LinearLayoutManager outerLayoutManager = new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerWishOuter.setLayoutManager(outerLayoutManager);
-        recyclerWishOuter.setAdapter(outerListAdapter);
-
-        topListAdapter.notifyDataSetChanged();
         flag_last_wish = 0;
     }
 

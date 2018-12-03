@@ -4,15 +4,17 @@ public class Wishlist {
     public static final int CLOTHING_TOP = 0;
     public static final int CLOTHING_PANTS = 1;
     public static final int CLOTHING_OUTER = 2;
-    private int cid, uid, sid;
+    private static int WISH_COUNT = 0;
+    private int cid, uid, sid, wid;
     private String name, dscrp; //dscrp == price
     private String imgURL;
     private int type;
     public Wishlist() {
+        this.wid = WISH_COUNT++;
     }
 
     public Wishlist(int uid) {
-        this.uid = uid;
+        this.uid = uid;this.wid = WISH_COUNT++;
     }
 
     public Wishlist(int cid, int uid, String name, String dscrp) {
@@ -20,6 +22,7 @@ public class Wishlist {
         this.uid = uid;
         this.name = name;
         this.dscrp = dscrp;
+        this.wid = WISH_COUNT++;
     }
 
     public int getCid() {
@@ -48,6 +51,14 @@ public class Wishlist {
 
     public int getUid() {
         return uid;
+    }
+
+    public int getWid() {
+        return wid;
+    }
+
+    public void setWid(int wid) {
+        this.wid = wid;
     }
 
     public void setUid(int uid) {

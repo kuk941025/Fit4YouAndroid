@@ -9,14 +9,21 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import skku.fit4you_android.R;
 import skku.fit4you_android.etc.ImageItems;
 
 public class ImageListAdapter extends BaseAdapter {
-
+    private Context mContext;
     private ArrayList<ImageItems> Iitems = new ArrayList<>();
+
+    public ImageListAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
+
     @Override
     public int getCount() {
         return Iitems.size();
@@ -49,7 +56,8 @@ public class ImageListAdapter extends BaseAdapter {
         ImageItems myItem = getItem(position);
 
         /* 각 위젯에 세팅된 아이템을 뿌려준다 */
-        iv_img.setImageDrawable(myItem.getImg());
+//        iv_img.setImageDrawable(myItem.getImg());
+        Glide.with(mContext).load(myItem.getImg()).into(iv_img);
         tv_name.setText(myItem.getImgname());
         /* (위젯에 대한 이벤트리스너를 지정하고 싶다면 여기에 작성하면된다..)  */
         return convertView;

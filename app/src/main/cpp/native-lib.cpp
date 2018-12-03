@@ -1,4 +1,8 @@
 #include <jni.h>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <map>
 #include <utility>
@@ -61,5 +65,47 @@ Java_skku_fit4you_1android_activity_RegisterActivity_sendData(JNIEnv *env, jobje
     for (int i = 0; i < stringCount; i++){
         env->SetObjectArrayElement(ret, i, env->NewStringUTF(test[i]));
     }
+
+    Vec4b a;
+
     return ret;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_skku_fit4you_1android_activity_UploadClothingActivity_addColorToClothing(JNIEnv *env,
+                                                                              jobject instance,
+                                                                              jlong matAddrInput,
+                                                                              jint color_red,
+                                                                              jint color_blue,
+                                                                              jint color_green) {
+
+    // TODO
+    Mat &matInput = *(Mat *)matAddrInput;
+
+    int height = matInput.rows;
+    int width = matInput.cols;
+
+    int selected_r = (int) color_red;
+    int selected_b = (int) color_blue;
+    int selected_g = (int) color_green;
+
+    for (int y = 0; y < height; y++){
+        for (int x = 0; x < width; x ++){
+            Vec4b pixcel = matInput.at<Vec4b>(y, x);
+
+            int b = pixcel[0];
+            int g = pixcel[1];
+            int r = pixcel[2];
+
+            int trans = pixcel[3];
+            if (b == 255 && g == 255 && r == 255 && trans > 0){
+                matInput.at<Vec4b>(y,x)[0] = selected_r;
+                matInput.at<Vec4b>(y,x)[1] = selected_b;
+                matInput.at<Vec4b>(y,x)[2] = selected_g;
+            }
+        }
+    }
+
+
 }
