@@ -2,11 +2,11 @@ package skku.fit4you_android.retrofit.response;
 
 public class ResponseClothing {
     public final int id, views, cost, season, gender, uid, oid, like, numClothing;
-    public final String cname, hashtag, link, mallname, basicimage, photo1, photo2, photo3, islike;
+    public final String cname, hashtag, link, mallname, basicimage, photo1, photo2, photo3, islike, createdAt;
 
-    public ResponseClothing(int id, int views, int cost, int season, int gender, int uid, int oid, int like, int numClothing,
-                            String cname, String hashtag, String link, String mallname, String basicimage, String photo1,
-                            String photo2, String photo3, String islike) {
+    public ResponseClothing(int id, int views, int cost, int season, int gender, int uid, int oid, int like, int numClothing, String cname,
+                            String hashtag, String link, String mallname, String basicimage, String photo1, String photo2, String photo3,
+                            String islike, String createdAt) {
         this.id = id;
         this.views = views;
         this.cost = cost;
@@ -25,5 +25,6 @@ public class ResponseClothing {
         this.photo2 = photo2;
         this.photo3 = photo3;
         this.islike = islike;
+        this.createdAt = createdAt;
     }
 }

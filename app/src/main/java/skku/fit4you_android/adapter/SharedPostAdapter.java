@@ -44,14 +44,19 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             holder.viewClothing.setVisibility(View.VISIBLE);
             holder.viewStyle.setVisibility(View.GONE);
             //set viewpager adpater
-            List<Drawable> temp = new ArrayList<>();
-            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_add));
-            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_avatar));
-            PostImageViewAdapter postImageViewAdapter = new PostImageViewAdapter(mContext, temp);
+//            List<Drawable> temp = new ArrayList<>();
+//            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_add));
+//            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_avatar));
+            List<String> listURL = new ArrayList<>();
+            if (sharedPosts.get(position).getPhoto1() != null) listURL.add(sharedPosts.get(position).getPhoto1());
+            if (sharedPosts.get(position).getPhoto2() != null) listURL.add(sharedPosts.get(position).getPhoto2());
+            if (sharedPosts.get(position).getPhoto3() != null) listURL.add(sharedPosts.get(position).getPhoto3());
+            PostImageViewAdapter postImageViewAdapter = new PostImageViewAdapter(mContext, listURL);
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
-            //holder.txtClothingCost.setText(sharedPosts.get(position).getCost());
+            holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
+            holder.txtPostDate.setText(sharedPosts.get(position).getDate());
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);

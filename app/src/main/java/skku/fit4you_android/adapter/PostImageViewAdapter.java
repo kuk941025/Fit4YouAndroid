@@ -9,25 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.retrofit.RetroApiService;
 
 public class PostImageViewAdapter extends PagerAdapter {
     Context context;
-    List<Drawable> obj;
+    List<String> imageURL;
     @BindView(R.id.template_post_item_clothing_img)
     ImageView imgClothing;
-    public PostImageViewAdapter(Context context, List<Drawable> obj) {
+    public PostImageViewAdapter(Context context, List<String> imageURL) {
         this.context = context;
-        this.obj = obj;
+        this.imageURL = imageURL;
     }
 
     @Override
     public int getCount() {
-        return obj.size();
+        return imageURL.size();
     }
 
     @NonNull
@@ -37,7 +40,8 @@ public class PostImageViewAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.template_post_item_clothing_img, container, false);
         ButterKnife.bind(this, view);
-        imgClothing.setImageDrawable(obj.get(position));
+//        imgClothing.setImageDrawable(imageURL.get(position));
+        Glide.with(context).load(RetroApiService.IMAGE_URL + imageURL.get(position)).into(imgClothing);
         container.addView(view);
         return view;
     }

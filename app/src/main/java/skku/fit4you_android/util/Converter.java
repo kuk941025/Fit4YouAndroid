@@ -52,7 +52,7 @@ public class Converter {
             sharedPost.setNum_likes(clothing.like);
             sharedPost.setIsLike(clothing.islike);
             sharedPost.setType_of_post(SharedPost.POST_CLOTHING);
-
+            sharedPost.setDate(clothing.createdAt.substring(0, 10));
             sharedPosts.add(sharedPost);
         }
 

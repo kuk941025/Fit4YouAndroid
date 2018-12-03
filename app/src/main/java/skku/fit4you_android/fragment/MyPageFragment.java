@@ -53,7 +53,7 @@ public class MyPageFragment extends Fragment {
         recyclerNewsFeed.setLayoutManager(layoutManager);
     }
     private void loadNewsFeed(){
-        for (int i = 0; i < 50; i++){
+        for (int i = 0; i < 10; i++){
             SharedPost post = new SharedPost();
             if (i % 2 == 0) post.setType_of_post(SharedPost.POST_STYLE_SHARE);
             else post.setType_of_post(SharedPost.POST_CLOTHING);

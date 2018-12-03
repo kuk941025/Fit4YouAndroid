@@ -6,8 +6,8 @@ public class SharedPost {
     public static int POST_CLOTHING = 1;
     public static int POST_STYLE_SHARE = 2;
     private String clothing_name, user_name, hash_tags, mallURL, mall_name, basic_image;
-    private String photo1, photo2, photo3, isLike;
-    private Date date;
+    private String photo1, photo2, photo3, isLike, date;
+
     private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid;
 
     public String getIsLike() {
@@ -146,11 +146,11 @@ public class SharedPost {
         this.hash_tags = hash_tags;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

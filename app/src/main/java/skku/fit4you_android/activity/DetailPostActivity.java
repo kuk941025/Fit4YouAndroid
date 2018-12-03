@@ -89,12 +89,13 @@ public class DetailPostActivity extends AppCompatActivity {
         recyclerComments.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    private void setImageViewAdapter(){
-        List<Drawable> temp = new ArrayList<>();
-        temp.add(ContextCompat.getDrawable(this, R.drawable.img_add));
-        temp.add(ContextCompat.getDrawable(this, R.drawable.img_avatar));
-        temp.add(ContextCompat.getDrawable(this, R.drawable.img_search));
 
+    private void setImageViewAdapter(){
+//        List<Drawable> temp = new ArrayList<>();
+//        temp.add(ContextCompat.getDrawable(this, R.drawable.img_add));
+//        temp.add(ContextCompat.getDrawable(this, R.drawable.img_avatar));
+//        temp.add(ContextCompat.getDrawable(this, R.drawable.img_search));
+        List<String> temp = new ArrayList<>();
         imageViewAdapter = new PostImageViewAdapter(this, temp);
         viewPager.setAdapter(imageViewAdapter);
 
