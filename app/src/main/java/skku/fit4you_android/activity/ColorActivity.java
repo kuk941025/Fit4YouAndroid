@@ -3,6 +3,7 @@ package skku.fit4you_android.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +28,7 @@ public class ColorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentResult = getIntent();
                 intentResult.putExtra("Color",color);
+                Log.d("in colorpicker:",color);
                 setResult(RESULT_OK,intentResult);
                 finish();
             }
@@ -34,9 +36,12 @@ public class ColorActivity extends AppCompatActivity {
         CPV.setColorListener(new ColorListener() {
             @Override
             public void onColorSelected(ColorEnvelope colorEnvelope) {
-                btn_ok.setBackgroundColor(colorEnvelope.getColor());
-                color = ""+colorEnvelope.getColor();
-
+                int colorint = colorEnvelope.getColor();
+                btn_ok.setBackgroundColor(colorint);
+                color = String.valueOf(colorint);
+                //colorEnvelope.getColor(); // int
+                //colorEnvelope.getHtmlCode(); // String
+                //colorEnvelope.getRgb();
             }
         });
     }
