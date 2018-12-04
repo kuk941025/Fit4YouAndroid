@@ -9,7 +9,6 @@
         android:id="@+id/template_post_item_style_preview_large"
         android:layout_width="match_parent"
         android:layout_height="@dimen/template_post_img_preview_height"
-        android:background="@color/colorLightGray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

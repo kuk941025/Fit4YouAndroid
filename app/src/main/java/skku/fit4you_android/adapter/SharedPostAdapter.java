@@ -82,7 +82,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         holder.txtHashTags.setText(selectedPost.getHash_tags());
 
     }
-    
+
     @Override
     public int getItemCount() {
         return sharedPosts.size();
