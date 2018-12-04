@@ -299,4 +299,34 @@ public class RetroClient {
             }
         });
     }
+
+    public void getUserClothing(String page_num, String uid, final RetroCallback callback){
+        apiService.getUserClothing(page_num, uid).enqueue(new Callback<List<ResponseClothing>>() {
+            @Override
+            public void onResponse(Call<List<ResponseClothing>> call, Response<List<ResponseClothing>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseClothing>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getUserPost(String page_num, String uid, final RetroCallback callback){
+        apiService.getUserPost(page_num, uid).enqueue(new Callback<List<ResponsePost>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePost>> call, Response<List<ResponsePost>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

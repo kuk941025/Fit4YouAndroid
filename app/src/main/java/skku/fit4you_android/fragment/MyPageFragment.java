@@ -10,12 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
+import skku.fit4you_android.retrofit.RetroApiService;
+import skku.fit4you_android.retrofit.RetroCallback;
+import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.ResponseClothing;
+import skku.fit4you_android.retrofit.response.ResponsePost;
+import skku.fit4you_android.util.Converter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +34,10 @@ public class MyPageFragment extends Fragment {
     View fragView = null;
     private ArrayList<SharedPost> sharedPosts;
     private SharedPostAdapter sharedPostAdapter;
+    private RetroClient retroClient;
+    private ArrayList<ResponseClothing> clothingList;
+    private ArrayList<ResponsePost> postList;
+    private int flag_post, flag_clothing;
     public MyPageFragment() {
         // Required empty public constructor
     }
@@ -39,6 +51,9 @@ public class MyPageFragment extends Fragment {
             fragView = inflater.inflate(R.layout.fragment_my_page, container, false);
             ButterKnife.bind(this, fragView);
             initPostList();
+            flag_post = flag_clothing = 0;
+            retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
+            loadNewsFeed();
         }
 
         return fragView;
@@ -46,21 +61,59 @@ public class MyPageFragment extends Fragment {
 
     private void initPostList(){
         sharedPosts = new ArrayList<>();
-        loadNewsFeed();
         sharedPostAdapter = new SharedPostAdapter(getContext(), sharedPosts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerNewsFeed.setAdapter(sharedPostAdapter);
         recyclerNewsFeed.setLayoutManager(layoutManager);
     }
     private void loadNewsFeed(){
-//        for (int i = 0; i < 10; i++){
-//            SharedPost post = new SharedPost();
-//            if (i % 2 == 0) post.setType_of_post(SharedPost.POST_STYLE_SHARE);
-//            else post.setType_of_post(SharedPost.POST_CLOTHING);
-//
-//            post.setClothing_name("Clothing name " + i);
-//            post.setUser_name("User name " + i);
-//            sharedPosts.add(post);
-//        }
+        retroClient.getUserClothing("1", Integer.toString(FitApp.getInstance().getUid()), new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                flag_clothing = 1;
+                clothingList = (ArrayList<ResponseClothing>) receivedData;
+                if (flag_post == 1){
+                    setRecyclerNewsFeed();
+                }
+            }
+
+            @Override
+            public void onFailure(int code) {
+
+            }
+        });
+
+        retroClient.getUserPost("1", Integer.toString(FitApp.getInstance().getUid()), new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                flag_post = 1;
+                postList = (ArrayList<ResponsePost>)receivedData;
+                if (flag_clothing == 1){
+                    setRecyclerNewsFeed();
+                }
+            }
+
+            @Override
+            public void onFailure(int code) {
+
+            }
+        });
+
+    }
+
+    private void setRecyclerNewsFeed(){
+        Converter.responsePostToSharedPost(postList, sharedPosts);
+        Converter.responseClothingToSharedPost(clothingList, sharedPosts);
+        sharedPostAdapter.notifyDataSetChanged();
     }
 }

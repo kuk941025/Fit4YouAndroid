@@ -1,14 +1,21 @@
 package skku.fit4you_android.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
-public class SharedPost {
+public class SharedPost implements Comparable<SharedPost>{
     public static int POST_CLOTHING = 1;
     public static int POST_STYLE_SHARE = 2;
     private String clothing_name, user_name, hash_tags, mallURL, mall_name, basic_image;
     private String photo1, photo2, photo3, isLike;
     private Date date;
     private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid;
+
+    @Override
+    public int compareTo(@NonNull SharedPost o) {
+        return getDate().compareTo(o.getDate());
+    }
 
     public String getIsLike() {
         return isLike;
