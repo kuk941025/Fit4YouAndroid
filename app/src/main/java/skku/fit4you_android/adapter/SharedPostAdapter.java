@@ -1,6 +1,7 @@
 package skku.fit4you_android.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -150,10 +151,25 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         }
 
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
         @OnClick(R.id.template_post_item_add_wishlist)
         void onAddWishListClicked() {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            
+            builder.setMessage("Do you want to add the item to wishlist?").setPositiveButton("Yes", dialogListener)
+                    .setNegativeButton("No", dialogListener).show();
 
         }
 
@@ -168,11 +184,9 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             Drawable temp = imgPreviewLarge.getDrawable();
             imgPreviewLarge.setImageDrawable(imgPreviewSmall.getDrawable());
             imgPreviewSmall.setImageDrawable(temp);
-//            Glide.with(mContext).load(imgPreviewSmall.getDrawable()).into(imgPreviewLarge);
-//            Glide.with(mContext).load(temp).into(imgPreviewSmall);
         }
 
-        @OnClick(R.id.detail_post_img_like)
+        @OnClick(R.id.template_post_item_like)
         void onLikeClikced() {
             final SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
             if (selectedPost.getType_of_post() == SharedPost.POST_STYLE_SHARE) {
