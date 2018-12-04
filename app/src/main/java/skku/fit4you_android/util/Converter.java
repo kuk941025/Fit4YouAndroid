@@ -39,6 +39,7 @@ public class Converter {
     public static void responseClothingToSharedPost(ArrayList<ResponseClothing> responseClothings, ArrayList<SharedPost> sharedPosts){
         for (ResponseClothing clothing : responseClothings){
             SharedPost sharedPost = new SharedPost();
+            sharedPost.setId(clothing.id);
             sharedPost.setClothing_name(clothing.cname);
             sharedPost.setViews(clothing.views);
             sharedPost.setHash_tags(clothing.hashtag);
@@ -53,7 +54,8 @@ public class Converter {
             sharedPost.setUid(clothing.uid);
             sharedPost.setOid(clothing.oid);
             sharedPost.setNum_likes(clothing.like);
-            sharedPost.setIsLike(clothing.islike);
+            if (clothing.islike == "true") sharedPost.setLike(true);
+            else sharedPost.setLike(false);
             sharedPost.setType_of_post(SharedPost.POST_CLOTHING);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             try {
@@ -68,6 +70,7 @@ public class Converter {
     public static void responsePostToSharedPost(ArrayList<ResponsePost> responsePosts, ArrayList<SharedPost> sharedPosts){
         for (ResponsePost post : responsePosts){
             SharedPost sharedPost = new SharedPost();
+            sharedPost.setId(post.id);
             sharedPost.setClothing_name(post.title);
             sharedPost.setCost(post.totalcost);
             sharedPost.setViews(post.views);
@@ -78,7 +81,8 @@ public class Converter {
             } catch (ParseException e){e.printStackTrace();}
             sharedPost.setUid(post.uid);
             sharedPost.setNum_likes(post.like);
-            sharedPost.setIsLike(post.islike);
+            if (post.islike == "true") sharedPost.setLike(true);
+            else sharedPost.setLike(false);
             sharedPost.setNum_comments(post.commentnum);
             sharedPost.setPhoto1(post.avatarimage);
             sharedPost.setPhoto2(post.clothingimage);

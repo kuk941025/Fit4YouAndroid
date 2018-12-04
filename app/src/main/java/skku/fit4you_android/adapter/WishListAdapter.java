@@ -48,7 +48,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
 
     @Override
     public void onBindViewHolder(@NonNull wishitemViewHolder holder, final int position) {
-        holder.textDscrp.setText(wishlists.get(position).getDscrp());
+        holder.textDscrp.setText(wishlists.get(position).getDscrp() + " won");
         holder.textName.setText(wishlists.get(position).getName());
         if (wishlists.get(position).getWid() == selectedCid){
             holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.gray_light, null));

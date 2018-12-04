@@ -8,21 +8,29 @@ public class SharedPost implements Comparable<SharedPost>{
     public static int POST_CLOTHING = 1;
     public static int POST_STYLE_SHARE = 2;
     private String clothing_name, user_name, hash_tags, mallURL, mall_name, basic_image;
-    private String photo1, photo2, photo3, isLike;
+    private String photo1, photo2, photo3;
     private Date date;
-    private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid;
-
+    private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid, id;
+    private boolean isLike;
     @Override
     public int compareTo(@NonNull SharedPost o) {
         return getDate().compareTo(o.getDate());
     }
 
-    public String getIsLike() {
+    public boolean isLike() {
         return isLike;
     }
 
-    public void setIsLike(String isLike) {
-        this.isLike = isLike;
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getOid() {

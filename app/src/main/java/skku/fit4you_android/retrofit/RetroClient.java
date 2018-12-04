@@ -21,6 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import skku.fit4you_android.retrofit.response.ReponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
+import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
@@ -325,6 +326,36 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postAddLike(String pid, final RetroCallback callback){
+        apiService.postAddLike(pid).enqueue(new Callback<ResponseLike>() {
+            @Override
+            public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseLike> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postDeleteLike(String pid, final RetroCallback callback){
+        apiService.postDeleteLike(pid).enqueue(new Callback<ResponseLike>() {
+            @Override
+            public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseLike> call, Throwable t) {
                 callback.onError(t);
             }
         });
