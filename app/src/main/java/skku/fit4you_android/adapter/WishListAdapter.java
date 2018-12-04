@@ -103,10 +103,10 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
                             notifyItemChanged(recentlySelected);
                         }
                         recentlySelected = getLayoutPosition();
+                        imgActualClothing.setVisibility(View.VISIBLE);
+                        Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(getLayoutPosition()).getImgURL()).into(imgActualClothing);
                     }
                     notifyItemChanged(getLayoutPosition());
-                    imgActualClothing.setVisibility(View.VISIBLE);
-                    Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(getLayoutPosition()).getImgURL()).into(imgActualClothing);
                 }
             });
         }

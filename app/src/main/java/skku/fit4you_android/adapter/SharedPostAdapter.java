@@ -159,7 +159,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             @Override
             public void onClick(View v) {
                 Drawable temp = imgPreviewLarge.getDrawable();
-                Glide.with(mContext).load(imgPreviewSmall).into(imgPreviewLarge);
+                Glide.with(mContext).load(imgPreviewSmall.getDrawable()).into(imgPreviewLarge);
                 Glide.with(mContext).load(temp).into(imgPreviewSmall);
             }
         };

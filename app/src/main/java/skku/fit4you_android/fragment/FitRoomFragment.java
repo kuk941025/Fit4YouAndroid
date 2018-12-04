@@ -52,7 +52,7 @@ public class FitRoomFragment extends Fragment {
     View btnShowOuter;
     @BindView(R.id.fit_avatar)
     ImageView imgAvatar;
-    @BindView(R.id.fit_add_wishlist)
+    @BindView(R.id.fit_refresh_wishlist)
     ImageView imgAddVatar;
     @BindView(R.id.fit_layout_avatar)
     RelativeLayout layoutAvatar;
@@ -127,11 +127,15 @@ public class FitRoomFragment extends Fragment {
         setSheetBehavior();
         setBottomList();
         initRecyclerViews();
+        topWishlists.clear();
+        pantsWishlists.clear();
+        outerWishlists.clear();
         getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
     }
 
-    @OnClick(R.id.fit_add_wishlist)
+    @OnClick(R.id.fit_refresh_wishlist)
     void onAddWishlistClicked(){;
+        getWishLists();
     }
 
     private void initRecyclerViews(){

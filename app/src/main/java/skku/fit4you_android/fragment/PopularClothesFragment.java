@@ -104,14 +104,6 @@ public class PopularClothesFragment extends Fragment {
 
             }
         });
-//        for (int i = 0; i < 10; i++){
-//            //temp data
-//            SharedPost post = new SharedPost();
-//            post.setType_of_post(SharedPost.POST_CLOTHING);
-//            post.setClothing_name("Clothing name" + i);
-//            post.setUser_name("User Name" + i);
-//            sharedPosts.add(post);
-//        }
     }
     public void notifyFrag(){
         if (getContext() != null && !isRefreshed){
