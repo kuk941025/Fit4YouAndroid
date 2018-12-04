@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.activity.DetailPostActivity;
 import skku.fit4you_android.activity.MainActivity;
 import skku.fit4you_android.model.SharedPost;
@@ -39,13 +41,14 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
     private ArrayList<SharedPost> sharedPosts;
     private Context mContext;
     private RetroClient retroClient;
+
     public SharedPostAdapter(Context mContext, ArrayList<SharedPost> sharedPosts) {
         this.sharedPosts = sharedPosts;
         this.mContext = mContext;
         initRetroClient();
     }
 
-    private void initRetroClient(){
+    private void initRetroClient() {
         retroClient = RetroClient.getInstance(mContext).createBaseApi();
     }
 
@@ -59,22 +62,24 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
     @Override
     public void onBindViewHolder(@NonNull postViewHolder holder, int position) {
         SharedPost selectedPost = sharedPosts.get(position);
-        if (selectedPost.getType_of_post() == SharedPost.getPostClothing()){
+        if (selectedPost.getType_of_post() == SharedPost.getPostClothing()) {
             holder.viewClothing.setVisibility(View.VISIBLE);
             holder.viewStyle.setVisibility(View.GONE);
 
             List<String> listURL = new ArrayList<>();
-            if (sharedPosts.get(position).getPhoto1() != null) listURL.add(sharedPosts.get(position).getPhoto1());
-            if (sharedPosts.get(position).getPhoto2() != null) listURL.add(sharedPosts.get(position).getPhoto2());
-            if (sharedPosts.get(position).getPhoto3() != null) listURL.add(sharedPosts.get(position).getPhoto3());
+            if (sharedPosts.get(position).getPhoto1() != null)
+                listURL.add(sharedPosts.get(position).getPhoto1());
+            if (sharedPosts.get(position).getPhoto2() != null)
+                listURL.add(sharedPosts.get(position).getPhoto2());
+            if (sharedPosts.get(position).getPhoto3() != null)
+                listURL.add(sharedPosts.get(position).getPhoto3());
             PostImageViewAdapter postImageViewAdapter = new PostImageViewAdapter(mContext, listURL);
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
             holder.txtComments.setText(selectedPost.getNum_likes() + " likes");
             holder.txtMallName.setText(selectedPost.getMall_name());
-        }
-        else{
+        } else {
             holder.viewClothing.setVisibility(View.GONE);
             holder.viewStyle.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + selectedPost.getPhoto2())
@@ -103,7 +108,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         return sharedPosts.size();
     }
 
-    class postViewHolder extends RecyclerView.ViewHolder{
+    class postViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.template_post_item_name)
         TextView txtItemName;
         @BindView(R.id.template_post_item_user_name)
@@ -138,141 +143,144 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         ImageView imgPreviewSmall;
         @BindView(R.id.template_post_item_like)
         ImageView imgLike;
+
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            imgLike.setOnClickListener(onUpdateLikeClicked);
-            txtComments.setOnClickListener(onShowDetailedView);
-            imgPreviewLarge.setOnClickListener(onSwitchViews);
-            imgPreviewSmall.setOnClickListener(onSwitchViews);
         }
-        View.OnClickListener onShowDetailedView = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailPostActivity.class);
-                mContext.startActivity(intent);
-            }
-        };
 
-        View.OnClickListener onSwitchViews = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Drawable temp = imgPreviewLarge.getDrawable();
-                Glide.with(mContext).load(imgPreviewSmall.getDrawable()).into(imgPreviewLarge);
-                Glide.with(mContext).load(temp).into(imgPreviewSmall);
-            }
-        };
+        @OnClick(R.id.template_post_item_add_wishlist)
+        void onAddWishListClicked() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            
 
-        View.OnClickListener onUpdateLikeClicked = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
-                if (selectedPost.getType_of_post() == SharedPost.POST_STYLE_SHARE) {
-                    if (selectedPost.isLike()) { //remove like
-                        retroClient.postPostDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
-                            @Override
-                            public void onError(Throwable t) {
+        }
 
-                            }
-                            @Override
-                            public void onSuccess(int code, Object receivedData) {
-                                ResponseLike responseLike = (ResponseLike) receivedData;
-                                if (responseLike.success == "true") {
-                                    Toast.makeText(mContext, "Like removed.", Toast.LENGTH_SHORT).show();
-                                    selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
-                                    selectedPost.setLike(false);
-                                    notifyItemChanged(getLayoutPosition());
-                                } else {
+        @OnClick(R.id.template_post_item_comments)
+        void onCommentClicked() {
+            Intent intent = new Intent(mContext, DetailPostActivity.class);
+            mContext.startActivity(intent);
+        }
 
-                                }
-                            }
-                            @Override
-                            public void onFailure(int code) {
+        @OnClick({R.id.template_post_item_style_preview_small, R.id.template_post_item_style_preview_large})
+        void onPreviewsClicked() {
+            Drawable temp = imgPreviewLarge.getDrawable();
+            imgPreviewLarge.setImageDrawable(imgPreviewSmall.getDrawable());
+            imgPreviewSmall.setImageDrawable(temp);
+//            Glide.with(mContext).load(imgPreviewSmall.getDrawable()).into(imgPreviewLarge);
+//            Glide.with(mContext).load(temp).into(imgPreviewSmall);
+        }
 
-                            }
-                        });
-                    } else {
-                        retroClient.postPostAddLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
-                            @Override
-                            public void onError(Throwable t) {
+        @OnClick(R.id.detail_post_img_like)
+        void onLikeClikced() {
+            final SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
+            if (selectedPost.getType_of_post() == SharedPost.POST_STYLE_SHARE) {
+                if (selectedPost.isLike()) { //remove like
+                    retroClient.postPostDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseLike responseLike = (ResponseLike) receivedData;
+                            if (responseLike.success == "true") {
+                                Toast.makeText(mContext, "Like removed.", Toast.LENGTH_SHORT).show();
+                                selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
+                                selectedPost.setLike(false);
+                                notifyItemChanged(getLayoutPosition());
+                            } else {
 
                             }
+                        }
 
-                            @Override
-                            public void onSuccess(int code, Object receivedData) {
-                                ResponseLike responseLike = (ResponseLike) receivedData;
-                                if (responseLike.success == "true") {
-                                    Toast.makeText(mContext, "Like added.", Toast.LENGTH_SHORT).show();
-                                    selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
-                                    selectedPost.setLike(true);
-                                    notifyItemChanged(getLayoutPosition());
-                                } else {
+                        @Override
+                        public void onFailure(int code) {
 
-                                }
+                        }
+                    });
+                } else {
+                    retroClient.postPostAddLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseLike responseLike = (ResponseLike) receivedData;
+                            if (responseLike.success == "true") {
+                                Toast.makeText(mContext, "Like added.", Toast.LENGTH_SHORT).show();
+                                selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
+                                selectedPost.setLike(true);
+                                notifyItemChanged(getLayoutPosition());
+                            } else {
+
                             }
+                        }
 
-                            @Override
-                            public void onFailure(int code) {
+                        @Override
+                        public void onFailure(int code) {
 
-                            }
-                        });
-                    }
+                        }
+                    });
                 }
-                else{
-                    if (selectedPost.isLike()){
-                        retroClient.postClothingDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
-                            @Override
-                            public void onError(Throwable t) {
+            } else {
+                if (selectedPost.isLike()) {
+                    retroClient.postClothingDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseLike responseLike = (ResponseLike) receivedData;
+                            if (responseLike.success == "true") {
+                                Toast.makeText(mContext, "Like removed", Toast.LENGTH_SHORT).show();
+                                selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
+                                selectedPost.setLike(false);
+                                notifyItemChanged(getLayoutPosition());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+
+                        }
+                    });
+                } else {
+                    retroClient.postClothingAddLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseLike responseLike = (ResponseLike) receivedData;
+                            if (responseLike.success == "true") {
+                                Toast.makeText(mContext, "Like added.", Toast.LENGTH_SHORT).show();
+                                selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
+                                selectedPost.setLike(true);
+                                notifyItemChanged(getLayoutPosition());
+                            } else {
 
                             }
+                        }
 
-                            @Override
-                            public void onSuccess(int code, Object receivedData) {
-                                ResponseLike responseLike = (ResponseLike) receivedData;
-                                if (responseLike.success == "true"){
-                                    Toast.makeText(mContext, "Like removed", Toast.LENGTH_SHORT).show();
-                                    selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
-                                    selectedPost.setLike(false);
-                                    notifyItemChanged(getLayoutPosition());
-                                }
-                            }
+                        @Override
+                        public void onFailure(int code) {
 
-                            @Override
-                            public void onFailure(int code) {
-
-                            }
-                        });
-                    }
-                    else{
-                        retroClient.postClothingAddLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
-                            @Override
-                            public void onError(Throwable t) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(int code, Object receivedData) {
-                                ResponseLike responseLike = (ResponseLike) receivedData;
-                                if (responseLike.success == "true") {
-                                    Toast.makeText(mContext, "Like added.", Toast.LENGTH_SHORT).show();
-                                    selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
-                                    selectedPost.setLike(true);
-                                    notifyItemChanged(getLayoutPosition());
-                                } else {
-
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(int code) {
-
-                            }
-                        });
-                    }
-
+                        }
+                    });
                 }
+
             }
-        };
+        }
+
+
     }
 }
