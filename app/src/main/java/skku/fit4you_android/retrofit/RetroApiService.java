@@ -83,7 +83,11 @@ public interface RetroApiService {
                                                  @Path("gender") String gender, @Path("season") String season);
     @GET("/clothing/user/{page_num}/{uid}")
     Call <List<ResponseClothing>> getUserClothing(@Path("page_num") String page_num, @Path("uid") String uid);
-
+    @FormUrlEncoded
+    @POST("/clothing/addlike")
+    Call <ResponseLike> postClothingAddLike(@Field("pid") String pid);
+    @POST("/clothing/deletelike")
+    Call <ResponseLike> postClothingDeleteLike(@Field("pid") String pid);
 
     //POST
     @GET("/post/all/{page_num}/{option_num}")
@@ -92,10 +96,10 @@ public interface RetroApiService {
     Call <List<ResponsePost>> getUserPost(@Path("page_num") String page_num, @Path("uid") String uid);
     @FormUrlEncoded
     @POST("/post/addlike")
-    Call <ResponseLike> postAddLike(@Field("pid") String pid);
+    Call <ResponseLike> postPostAddLike(@Field("pid") String pid);
     @FormUrlEncoded
     @POST("/post/deletelike")
-    Call <ResponseLike> postDeleteLike(@Field("pid") String pid);
+    Call <ResponseLike> postPostDeleteLike(@Field("pid") String pid);
     //LIKE
 
 

@@ -331,8 +331,8 @@ public class RetroClient {
         });
     }
 
-    public void postAddLike(String pid, final RetroCallback callback){
-        apiService.postAddLike(pid).enqueue(new Callback<ResponseLike>() {
+    public void postPostAddLike(String pid, final RetroCallback callback){
+        apiService.postPostAddLike(pid).enqueue(new Callback<ResponseLike>() {
             @Override
             public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
@@ -346,8 +346,8 @@ public class RetroClient {
         });
     }
 
-    public void postDeleteLike(String pid, final RetroCallback callback){
-        apiService.postDeleteLike(pid).enqueue(new Callback<ResponseLike>() {
+    public void postPostDeleteLike(String pid, final RetroCallback callback){
+        apiService.postPostDeleteLike(pid).enqueue(new Callback<ResponseLike>() {
             @Override
             public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
@@ -360,4 +360,36 @@ public class RetroClient {
             }
         });
     }
+
+    public void postClothingAddLike(String pid, final RetroCallback callback){
+        apiService.postClothingAddLike(pid).enqueue(new Callback<ResponseLike>() {
+            @Override
+            public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseLike> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postClothingDeleteLike(String pid, final RetroCallback callback){
+        apiService.postClothingDeleteLike(pid).enqueue(new Callback<ResponseLike>() {
+            @Override
+            public void onResponse(Call<ResponseLike> call, Response<ResponseLike> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseLike> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+
 }
