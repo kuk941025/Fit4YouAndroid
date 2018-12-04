@@ -85,9 +85,10 @@ public interface RetroApiService {
     Call <List<ResponseClothing>> getUserClothing(@Path("page_num") String page_num, @Path("uid") String uid);
     @FormUrlEncoded
     @POST("/clothing/addlike")
-    Call <ResponseLike> postClothingAddLike(@Field("pid") String pid);
+    Call <ResponseLike> postClothingAddLike(@Field( "cid") String cid);
+    @FormUrlEncoded
     @POST("/clothing/deletelike")
-    Call <ResponseLike> postClothingDeleteLike(@Field("pid") String pid);
+    Call <ResponseLike> postClothingDeleteLike(@Field("cid") String cid);
 
     //POST
     @GET("/post/all/{page_num}/{option_num}")

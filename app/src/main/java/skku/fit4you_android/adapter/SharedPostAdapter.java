@@ -140,7 +140,6 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             ButterKnife.bind(this, itemView);
 
             imgLike.setOnClickListener(onUpdateLikeClicked);
-            txtComments.setOnClickListener(onUpdateLikeClicked);
         }
         View.OnClickListener onUpdateLikeClicked = new View.OnClickListener() {
             @Override
