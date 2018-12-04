@@ -128,17 +128,18 @@ public class FitRoomFragment extends Fragment {
         setBottomList();
         initRecyclerViews();
 
+        getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
+    }
+
+    @OnClick(R.id.fit_refresh_wishlist)
+    void onAddWishlistClicked(){;
         txtTotalWishlists.setText("items loading...");
         topWishlists.clear();
         pantsWishlists.clear();
         outerWishlists.clear();
         combinedWishlist.clear();
         if (responseWishLists != null) responseWishLists.clear();
-        getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
-    }
 
-    @OnClick(R.id.fit_refresh_wishlist)
-    void onAddWishlistClicked(){;
         getWishLists();
     }
 
