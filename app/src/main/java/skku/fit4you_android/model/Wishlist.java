@@ -9,12 +9,15 @@ public class Wishlist {
     private String name, dscrp; //dscrp == price
     private String imgURL;
     private int type;
+    private boolean isUserSelected;
     public Wishlist() {
         this.wid = WISH_COUNT++;
+        isUserSelected = false;
     }
 
     public Wishlist(int uid) {
         this.uid = uid;this.wid = WISH_COUNT++;
+        isUserSelected = false;
     }
 
     public Wishlist(int cid, int uid, String name, String dscrp) {
@@ -23,6 +26,15 @@ public class Wishlist {
         this.name = name;
         this.dscrp = dscrp;
         this.wid = WISH_COUNT++;
+        isUserSelected = false;
+    }
+
+    public boolean isUserSelected() {
+        return isUserSelected;
+    }
+
+    public void setUserSelected(boolean userSelected) {
+        isUserSelected = userSelected;
     }
 
     public int getCid() {

@@ -87,7 +87,6 @@ public class FitRoomFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_fit_room, container, false);
             ButterKnife.bind(this, fragView);
-            layoutAvatar.setBackgroundColor(Color.GRAY);
             fragView.post(new Runnable() {
                 @Override
                 public void run() {

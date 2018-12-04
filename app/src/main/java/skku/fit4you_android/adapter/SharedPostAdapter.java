@@ -1,6 +1,7 @@
 package skku.fit4you_android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -24,6 +25,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import skku.fit4you_android.activity.DetailPostActivity;
+import skku.fit4you_android.activity.MainActivity;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.retrofit.RetroApiService;
@@ -140,13 +143,33 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             ButterKnife.bind(this, itemView);
 
             imgLike.setOnClickListener(onUpdateLikeClicked);
+            txtComments.setOnClickListener(onShowDetailedView);
+            imgPreviewLarge.setOnClickListener(onSwitchViews);
+            imgPreviewSmall.setOnClickListener(onSwitchViews);
         }
+        View.OnClickListener onShowDetailedView = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailPostActivity.class);
+                mContext.startActivity(intent);
+            }
+        };
+
+        View.OnClickListener onSwitchViews = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable temp = imgPreviewLarge.getDrawable();
+                Glide.with(mContext).load(imgPreviewSmall).into(imgPreviewLarge);
+                Glide.with(mContext).load(temp).into(imgPreviewSmall);
+            }
+        };
+
         View.OnClickListener onUpdateLikeClicked = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
                 if (selectedPost.getType_of_post() == SharedPost.POST_STYLE_SHARE) {
-                    if (selectedPost.isLike() == true) { //remove like
+                    if (selectedPost.isLike()) { //remove like
                         retroClient.postPostDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
                             @Override
                             public void onError(Throwable t) {

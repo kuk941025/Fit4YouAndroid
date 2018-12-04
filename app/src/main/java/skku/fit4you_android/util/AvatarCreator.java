@@ -65,7 +65,7 @@ public class AvatarCreator {
         imgBody.setLayoutParams(bodyParams);
         imgBody.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_body));
         imgBody.setScaleType(ImageView.ScaleType.FIT_XY);
-        imgBody.setBackgroundColor(Color.GRAY);
+//        imgBody.setBackgroundColor(Color.GRAY);
         layoutAvatar.addView(imgBody);
 
         //draw leg

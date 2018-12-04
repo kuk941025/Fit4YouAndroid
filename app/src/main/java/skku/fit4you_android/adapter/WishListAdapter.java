@@ -25,7 +25,7 @@ import skku.fit4you_android.retrofit.RetroClient;
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishitemViewHolder> {
     private ArrayList<Wishlist> wishlists;
     private ImageView imgActualClothing;
-    private int selectedCid = -1; //not selected
+    private int recentlySelected = -1; //not selected
     private Context mContext;
 
 
@@ -50,25 +50,26 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
     public void onBindViewHolder(@NonNull wishitemViewHolder holder, final int position) {
         holder.textDscrp.setText(wishlists.get(position).getDscrp() + " won");
         holder.textName.setText(wishlists.get(position).getName());
-        if (wishlists.get(position).getWid() == selectedCid){
+        if (wishlists.get(position).isUserSelected()){
             holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.gray_light, null));
         }
         else holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.colorLightWhite, null));
         if (wishlists.get(position).getImgURL() != null){
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(position).getImgURL()).into(holder.imgClothing);
         }
-        holder.layoutWishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
-                int pastSelected = selectedCid;
-                selectedCid = wishlists.get(position).getWid();
-                notifyItemChanged(position);
-                notifyItemChanged(pastSelected, wishlists.size());
-                if (pastSelected == selectedCid) {imgActualClothing.setVisibility(View.GONE); selectedCid = -1;}
-                else imgActualClothing.setVisibility(View.VISIBLE);
-            }
-        });
+
+//        holder.layoutWishlist.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
+//                int pastSelected = selectedCid;
+//                selectedCid = wishlists.get(position).getWid();
+//                notifyItemChanged(position);
+//                notifyItemChanged(pastSelected, wishlists.size());
+//                if (pastSelected == selectedCid) {imgActualClothing.setVisibility(View.GONE); selectedCid = -1;}
+//                else imgActualClothing.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     @Override
@@ -88,7 +89,28 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         public wishitemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            layoutWishlist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recentlySelected == getLayoutPosition()) {
+                        wishlists.get(getLayoutPosition()).setUserSelected(false);
+                        imgActualClothing.setVisibility(View.GONE);
+                    }
+                    else{
+                        wishlists.get(getLayoutPosition()).setUserSelected(true);
+                        if (recentlySelected >= 0) {
+                            wishlists.get(recentlySelected).setUserSelected(false);
+                            notifyItemChanged(recentlySelected);
+                        }
+                        recentlySelected = getLayoutPosition();
+                    }
+                    notifyItemChanged(getLayoutPosition());
+                    imgActualClothing.setVisibility(View.VISIBLE);
+                    Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(getLayoutPosition()).getImgURL()).into(imgActualClothing);
+                }
+            });
         }
+
     }
 }
 
