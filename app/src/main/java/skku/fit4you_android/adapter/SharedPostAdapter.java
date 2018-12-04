@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +48,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         if (selectedPost.getType_of_post() == SharedPost.getPostClothing()){
             holder.viewClothing.setVisibility(View.VISIBLE);
             holder.viewStyle.setVisibility(View.GONE);
-            //set viewpager adpater
-//            List<Drawable> temp = new ArrayList<>();
-//            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_add));
-//            temp.add(ContextCompat.getDrawable(mContext, R.drawable.img_avatar));
+
             List<String> listURL = new ArrayList<>();
             if (sharedPosts.get(position).getPhoto1() != null) listURL.add(sharedPosts.get(position).getPhoto1());
             if (sharedPosts.get(position).getPhoto2() != null) listURL.add(sharedPosts.get(position).getPhoto2());
@@ -59,17 +57,19 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
-            holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
-            holder.txtPostDate.setText(sharedPosts.get(position).getDate());
+
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);
             holder.viewStyle.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + sharedPosts.get(position).getPhoto2())
                     .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreview);
-
         }
 
+        holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        holder.txtPostDate.setText(output.format(sharedPosts.get(position).getDate()));
         holder.txtItemName.setText(selectedPost.getClothing_name());
         holder.txtUserName.setText(selectedPost.getUser_name());
 

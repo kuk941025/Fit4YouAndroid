@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import skku.fit4you_android.model.SharedPost;
@@ -53,7 +55,11 @@ public class Converter {
             sharedPost.setNum_likes(clothing.like);
             sharedPost.setIsLike(clothing.islike);
             sharedPost.setType_of_post(SharedPost.POST_CLOTHING);
-            sharedPost.setDate(clothing.createdAt.substring(0, 10));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            try {
+                sharedPost.setDate(simpleDateFormat.parse(clothing.createdAt));
+            } catch (ParseException e){e.printStackTrace();}
+
             sharedPosts.add(sharedPost);
         }
 
@@ -65,7 +71,11 @@ public class Converter {
             sharedPost.setClothing_name(post.title);
             sharedPost.setCost(post.totalcost);
             sharedPost.setViews(post.views);
-            sharedPost.setDate(post.createdAt);
+//            sharedPost.setDate(post.createdAt);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:m:ss");
+            try {
+                sharedPost.setDate(simpleDateFormat.parse(post.createdAt));
+            } catch (ParseException e){e.printStackTrace();}
             sharedPost.setUid(post.uid);
             sharedPost.setNum_likes(post.like);
             sharedPost.setIsLike(post.islike);
