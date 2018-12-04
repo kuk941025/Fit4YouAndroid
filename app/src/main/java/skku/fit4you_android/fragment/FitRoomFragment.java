@@ -127,9 +127,13 @@ public class FitRoomFragment extends Fragment {
         setSheetBehavior();
         setBottomList();
         initRecyclerViews();
+
+        txtTotalWishlists.setText("items loading...");
         topWishlists.clear();
         pantsWishlists.clear();
         outerWishlists.clear();
+        combinedWishlist.clear();
+        if (responseWishLists != null) responseWishLists.clear();
         getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
     }
 
