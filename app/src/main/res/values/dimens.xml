@@ -22,6 +22,7 @@
     <dimen name="wishlist_expandable_height">400dp</dimen>
     <dimen name="template_post_viewpager_height">400dp</dimen>
     <dimen name="template_post_img_preview_height">450dp</dimen>
+    <dimen name="template_post_img_preview_height_small">130dp</dimen>
     <dimen name="tab_indicator_thickness">5dp</dimen>
     <dimen name="profile_pic_height">200dp</dimen>
     <dimen name="fit_real_clothing_width">100dp</dimen>

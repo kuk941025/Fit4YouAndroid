@@ -57,26 +57,32 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
             holder.clothingViewPager.setAdapter(postImageViewAdapter);
             holder.tabLayout.setupWithViewPager(holder.clothingViewPager);
-
+            holder.txtComments.setText(selectedPost.getNum_likes() + " likes");
+            holder.txtMallName.setText(selectedPost.getMall_name());
         }
         else{
             holder.viewClothing.setVisibility(View.GONE);
             holder.viewStyle.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(RetroApiService.IMAGE_URL + sharedPosts.get(position).getPhoto2())
-                    .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreview);
+            Glide.with(mContext).load(RetroApiService.IMAGE_URL + selectedPost.getPhoto2())
+                    .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreviewLarge);
+            Glide.with(mContext).load(RetroApiService.IMAGE_URL + selectedPost.getPhoto1())
+                    .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreviewSmall);
+            holder.txtComments.setText(selectedPost.getNum_likes() + " likes " + selectedPost.getNum_comments() + " comments");
+
+
+
         }
 
-        holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
+//        holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
         SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        holder.txtPostDate.setText(output.format(sharedPosts.get(position).getDate()));
+        holder.txtPrice.setText(Integer.toString(selectedPost.getCost()) + " won");
+        holder.txtPostDate.setText(output.format(selectedPost.getDate()));
         holder.txtItemName.setText(selectedPost.getClothing_name());
         holder.txtUserName.setText(selectedPost.getUser_name());
-
-
+        holder.txtHashTags.setText(selectedPost.getHash_tags());
 
     }
-
+    
     @Override
     public int getItemCount() {
         return sharedPosts.size();
@@ -87,8 +93,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         TextView txtItemName;
         @BindView(R.id.template_post_item_user_name)
         TextView txtUserName;
-        @BindView(R.id.template_post_item_clothing_cost)
-        TextView txtClothingCost;
+        @BindView(R.id.template_post_item_clothing_mallname)
+        TextView txtMallName;
         @BindView(R.id.template_post_item_add_wishlist)
         ImageView imgAddWishlist;
         @BindView(R.id.template_post_item_clothing_view_pager)
@@ -109,8 +115,12 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         View viewStyle;
         @BindView(R.id.templatE_post_item_clothing_tab_layout)
         TabLayout tabLayout;
-        @BindView(R.id.template_post_item_style_preview)
-        ImageView imgPreview;
+        @BindView(R.id.template_post_item_style_preview_large)
+        ImageView imgPreviewLarge;
+        @BindView(R.id.template_post_item_hash_tags)
+        TextView txtHashTags;
+        @BindView(R.id.template_post_item_style_preview_small)
+        ImageView imgPreviewSmall;
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

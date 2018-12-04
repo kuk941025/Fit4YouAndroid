@@ -6,12 +6,21 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/template_post_item_style_preview"
+        android:id="@+id/template_post_item_style_preview_large"
         android:layout_width="match_parent"
         android:layout_height="@dimen/template_post_img_preview_height"
         android:background="@color/colorLightGray"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/template_post_item_style_preview_small"
+        android:layout_width="@dimen/template_post_img_preview_height_small"
+        android:layout_height="@dimen/template_post_img_preview_height_small"
+        android:background="@color/colorLightWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_style_preview_large"
+        app:layout_constraintEnd_toEndOf="parent" />
     <TextView
         android:id="@+id/template_post_item_style_wearing_clothes"
         android:layout_width="wrap_content"
@@ -25,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_preview" />
+        app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_preview_large" />
 
     <TextView
         android:id="@+id/template_post_item_style_user_body_info"
