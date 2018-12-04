@@ -62,6 +62,8 @@ public class FitRoomFragment extends Fragment {
     ImageView imgRealTop;
     @BindView(R.id.fit_img_real_pants)
     ImageView imgRealPants;
+    @BindView(R.id.fit_bottom_total_items)
+    TextView txtTotalWishlists;
 
 
     private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
@@ -69,6 +71,7 @@ public class FitRoomFragment extends Fragment {
     private WishListAdapter topListAdapter, pantsListAdapter, outerListAdapter;
     private View fragView = null;
     private ArrayList<Wishlist> topWishlists, pantsWishlists, outerWishlists, combinedWishlist;
+    private ArrayList<TextView> wishItemsLoaded = new ArrayList<>();
     private RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
     private int flag_last_wish = 0, send_cnt = 0;;
     List<ResponseWishList> responseWishLists;
@@ -137,9 +140,9 @@ public class FitRoomFragment extends Fragment {
     }
     private void setBottomList(){
         //load top
+        setBottomCategoryTitle(btnShowOuter, "Outers");
         setBottomCategoryTitle(btnShowTop, "Top");
         setBottomCategoryTitle(btnShowPants, "Pants");
-        setBottomCategoryTitle(btnShowOuter, "Outers");
     }
 
     private void setBottomCategoryTitle(View view, String title){
@@ -150,6 +153,8 @@ public class FitRoomFragment extends Fragment {
         txtItemNum = view.findViewById(R.id.wish_list_btn_num_items);
         txtCategoryTitle.setText(title);
         txtItemNum.setText("0 items selected");
+
+        wishItemsLoaded.add(txtItemNum);
         final View layout = view.findViewById(R.id.wish_list_layout);
         final ExpandableRelativeLayout expandableView = view.findViewById(R.id.wish_expandable_layout);
         expandableView.collapse();
@@ -300,6 +305,13 @@ public class FitRoomFragment extends Fragment {
 
         relativeLayout.invalidate();
         flag_last_wish = 0;
+
+        //display number of wishlists loaded
+        wishItemsLoaded.get(0).setText(Integer.toString(outerWishlists.size()) + " items selected");
+        wishItemsLoaded.get(1).setText(Integer.toString(topWishlists.size()) + " items selected");
+        wishItemsLoaded.get(2).setText(Integer.toString(pantsWishlists.size()) + " items selected");
+
+        txtTotalWishlists.setText(Integer.toString(combinedWishlist.size()) + " items");
     }
 
 }

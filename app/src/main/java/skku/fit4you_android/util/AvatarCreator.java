@@ -107,7 +107,7 @@ public class AvatarCreator {
         rtrBodySize.setHead_width(20);
         rtrBodySize.setBody_height(60);
         rtrBodySize.setBody_width(41);
-        rtrBodySize.setLeg_height(150);
+        rtrBodySize.setLeg_height(110);
         rtrBodySize.setLeg_width(41);
         rtrBodySize.setArm_width(20);
         rtrBodySize.setArm_height(75);
