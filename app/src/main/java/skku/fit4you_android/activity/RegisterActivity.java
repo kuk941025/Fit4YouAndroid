@@ -86,6 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editEmail;
     @BindView(R.id.register_btn_register)
     Button registerUser;
+    @BindView(R.id.register_shoulder_width)
+    EditText editShoulderWidth;
+    @BindView(R.id.register_leg_length)
+    EditText editLegLength;
 
     public native String[] receiveData();
     public native String[] sendData(String[] strArray);
@@ -243,6 +247,10 @@ public class RegisterActivity extends AppCompatActivity {
             params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
             params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
             params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
+            params.put("shoulder", RetroClient.createRequestBody(editShoulderWidth.getText().toString()));
+            params.put("down_length", RetroClient.createRequestBody(editLegLength.getText().toString()));
+
+
             //create
 //            File file = new File(imgPathStr);
 //

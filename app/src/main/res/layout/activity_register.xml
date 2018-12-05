@@ -259,6 +259,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_btn_calculate_body" />
 
             <EditText
+                android:id="@+id/register_shoulder_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="Shoulder width"
+                android:inputType="number"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_top"
+                />
+
+            <EditText
                 android:id="@+id/register_waist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -266,13 +283,29 @@
                 android:layout_marginTop="@dimen/margin_side"
                 android:layout_marginEnd="@dimen/margin_side"
                 android:background="@color/colorWhite"
-                android:hint="Pants Size"
+                android:hint="Waist"
                 android:inputType="number"
                 android:padding="@dimen/margin_side"
                 android:textSize="@dimen/text_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_top" />
+                app:layout_constraintTop_toBottomOf="@+id/register_shoulder_width" />
+
+            <EditText
+                android:id="@+id/register_leg_length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="Leg length"
+                android:inputType="number"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_waist" />
 
             <Button
                 android:id="@+id/register_btn_register"
@@ -286,7 +319,7 @@
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/register_waist" />
+                app:layout_constraintTop_toBottomOf="@id/register_leg_length" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

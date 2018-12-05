@@ -32,7 +32,11 @@ public class PostImageViewAdapter extends PagerAdapter {
         this.imageURL = imageURL;
     }
 
-    public PostImageViewAdapter(List<Bitmap> imageBitMap) {
+    public List<Bitmap> getImageBitMap() {
+        return imageBitMap;
+    }
+
+    public void setImageBitMap(List<Bitmap> imageBitMap) {
         this.imageBitMap = imageBitMap;
     }
 
@@ -47,10 +51,14 @@ public class PostImageViewAdapter extends PagerAdapter {
         View view = null;
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.template_post_item_clothing_img, container, false);
-        ButterKnife.bind(this, view);
+        ButterKnife .bind(this, view);
 //        imgClothing.setImageDrawable(imageURL.get(position));
-
-        Glide.with(context).load(RetroApiService.IMAGE_URL + imageURL.get(position)).apply(RequestOptions.fitCenterTransform()).into(imgClothing);
+        if (imageURL == null) {
+            Glide.with(context).load(RetroApiService.IMAGE_URL + imageURL.get(position)).apply(RequestOptions.fitCenterTransform()).into(imgClothing);
+        }
+        else{
+            Glide.with(context).load(imageBitMap.get(position)).apply(RequestOptions.fitCenterTransform()).into(imgClothing);
+        }
         container.addView(view);
         return view;
     }

@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
@@ -39,13 +39,16 @@
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.FollowingManagementActivity" />
-        <activity android:name=".activity.ColorActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ColorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.UploadClothingActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.DetailPostActivity" />
         <activity android:name=".activity.OpenCVTest" />
-        <activity android:name=".activity.OpenCVNativeTest"></activity>
+        <activity android:name=".activity.OpenCVNativeTest" />
+        <activity android:name=".activity.SharePostActivity"></activity>
     </application>
 
 </manifest>
