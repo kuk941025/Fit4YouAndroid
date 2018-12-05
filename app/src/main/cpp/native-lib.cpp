@@ -48,7 +48,7 @@ Java_skku_fit4you_1android_activity_RegisterActivity_receiveData(JNIEnv *env, jo
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_skku_fit4you_1android_activity_RegisterActivity_sendData(JNIEnv *env, jobject instance,
+    Java_skku_fit4you_1android_activity_RegisterActivity_sendData(JNIEnv *env, jobject instance,
                                                               jobjectArray strArray) {
 
     char test[5][20];

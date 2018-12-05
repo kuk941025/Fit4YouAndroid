@@ -65,7 +65,6 @@ public class FitRoomFragment extends Fragment {
     @BindView(R.id.fit_bottom_total_items)
     TextView txtTotalWishlists;
 
-
     private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
     private BottomSheetBehavior sheetBehavior;
     private WishListAdapter topListAdapter, pantsListAdapter, outerListAdapter;
@@ -73,7 +72,7 @@ public class FitRoomFragment extends Fragment {
     private ArrayList<Wishlist> topWishlists, pantsWishlists, outerWishlists, combinedWishlist;
     private ArrayList<TextView> wishItemsLoaded = new ArrayList<>();
     private RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
-    private int flag_last_wish = 0, send_cnt = 0;;
+    private int flag_last_wish = 0, send_cnt = 0;
     List<ResponseWishList> responseWishLists;
     public FitRoomFragment() {
 
@@ -235,6 +234,7 @@ public class FitRoomFragment extends Fragment {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_1);
                 wishlist.setSid(wish.top_1_size);
+                wishlist.setWid(wish.id);
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
@@ -242,6 +242,7 @@ public class FitRoomFragment extends Fragment {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_2);
                 wishlist.setSid(wish.top_2_size);
+                wishlist.setWid(wish.id);
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
@@ -249,6 +250,7 @@ public class FitRoomFragment extends Fragment {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.down);
                 wishlist.setSid(wish.down_size);
+                wishlist.setWid(wish.id);
                 wishlist.setType(Wishlist.CLOTHING_PANTS);
                 combinedWishlist.add(wishlist);
             }
@@ -257,6 +259,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setCid(wish.top_outer);
                 wishlist.setSid(wish.top_outer_size);
                 wishlist.setType(Wishlist.CLOTHING_OUTER);
+                wishlist.setWid(wish.id);
                 combinedWishlist.add(wishlist);
             }
         }

@@ -73,7 +73,9 @@ public interface RetroApiService {
     //WISHLIST
     @GET("/wishlist")
     Call <List<ResponseWishList>> getWishList();
-
+    @FormUrlEncoded
+    @POST("/wishlist/delete/")
+    Call <ResponseSuccess> postDeleteWishList(@Field("wid") String wid);
 
     //CLOTHING
     @GET("/clothing/specific/{cid}")

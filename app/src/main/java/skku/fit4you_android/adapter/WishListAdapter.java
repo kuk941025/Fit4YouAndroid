@@ -17,9 +17,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 import skku.fit4you_android.retrofit.RetroApiService;
+import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishitemViewHolder> {
@@ -27,12 +30,13 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
     private ImageView imgActualClothing;
     private int recentlySelected = -1; //not selected
     private Context mContext;
-
+    private RetroClient retroClient;
 
     public WishListAdapter(ArrayList<Wishlist> wishlists, ImageView imgActualClothing, Context mContext) {
         this.wishlists = wishlists;
         this.imgActualClothing = imgActualClothing;
         this.mContext = mContext;
+        retroClient = RetroClient.getInstance(mContext).createBaseApi();
     }
 
     @NonNull
@@ -58,18 +62,6 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(position).getImgURL()).into(holder.imgClothing);
         }
 
-//        holder.layoutWishlist.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Toast.makeText(v.getContext().getApplicationContext(), "Wishlist clicked", Toast.LENGTH_LONG).show();
-//                int pastSelected = selectedCid;
-//                selectedCid = wishlists.get(position).getWid();
-//                notifyItemChanged(position);
-//                notifyItemChanged(pastSelected, wishlists.size());
-//                if (pastSelected == selectedCid) {imgActualClothing.setVisibility(View.GONE); selectedCid = -1;}
-//                else imgActualClothing.setVisibility(View.VISIBLE);
-//            }
-//        });
     }
 
     @Override
@@ -95,6 +87,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
                     if (recentlySelected == getLayoutPosition()) {
                         wishlists.get(getLayoutPosition()).setUserSelected(false);
                         imgActualClothing.setVisibility(View.GONE);
+                        recentlySelected = -1;
                     }
                     else{
                         wishlists.get(getLayoutPosition()).setUserSelected(true);
@@ -111,6 +104,30 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
             });
         }
 
+        @OnLongClick(R.id.template_layout_wishlist)
+        boolean onDeleteWishlistClicked(){
+            retroClient.postDeleteWishList(Integer.toString(wishlists.get(getLayoutPosition()).getWid()), new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    Toast.makeText(mContext, "Wishlist removed.", Toast.LENGTH_LONG).show();
+                    wishlists.remove(getLayoutPosition());
+                    notifyItemRemoved(getLayoutPosition());
+                }
+
+                @Override
+                public void onFailure(int code) {
+
+                }
+            });
+            return false;
+        }
+
     }
+
 }
 

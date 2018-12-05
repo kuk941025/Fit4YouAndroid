@@ -206,7 +206,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setLike(false);
                                 notifyItemChanged(getLayoutPosition());
                             } else {
-
+                                Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -231,7 +231,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setLike(true);
                                 notifyItemChanged(getLayoutPosition());
                             } else {
-
+                                Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -258,6 +258,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setLike(false);
                                 notifyItemChanged(getLayoutPosition());
                             }
+                            else
+                                Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -281,7 +283,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setLike(true);
                                 notifyItemChanged(getLayoutPosition());
                             } else {
-
+                                Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                             }
                         }
 

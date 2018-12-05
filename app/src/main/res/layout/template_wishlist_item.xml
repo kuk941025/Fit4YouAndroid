@@ -11,6 +11,7 @@
     android:layout_width="@dimen/wishlist_item_layout_width"
     android:layout_height="@dimen/wishlist_item_layout_height"
     >
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/template_wishlist_layout"
         android:layout_width="wrap_content"
@@ -26,10 +27,9 @@
             android:id="@+id/template_wishlist_image"
             android:layout_width="200dp"
             android:layout_height="300dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/margin_side"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="#585858"
+            android:layout_marginEnd="@dimen/margin_side"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,4 +62,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_wishlist_name" />
     </android.support.constraint.ConstraintLayout>
+\
 </android.support.constraint.ConstraintLayout>

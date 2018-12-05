@@ -86,6 +86,12 @@ public class Converter {
             sharedPost.setNum_comments(post.commentnum);
             sharedPost.setPhoto1(post.avatarimage);
             sharedPost.setPhoto2(post.clothingimage);
+            sharedPost.setTop_1(post.top_1);
+            sharedPost.setTop_2(post.top_2);
+            sharedPost.setTop_outer(post.top_outer);
+            sharedPost.setTop_1_size(post.top_1_size);
+            sharedPost.setTop_2_size(post.top_2_size);
+            sharedPost.setTop_outer_size(post.top_outer_size);
             sharedPosts.add(sharedPost);
         }
     }
