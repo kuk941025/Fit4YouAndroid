@@ -256,8 +256,8 @@ public class RetroClient {
         });
     }
 
-    public void postDeleteWishList(String wid, final RetroCallback callback){
-        apiService.postDeleteWishList(wid).enqueue(new Callback<ResponseSuccess>() {
+    public void postWishlist(HashMap<String, Object> params, final RetroCallback callback){
+        apiService.postWishList(params).enqueue(new Callback<ResponseSuccess>() {
             @Override
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
@@ -271,6 +271,20 @@ public class RetroClient {
         });
     }
 
+    public void postDeleteWishlist(String wid, final RetroCallback callback){
+        apiService.postDeleteWishList(wid).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 
     public void getSpecificClothing(String cid, final RetroCallback callback){
         apiService.getSpecificClothing(cid).enqueue(new Callback<ResponseClothing>() {

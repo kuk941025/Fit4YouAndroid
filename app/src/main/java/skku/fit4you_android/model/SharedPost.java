@@ -11,7 +11,7 @@ public class SharedPost implements Comparable<SharedPost>{
     private String photo1, photo2, photo3;
     private Date date;
     private int price, type_of_post, num_likes, num_comments, cost, views, gender, uid, oid, id;
-    private int top_outer, top_1, top_2, top_outer_size, top_1_size, top_2_size;
+    private int top_outer, top_1, top_2, top_outer_size, top_1_size, top_2_size, down, down_size;
     private boolean isLike;
     @Override
     public int compareTo(@NonNull SharedPost o) {
@@ -32,6 +32,23 @@ public class SharedPost implements Comparable<SharedPost>{
 
     public int getTop_outer() {
         return top_outer;
+    }
+
+    public int getDown_size() {
+        return down_size;
+    }
+
+    public void setDown_size(int down_size) {
+        this.down_size = down_size;
+    }
+
+    public int getDown() {
+
+        return down;
+    }
+
+    public void setDown(int down) {
+        this.down = down;
     }
 
     public void setTop_outer(int top_outer) {

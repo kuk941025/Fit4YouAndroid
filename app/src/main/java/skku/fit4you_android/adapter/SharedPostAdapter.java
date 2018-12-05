@@ -1,5 +1,6 @@
 package skku.fit4you_android.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +39,7 @@ import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseLike;
+import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
 public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.postViewHolder> {
     private ArrayList<SharedPost> sharedPosts;
@@ -156,7 +159,53 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
+                        HashMap<String, Object> params = new HashMap<>();
+                        SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
+                        if (selectedPost.getTop_outer() != 0) {
+                            params.put("top_outer", selectedPost.getTop_outer());
+                            params.put("top_outer_size", selectedPost.getTop_outer_size());
+                        }
+                        if (selectedPost.getTop_1() != 0) {
+                            params.put("top_1", selectedPost.getTop_1());
+                            params.put("top_1_size", selectedPost.getTop_1_size());
+                        }
+                        if (selectedPost.getTop_2() != 0) {
+                            params.put("top_2", selectedPost.getTop_2());
+                            params.put("top_2_size", selectedPost.getTop_2_size());
+                        }
+                        if (selectedPost.getDown() != 0) {
+                            params.put("down", selectedPost.getDown());
+                            params.put("down_size", selectedPost.getDown_size());
+                        }
+                        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.show();
 
+
+                        if (params.size() == 0) return; //error handle
+                        retroClient.postWishlist(params, new RetroCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                                ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                                if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
+                                    Toast.makeText(mContext, "Added to wishlist", Toast.LENGTH_LONG).show();
+                                }
+                                else{
+
+                                }
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                progressDialog.dismiss();
+                            }
+                        });
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

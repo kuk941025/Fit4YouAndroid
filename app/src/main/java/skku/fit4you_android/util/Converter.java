@@ -92,6 +92,8 @@ public class Converter {
             sharedPost.setTop_1_size(post.top_1_size);
             sharedPost.setTop_2_size(post.top_2_size);
             sharedPost.setTop_outer_size(post.top_outer_size);
+            sharedPost.setDown(post.down);
+            sharedPost.setDown_size(post.down_size);
             sharedPosts.add(sharedPost);
         }
     }

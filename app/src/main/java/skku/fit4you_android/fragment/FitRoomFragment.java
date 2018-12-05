@@ -95,6 +95,11 @@ public class FitRoomFragment extends Fragment {
                     Log.d("Height", layoutAvatar.getHeight() + ", " + layoutAvatar.getWidth());
                 }
             });
+            setSheetBehavior();
+            setBottomList();
+            initRecyclerViews();
+
+            getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
 
 
         }
@@ -123,11 +128,7 @@ public class FitRoomFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setSheetBehavior();
-        setBottomList();
-        initRecyclerViews();
 
-        getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
     }
 
     @OnClick(R.id.fit_refresh_wishlist)

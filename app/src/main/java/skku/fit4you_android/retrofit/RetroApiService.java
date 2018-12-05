@@ -74,8 +74,10 @@ public interface RetroApiService {
     @GET("/wishlist")
     Call <List<ResponseWishList>> getWishList();
     @FormUrlEncoded
-    @POST("/wishlist/delete/")
-    Call <ResponseSuccess> postDeleteWishList(@Field("wid") String wid);
+    @POST("/wishlist")
+    Call <ResponseSuccess> postWishList(@FieldMap HashMap<String, Object> parameter);
+    @POST("/wishlist/delete/{wid}")
+    Call <ResponseSuccess> postDeleteWishList(@Path("wid") String wid);
 
     //CLOTHING
     @GET("/clothing/specific/{cid}")
