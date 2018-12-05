@@ -48,7 +48,8 @@
         <activity android:name=".activity.DetailPostActivity" />
         <activity android:name=".activity.OpenCVTest" />
         <activity android:name=".activity.OpenCVNativeTest" />
-        <activity android:name=".activity.SharePostActivity"></activity>
+        <activity android:name=".activity.SharePostActivity" />
+        <activity android:name=".activity.CrawlingTestActivity"></activity>
     </application>
 
 </manifest>
