@@ -235,6 +235,7 @@ public class FitRoomFragment extends Fragment {
     }
 
     public Bitmap getRealClothing(){
+        layoutRealClothing.invalidate();
         layoutRealClothing.buildDrawingCache();
         return  layoutRealClothing.getDrawingCache();
     }

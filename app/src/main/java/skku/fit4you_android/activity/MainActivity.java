@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         FitRoomFragment fitRoomFragment = (FitRoomFragment) pageAdapter.getItem(0);
 
         Intent intent = new Intent(this, SharePostActivity.class);
-//        intent.putExtra(SEND_WISHLIST, fitRoomFragment.getSelectedWishList());
+        intent.putExtra(SEND_WISHLIST, fitRoomFragment.getSelectedWishList());
 
         ByteArrayOutputStream streamAvatar = new ByteArrayOutputStream();
         fitRoomFragment.getAvatarImage().compress(Bitmap.CompressFormat.PNG, 100, streamAvatar);

@@ -1,6 +1,8 @@
 package skku.fit4you_android.model;
 
-public class Wishlist {
+import java.io.Serializable;
+
+public class Wishlist implements Serializable {
     public static final int CLOTHING_TOP = 0;
     public static final int CLOTHING_PANTS = 1;
     public static final int CLOTHING_OUTER = 2;
