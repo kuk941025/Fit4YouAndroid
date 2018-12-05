@@ -7,7 +7,7 @@
     >
 
     <ImageView
-        android:id="@+id/toolbar_fit_pay"
+        android:id="@+id/toolbar_fit_share"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:scaleType="fitXY"

@@ -1,9 +1,7 @@
 package skku.fit4you_android.fragment;
 
 
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.TransitionDrawable;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,6 +62,8 @@ public class FitRoomFragment extends Fragment {
     ImageView imgRealPants;
     @BindView(R.id.fit_bottom_total_items)
     TextView txtTotalWishlists;
+    @BindView(R.id.fit_layout_real_clothing_avatar)
+    View layoutRealClothing;
 
     private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
     private BottomSheetBehavior sheetBehavior;
@@ -100,8 +100,6 @@ public class FitRoomFragment extends Fragment {
             initRecyclerViews();
 
             getWishLists(); //getWishlist --> setWishlist --> setWishlistToView
-
-
         }
         return fragView;
     }
@@ -223,7 +221,23 @@ public class FitRoomFragment extends Fragment {
             }
         });
     }
+    public ArrayList<Wishlist> getSelectedWishList(){
+        ArrayList<Wishlist> selectedLists = new ArrayList<>();
+        for (Wishlist wishlist : combinedWishlist){
+            if (wishlist.isUserSelected()) selectedLists.add(wishlist);
+        }
+        return selectedLists;
+    }
 
+    public Bitmap getAvatarImage(){
+        layoutAvatar.buildDrawingCache();
+        return layoutAvatar.getDrawingCache();
+    }
+
+    public Bitmap getRealClothing(){
+        layoutRealClothing.buildDrawingCache();
+        return  layoutRealClothing.getDrawingCache();
+    }
     private void setWishlist(){
         //getWishLists();
 
@@ -320,5 +334,6 @@ public class FitRoomFragment extends Fragment {
 
         txtTotalWishlists.setText(Integer.toString(combinedWishlist.size()) + " items");
     }
+
 
 }

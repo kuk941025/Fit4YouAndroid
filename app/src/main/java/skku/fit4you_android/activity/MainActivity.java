@@ -1,5 +1,7 @@
 package skku.fit4you_android.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +12,18 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.MainPageAdapter;
+import skku.fit4you_android.dialog.SharePostDialog;
+import skku.fit4you_android.fragment.FitRoomFragment;
 import skku.fit4you_android.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_news_layout)
     View toolNewsLayout;
 
+    public final static String SEND_WISHLIST = "WISHLIST";
+    public final static String SEND_BITMAP_REAL_CLOTHING = "REAL_CLOTHING";
+    public final static String SEND_BITMAP_AVATAR = "AVATAR";
     private ArrayList<View> viewToolbars;
     private MainPageAdapter pageAdapter;
     @Override
@@ -83,4 +94,29 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Fit changed: ", state + ".");
         }
     };
+
+    @OnClick(R.id.toolbar_fit_share)
+    void onShareClicked(){
+        FitRoomFragment fitRoomFragment = (FitRoomFragment) pageAdapter.getItem(0);
+
+        Intent intent = new Intent(this, SharePostActivity.class);
+//        intent.putExtra(SEND_WISHLIST, fitRoomFragment.getSelectedWishList());
+
+        ByteArrayOutputStream streamAvatar = new ByteArrayOutputStream();
+        fitRoomFragment.getAvatarImage().compress(Bitmap.CompressFormat.PNG, 100, streamAvatar);
+        byte[] byteArrAvatar = streamAvatar.toByteArray();
+        intent.putExtra(SEND_BITMAP_AVATAR, byteArrAvatar);
+
+        ByteArrayOutputStream streamRealClothing = new ByteArrayOutputStream();
+        fitRoomFragment.getRealClothing().compress(Bitmap.CompressFormat.PNG, 100, streamRealClothing);
+        byte[] byteArrRealClothing = streamRealClothing.toByteArray();
+        intent.putExtra(SEND_BITMAP_REAL_CLOTHING, byteArrRealClothing);
+
+        try {
+            streamAvatar.close();
+            streamRealClothing.close();
+        } catch (IOException e){e.printStackTrace();}
+        startActivity(intent);
+
+    }
 }

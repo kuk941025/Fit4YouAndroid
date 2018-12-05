@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.SharePostActivity">
+    android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_side"
+        app:layout_constraintBottom_toTopOf="@id/share_add_post"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <android.support.v4.view.ViewPager
             android:id="@+id/share_view_pager"
             android:layout_width="match_parent"
@@ -79,20 +84,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             />
 
-        <EditText
-            android:id="@+id/share_edit_hash"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_side"
-            android:layout_marginEnd="@dimen/margin_side"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/margin_side"
-            android:hint="hashtag"
-            android:textSize="@dimen/text_default"
-            app:layout_constraintBottom_toBottomOf="@+id/share_txt_hash"
-            app:layout_constraintEnd_toStartOf="@+id/share_btn_add_hash"
-            app:layout_constraintStart_toEndOf="@+id/share_txt_hash"
-            app:layout_constraintTop_toTopOf="@+id/share_txt_hash" />
+            <EditText
+                android:id="@+id/share_edit_hash"
+                android:layout_width="0dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="hashtag"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintBottom_toBottomOf="@+id/share_txt_hash"
+                app:layout_constraintEnd_toStartOf="@+id/share_btn_add_hash"
+                app:layout_constraintStart_toEndOf="@+id/share_txt_hash"
+                app:layout_constraintTop_toTopOf="@+id/share_txt_hash" />
 
         <Button
             android:id="@+id/share_btn_add_hash"
@@ -116,18 +121,36 @@
             android:layout_marginTop="@dimen/margin_side"
             />
 
-        <Button
-            android:id="@+id/share_add_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_side"
-            android:background="@color/colorPrimary"
-            android:text="Share"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_default"
-            app:layout_constraintTop_toBottomOf="@id/share_recycler_hash"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/share_add_post"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/margin_side"
+        android:background="@color/colorPrimary"
+        android:text="Share"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/share_cancel" />
+
+    <Button
+        android:id="@+id/share_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/margin_side"
+        android:background="@color/colorPrimary"
+        android:text="Cancel"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/share_add_post"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>
