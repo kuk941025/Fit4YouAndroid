@@ -134,10 +134,10 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.register_btn_register)
     void onRegisterClicked(){
 
-        String[] test = receiveData();
-        String[] str = new String[2];
-        str[0] = "yo"; str[1] = "hey";
-        String[] received = sendData(str);
+//        String[] test = receiveData();
+//        String[] str = new String[2];
+//        str[0] = "yo"; str[1] = "hey";
+//        String[] received = sendData(str);
 
         if (isModified == Constants.REGISTER_MODIFIED) {
             modifyUser();
@@ -145,7 +145,6 @@ public class RegisterActivity extends AppCompatActivity {
         else{
             registerUser();
         }
-
     }
 
 
