@@ -1,6 +1,8 @@
 package skku.fit4you_android.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -103,27 +105,39 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
                 }
             });
         }
+        DialogInterface.OnClickListener dialogInterface = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        retroClient.postDeleteWishlist(Integer.toString(wishlists.get(getLayoutPosition()).getWid()), new RetroCallback() {
+                            @Override
+                            public void onError(Throwable t) {
 
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                                Toast.makeText(mContext, "Wishlist removed.", Toast.LENGTH_LONG).show();
+                                wishlists.remove(getLayoutPosition());
+                                notifyItemRemoved(getLayoutPosition());
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+
+                            }
+                        });
+                        break;
+                }
+            }
+        };
         @OnLongClick(R.id.template_layout_wishlist)
         boolean onDeleteWishlistClicked(){
-            retroClient.postDeleteWishList(Integer.toString(wishlists.get(getLayoutPosition()).getWid()), new RetroCallback() {
-                @Override
-                public void onError(Throwable t) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+            alertDialog.setMessage("Are you sure to delete the item from wishlist?").setPositiveButton("Yes", dialogInterface)
+                    .setNegativeButton("No", dialogInterface).show();
 
-                }
-
-                @Override
-                public void onSuccess(int code, Object receivedData) {
-                    Toast.makeText(mContext, "Wishlist removed.", Toast.LENGTH_LONG).show();
-                    wishlists.remove(getLayoutPosition());
-                    notifyItemRemoved(getLayoutPosition());
-                }
-
-                @Override
-                public void onFailure(int code) {
-
-                }
-            });
             return false;
         }
 
