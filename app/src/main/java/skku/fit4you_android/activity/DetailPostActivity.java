@@ -76,7 +76,7 @@ public class DetailPostActivity extends AppCompatActivity {
     private void setRecyclerComments(){
         //create temp data
         comments = new ArrayList<>();
-        for (int i = 0; i < 50; i++){
+        for (int i = 0; i < 50; i++){ // here is comment
             Comment comment = new Comment("User " + i);
             comment.setContents("Comment number " + i);
             comment.setLikes(110 + i);

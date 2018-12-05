@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -47,6 +48,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     private Bitmap bitSelectedImage = null;
     static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
+    boolean isActive1=false,isActive2=false, isActive3 =false; //for dialog checking
 
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
     static {
@@ -60,58 +62,79 @@ public class UploadClothingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
         ButterKnife.bind(this);
+        //------- for UCAdapter -----
         UCAdapter = new UploadClothingAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(UCAdapter);
         viewPager.setOnPageChangeListener(pageChangeListener);
+
+        //---------------
         EditText cname = (EditText) findViewById(R.id.cname);
         DefaultImage = (ImageView) findViewById(R.id.default_image);//default image
         String text_cname = cname.getText().toString();
         selectImg = (Button) findViewById(R.id.UploadPicture);
         selectDefault = (Button) findViewById(R.id.UploadDefault);
+
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         //화면 크기 구하는 곳
-
+        final Context mContext = this;
         selectColor = (Button) findViewById(R.id.setColor);
         ColorDrawable btnColor = (ColorDrawable) selectColor.getBackground();
         color = String.valueOf(btnColor.getColor());
         Log.d("initial Color:",color);
-        selectColor.setOnClickListener(new Button.OnClickListener(){
+        selectColor.setOnClickListener(new Button.OnClickListener(){//select color
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(UploadClothingActivity.this,ColorActivity.class);
-                intent.putExtra("Color",color);
-                startActivityForResult(intent,REQUEST_CODE);
-            }
-        });
-        final Context mContext = this;
-        selectDefault.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {//여기서 옷을 구현하면된다.
-                ListDialog = new SetDefaultImageDialog(mContext);
-                DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-                int width = dm.widthPixels; //디바이스 화면 너비
-                int height = dm.heightPixels;
-                WindowManager.LayoutParams wm = ListDialog.getWindow().getAttributes();
-                wm.copyFrom(ListDialog.getWindow().getAttributes());
-                ListDialog.setDialogListener(new SetDefaultImageDialogListener() {
-                    @Override
-                    public void onPositiveClicked(Drawable img) {
-                        setDefaultImage(img);
-
+                if(isActive2){// default image ok
+                    if(!isActive1){
+                        isActive3 = true;
+                        isActive1 = true;
+                        Intent intent=new Intent(UploadClothingActivity.this,ColorActivity.class);
+                        intent.putExtra("Color",color);
+                        startActivityForResult(intent,REQUEST_CODE);
                     }
-                });
-                ListDialog.show();
+                }
+                else{//no!
+                    Toast.makeText(mContext, "Select the Default Image", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        selectImg.setOnClickListener(new Button.OnClickListener() {
 
+        selectDefault.setOnClickListener(new Button.OnClickListener(){ //
             @Override
-            public void onClick(View v) {//여기서 옷을 구현하면된다.
-                DialogImage();
+            public void onClick(View v) {//get normal image
+                isActive2 = true;
+                if(!isActive1){
+                    isActive1=true;
+                    ListDialog = new SetDefaultImageDialog(mContext);
+                    DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+                    int width = dm.widthPixels+500; //디바이스 화면 너비
+                    int height = dm.heightPixels;
+                    WindowManager.LayoutParams wm = ListDialog.getWindow().getAttributes();
+                    wm.copyFrom(ListDialog.getWindow().getAttributes());
+                    ListDialog.setDialogListener(new SetDefaultImageDialogListener() {
+                        @Override
+                        public void onPositiveClicked(Drawable img) {
+                            setDefaultImage(img);
+                        }
+                    });
+                    ListDialog.show();
+                }
+            }
+        });
+        //Fragment fragging = UCAdapter.getItem(0);
+        //ivImage = (ImageView) UCAdapter.getItem(0).getView().findViewById(R.id.clothing_image);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        selectImg.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {//get real image
+                if(!isActive1) {
+                    DialogImage(builder);
+                }
             }
         });
     }
     public void setDefaultImage(Drawable img){
+        isActive1 = false;
         DefaultImage.setImageDrawable(img);
         bitSelectedImage = Converter.drawableToBitmap(img);
     }
@@ -136,6 +159,7 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        isActive1 = false;
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
@@ -172,10 +196,9 @@ public class UploadClothingActivity extends AppCompatActivity {
                 Log.d("Color:", color);
                 selectColor.setBackgroundColor(Integer.parseInt(color));
                 updateImageColor(colorRGB);
-
-
             }
         }
+
     }
     private void updateImageColor(ArrayList<Integer> colorRGB){
 
@@ -189,18 +212,18 @@ public class UploadClothingActivity extends AppCompatActivity {
 
         DefaultImage.setImageBitmap(bitResult);
     }
-    private void DialogImage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("사진 가져오기");
-        builder.setMessage("어디서 가져올지 결정하시오");
-        builder.setPositiveButton("카메라에서",
+    private void DialogImage(AlertDialog.Builder builder) {
+        isActive1 = true;
+        builder.setTitle("Bring Clothing Image");
+        builder.setMessage("Where will you bring it");
+        builder.setPositiveButton("Camera",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(i, 0);
                     }
                 });
-        builder.setNeutralButton("앨범에서",
+        builder.setNeutralButton("Album",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent();
@@ -209,13 +232,12 @@ public class UploadClothingActivity extends AppCompatActivity {
                         startActivityForResult(intent, 1);
                     }
                 });
-        builder.setNegativeButton("취소",
+        builder.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        isActive1 = false;
                     }
                 });
         builder.show();
-
     }
 }
