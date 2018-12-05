@@ -136,8 +136,8 @@ public class RetroClient {
         });
     }
 
-    public void postRegisterModify(HashMap <String, Object> parameters, final RetroCallback callback){
-        apiService.postRegisterModify(parameters).enqueue(new Callback<ResponseSuccess>() {
+    public void postRegisterModify(MultipartBody.Part file, Map<String, RequestBody> partMap, final RetroCallback callback){
+        apiService.postRegisterModify(file, partMap).enqueue(new Callback<ResponseSuccess>() {
             @Override
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
@@ -150,7 +150,6 @@ public class RetroClient {
             }
         });
     }
-
     public void postRegisterDelete(String userid, String pw, final RetroCallback callback){
         apiService.postRegisterDelete(userid, pw).enqueue(new Callback<ResponseSuccess>() {
             @Override

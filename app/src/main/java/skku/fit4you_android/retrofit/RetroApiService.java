@@ -46,7 +46,7 @@ public interface RetroApiService {
     Call<ResponseRegister> postGetUserInfo(@Field("uid") String uid);
     @FormUrlEncoded
     @POST("/register/modify")
-    Call<ResponseSuccess> postRegisterModify(@FieldMap HashMap<String, Object> parameter);
+    Call<ResponseSuccess> postRegisterModify(@Part MultipartBody.Part file, @PartMap Map<String, RequestBody> parameter);
     @FormUrlEncoded
     @POST("/register/delete")
     Call<ResponseSuccess> postRegisterDelete(@Field("userid") String uid, @Field("pw") String pw);

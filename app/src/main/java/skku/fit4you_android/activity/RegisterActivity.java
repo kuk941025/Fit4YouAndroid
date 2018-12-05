@@ -48,7 +48,9 @@ import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
+import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.util.Constants;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -121,7 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
         toolTitle.setText("Register");
         toolImage.setVisibility(View.VISIBLE);
         toolImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.img_back, null));
-
     }
 
     @OnClick(R.id.toolbar_main_icon)
@@ -138,15 +139,16 @@ public class RegisterActivity extends AppCompatActivity {
         str[0] = "yo"; str[1] = "hey";
         String[] received = sendData(str);
 
-        registerUser();
         if (isModified == Constants.REGISTER_MODIFIED) {
-            registerUser();
+            modifyUser();
         }
         else{
-
+            registerUser();
         }
 
     }
+
+
 
     @OnClick(R.id.register_profile)
     void onSelectProfileClicked(){
@@ -206,51 +208,76 @@ public class RegisterActivity extends AppCompatActivity {
         txtProfileTxt.setText("");
 
     }
+    private Map<String, RequestBody> getRegParams(){
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
+        params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
+        params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
+        params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
+        int userGender = toggleGender.getCheckedTogglePosition() + 1;
+        params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
+        params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
+        params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
+        params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
+        params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
+        params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
+        params.put("shoulder", RetroClient.createRequestBody(editShoulderWidth.getText().toString()));
+        params.put("down_length", RetroClient.createRequestBody(editLegLength.getText().toString()));
+        return params;
+    }
 
-    private void registerUser(){
-//        int end = 1;
-//        Bitmap bitmap = ((BitmapDrawable)imageProfile.getDrawable()).getBitmap();
-//        Mat mat = new Mat();
-//        Utils.bitmapToMat(bitmap, mat);
-//        HashMap<String, String> test = getBodyInformation(mat.nativeObj);
-//        test.get("Test");
-//        if (end == 1) return;
+    private MultipartBody.Part getMultiFile(){
         File file = null;
         RequestBody requestFile = null;
+        MultipartBody.Part multiFile;
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        imgPathStr = cursor.getString(columnIndex);
+        cursor.close();
+
+        file = new File(imgPathStr);
+        requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        multiFile = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+        return multiFile;
+    }
+    private void modifyUser(){
+        MultipartBody.Part multiFile = null;
+        if (checkValidity() && imgPathStr != null){
+            multiFile = getMultiFile();
+            Map<String, RequestBody> params = getRegParams();
+
+            retroClient.postRegisterModify(multiFile, params, new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                    if (responseSuccess.success == Response.RESPONSE_RECEIVED) Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    else Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int code) {
+
+                }
+            });
+        }
+    }
+    private void registerUser(){
+
         MultipartBody.Part multiFile = null;
         if (checkValidity()) {
             if (imgPathStr != null) {
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgPathStr = cursor.getString(columnIndex);
-                cursor.close();
-
-                file = new File(imgPathStr);
-                requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                multiFile = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+                multiFile = getMultiFile();
             }
-
-            Map<String, RequestBody> params = new HashMap<>();
-
-            params.put("userid", RetroClient.createRequestBody(editUserId.getText().toString()));
-            params.put("pw", RetroClient.createRequestBody(editUserPw.getText().toString()));
-            params.put("uname", RetroClient.createRequestBody(editName.getText().toString()));
-            params.put("nickname", RetroClient.createRequestBody(editNickname.getText().toString()));
-            int userGender = toggleGender.getCheckedTogglePosition() + 1;
-            params.put("gender", RetroClient.createRequestBody(String.valueOf(userGender)));
-            params.put("height", RetroClient.createRequestBody(editHeight.getText().toString()));
-            params.put("topsize", RetroClient.createRequestBody(editTop.getText().toString()));
-            params.put("waist", RetroClient.createRequestBody(editWaist.getText().toString()));
-            params.put("intro", RetroClient.createRequestBody(editIntro.getText().toString()));
-            params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
-            params.put("shoulder", RetroClient.createRequestBody(editShoulderWidth.getText().toString()));
-            params.put("down_length", RetroClient.createRequestBody(editLegLength.getText().toString()));
-
-
+            Map<String, RequestBody> params = getRegParams();
             //create
 //            File file = new File(imgPathStr);
 //
