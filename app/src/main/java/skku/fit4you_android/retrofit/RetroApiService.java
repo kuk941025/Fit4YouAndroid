@@ -34,6 +34,8 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/login")
     Call<ResponseLogin> postLogin(@FieldMap HashMap<String, Object> parameter);
+    @GET("/logout")
+    Call<ResponseSuccess> getLogOut();
 
     //REGISTER
     @Multipart

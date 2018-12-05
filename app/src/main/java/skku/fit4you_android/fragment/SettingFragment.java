@@ -17,7 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
 import skku.fit4you_android.activity.FollowingManagementActivity;
+import skku.fit4you_android.activity.LoginActivity;
 import skku.fit4you_android.activity.RegisterActivity;
+import skku.fit4you_android.retrofit.RetroApiService;
+import skku.fit4you_android.retrofit.RetroCallback;
+import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.util.Constants;
 
 /**
@@ -26,6 +30,7 @@ import skku.fit4you_android.util.Constants;
 public class SettingFragment extends Fragment {
     private final static String[] options = Constants.SettingOptions;
     private View fragView = null;
+    private RetroClient retroClient;
     @BindView(R.id.setting_list_view)
     ListView listView;
 
@@ -41,6 +46,7 @@ public class SettingFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_setting, container, false);
             ButterKnife.bind(this, fragView);
+            retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
         }
         return fragView;
     }
@@ -62,6 +68,26 @@ public class SettingFragment extends Fragment {
                 else if (position == 1){ //Followings clicked
                     Intent intent = new Intent(getActivity(), FollowingManagementActivity.class);
                     startActivity(intent);
+                }
+                else if (position == 2){ //logout
+                    retroClient.getLogOut(new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+
+                        }
+                    });
                 }
             }
         });

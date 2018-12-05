@@ -1,6 +1,7 @@
 package skku.fit4you_android.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -22,11 +23,17 @@ import skku.fit4you_android.retrofit.RetroApiService;
 public class PostImageViewAdapter extends PagerAdapter {
     Context context;
     List<String> imageURL;
+    List<Bitmap> imageBitMap;
+
     @BindView(R.id.template_post_item_clothing_img)
     ImageView imgClothing;
     public PostImageViewAdapter(Context context, List<String> imageURL) {
         this.context = context;
         this.imageURL = imageURL;
+    }
+
+    public PostImageViewAdapter(List<Bitmap> imageBitMap) {
+        this.imageBitMap = imageBitMap;
     }
 
     @Override

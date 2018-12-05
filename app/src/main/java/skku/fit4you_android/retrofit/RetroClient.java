@@ -87,6 +87,21 @@ public class RetroClient {
         });
     }
 
+    public void getLogOut(final RetroCallback callback){
+        apiService.getLogOut().enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
     public void postRegister(MultipartBody.Part file, Map<String, RequestBody> partMap,  final RetroCallback callback){
         apiService.postRegister(file, partMap).enqueue(new Callback<ResponseSuccess>() {
             @Override
