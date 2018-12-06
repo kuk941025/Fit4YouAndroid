@@ -27,19 +27,30 @@ import org.opencv.core.Mat;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.R;
+import skku.fit4you_android.adapter.SizeFragmentAdapter;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.dialog.SetDefaultImageDialog;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
+import skku.fit4you_android.fragment.SizeInfoFragment;
+import skku.fit4you_android.model.SizeFragment;
 import skku.fit4you_android.util.Converter;
+import skku.fit4you_android.widget.HeightWrappingViewPager;
 
 
 public class UploadClothingActivity extends AppCompatActivity {
     @BindView(R.id.UC_view_pager)
     ViewPager viewPager;
+    @BindView(R.id.layout_upload_view_pager)
+    HeightWrappingViewPager sizeViewPager;
+
+
+
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
     ImageView DefaultImage;
@@ -49,6 +60,8 @@ public class UploadClothingActivity extends AppCompatActivity {
     static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
     boolean isActive1=false,isActive2=false, isActive3 =false; //for dialog checking
+    private SizeFragmentAdapter sizeFragmentAdapter;
+    ArrayList<SizeFragment> sizeFragmentList;
     private Context mContext;
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
     static {
@@ -59,18 +72,27 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
         ButterKnife.bind(this);
+
+        sizeFragmentList = new ArrayList<>();
+        sizeFragmentList.add(new SizeFragment(new SizeInfoFragment(), "Medium"));
+
+        sizeFragmentAdapter = new SizeFragmentAdapter(getSupportFragmentManager(), sizeFragmentList);
+
+
+        sizeViewPager.setAdapter(sizeFragmentAdapter);
+
         //------- for UCAdapter -----
         UCAdapter = new UploadClothingAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(UCAdapter);
         viewPager.setOnPageChangeListener(pageChangeListener);
 
         //---------------
-        EditText cname = (EditText) findViewById(R.id.cname);
+
         DefaultImage = (ImageView) findViewById(R.id.default_image);//default image
-        String text_cname = cname.getText().toString();
         selectImg = (Button) findViewById(R.id.UploadPicture);
         selectDefault = (Button) findViewById(R.id.UploadDefault);
 
@@ -133,6 +155,13 @@ public class UploadClothingActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.layout_upload_add_size)
+    void onAddSizeClicked(){
+        sizeFragmentList.add(new SizeFragment(new SizeInfoFragment(), "test"));
+        sizeFragmentAdapter.notifyDataSetChanged();
+    }
+
     public void setDefaultImage(Drawable img){
         isActive1 = false;
         DefaultImage.setImageDrawable(img);

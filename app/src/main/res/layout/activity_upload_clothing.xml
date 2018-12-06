@@ -130,215 +130,36 @@
                 android:text="Select Color"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_default"
-                app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+                android:layout_marginTop="@dimen/margin_side"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/UploadDefault"
-                app:layout_constraintVertical_bias="1.0" />
+                 />
 
-            <ScrollView
-                android:id="@+id/scrollView2"
+            <include
+                app:layout_constraintTop_toBottomOf="@id/setColor"
+                layout="@layout/layout_upload_fields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_side"
-                app:layout_constraintBottom_toTopOf="@+id/btn_push"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/setColor"
-                tools:layout_editor_absoluteX="0dp">
+                />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Clothing Name: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/cname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Cost: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/cost"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Gender: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/gender"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="HashTag: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/hashTag"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Size: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/size"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Waist: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/waist"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="length: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/length"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_side"
-                        android:layout_marginBottom="@dimen/margin_side">
-
-                        <TextView
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_side"
-                            android:text="Weather: "
-                            android:textSize="@dimen/text_default" />
-
-                        <EditText
-                            android:id="@+id/weather"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:textSize="@dimen/text_default" />
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
-
-            <Button
-                android:id="@+id/btn_push"
-                android:layout_width="285dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/colorPrimary"
-                android:text="Upload Clothing!"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/text_default"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+            <!--<Button-->
+                <!--android:id="@+id/btn_push"-->
+                <!--android:layout_width="285dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:background="@color/colorPrimary"-->
+                <!--android:text="Upload Clothing!"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="@dimen/text_default"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintHorizontal_bias="0.505"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/scrollView2" />-->
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

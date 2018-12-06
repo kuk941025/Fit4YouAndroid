@@ -154,7 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side"
-        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_long_long"
         android:text="Size Information"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_large"
@@ -162,6 +162,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_hash" />
 
+    <Button
+        android:id="@+id/layout_upload_add_size"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="@dimen/margin_side"
+        android:background="@color/colorPrimary"
+        android:text="+"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_extra_large"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_upload_txt_size"
+        app:layout_constraintStart_toEndOf="@+id/layout_upload_txt_size"
+        app:layout_constraintTop_toTopOf="@+id/layout_upload_txt_size" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_size_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:text="Medium"
+        android:textSize="@dimen/text_small"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_upload_txt_size"
+        app:layout_constraintLeft_toRightOf="@id/layout_upload_add_size"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout_upload_txt_size" />
     <skku.fit4you_android.widget.HeightWrappingViewPager
         android:id="@+id/layout_upload_view_pager"
         android:layout_width="match_parent"

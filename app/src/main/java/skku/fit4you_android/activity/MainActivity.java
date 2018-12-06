@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
         pageAdapter = new MainPageAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
 
