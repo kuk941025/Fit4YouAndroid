@@ -56,9 +56,9 @@ public interface RetroApiService {
 
 
     //POST
-    @FormUrlEncoded
+    @Multipart
     @POST("/post")
-    Call<ResponseSuccess> postPostWrite(@FieldMap HashMap<String, Object> parameter);
+    Call<ResponseSuccess> postPostWrite(@Part MultipartBody.Part clothingImage, @Part MultipartBody.Part avatarImage, @PartMap() Map<String, RequestBody> partMap);
     @FormUrlEncoded
     @GET("/post/{uid}")
     Call <List<ResponsePost>> getPostList(@Path("uid") String uid, @Field("sortoption") int sortOption, @Field("gender") int gender);

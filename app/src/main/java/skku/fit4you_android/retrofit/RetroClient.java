@@ -182,9 +182,8 @@ public class RetroClient {
             }
         });
     }
-
-    public void postWrite(HashMap<String, Object> params, final RetroCallback callback){
-        apiService.postPostWrite(params).enqueue(new Callback<ResponseSuccess>() {
+    public void postPostWrite(MultipartBody.Part clothingImage, MultipartBody.Part avatarImage, Map<String, RequestBody> partMap, final RetroCallback callback){
+        apiService.postPostWrite(clothingImage, avatarImage, partMap).enqueue(new Callback<ResponseSuccess>() {
             @Override
             public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
