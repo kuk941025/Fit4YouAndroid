@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
@@ -154,6 +156,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         selectColor = (Button) findViewById(R.id.setColor);
         ColorDrawable btnColor = (ColorDrawable) selectColor.getBackground();
         color = String.valueOf(btnColor.getColor());
+
         Log.d("initial Color:", color);
         selectColor.setOnClickListener(new Button.OnClickListener() {//select color
             @Override
@@ -346,12 +349,16 @@ public class UploadClothingActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 try {
                     // 선택한 이미지에서 비트맵 생성
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
+//                    InputStream in = getContentResolver().openInputStream(data.getData());
+//                    Bitmap img = BitmapFactory.decodeStream(in);
+//                    in.close();
                     // 이미지 표시
                     imgPath[viewPager.getCurrentItem()] = data.getData();
-                    ivImage.setImageBitmap(img);
+                    String imgPath = getPathFromUri(data.getData());
+
+                    if (ivImage == null) ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
+                    Glide.with(this).load(imgPath).into(ivImage);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -364,7 +371,8 @@ public class UploadClothingActivity extends AppCompatActivity {
                     Bundle extras = data.getExtras();
                     Bitmap img = (Bitmap) extras.get("data");
                     // 이미지 표시
-                    ivImage.setImageBitmap(img);
+                    if (ivImage == null) ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
+                    Glide.with(this).load(img).into(ivImage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -425,19 +433,24 @@ public class UploadClothingActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private String getPathFromUri(Uri selectedImage){
+        String rtr;
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        rtr = cursor.getString(columnIndex);
+        cursor.close();
+
+        return rtr;
+    }
     private MultipartBody.Part getMultiFile(Uri selectedImage, String title) {
         String imgPathStr;
         File file = null;
         RequestBody requestFile = null;
         MultipartBody.Part multiFile;
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        imgPathStr = cursor.getString(columnIndex);
-        cursor.close();
+        imgPathStr = getPathFromUri(selectedImage);
 
         file = new File(imgPathStr);
         requestFile = RequestBody.create(MediaType.parse("image/*"), file);

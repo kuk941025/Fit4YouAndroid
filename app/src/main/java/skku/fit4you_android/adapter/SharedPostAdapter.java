@@ -295,7 +295,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                     retroClient.postClothingDeleteLike(Integer.toString(selectedPost.getId()), new RetroCallback() {
                         @Override
                         public void onError(Throwable t) {
-
+                            Toast.makeText(mContext, "Error", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -313,7 +313,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
                         @Override
                         public void onFailure(int code) {
-
+                            Toast.makeText(mContext, "Failed", Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {

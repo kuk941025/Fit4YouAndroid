@@ -279,9 +279,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             Map<String, RequestBody> params = getRegParams();
             //create
-//            File file = new File(imgPathStr);
-//
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+
             retroClient.postRegister(multiFile, params, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {

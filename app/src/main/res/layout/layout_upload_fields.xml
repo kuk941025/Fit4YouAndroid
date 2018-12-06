@@ -220,17 +220,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <Button
-        android:id="@+id/layout_upload_add_clothing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
-        android:text="Upload"
-        android:textSize="@dimen/text_default"
-        android:layout_marginBottom="@dimen/margin_side"
-        app:layout_constraintTop_toBottomOf="@id/layout_upload_view_pager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        />
+
 </android.support.constraint.ConstraintLayout>
