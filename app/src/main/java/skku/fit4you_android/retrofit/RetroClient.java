@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import skku.fit4you_android.retrofit.response.ResponseComment;
 import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
@@ -466,6 +467,7 @@ public class RetroClient {
             }
         });
     }
+    //Comment
     public void getComment(String pid, final RetroCallback callback){
         apiService.getComment(pid).enqueue(new Callback<List<ResponseCommentInfo>>() {
             @Override
@@ -476,6 +478,20 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<List<ResponseCommentInfo>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void postAddComment(String pid, String contents, final RetroCallback callback){
+        apiService.postAddComment(pid,contents).enqueue(new Callback<ResponseComment>() {
+            @Override
+            public void onResponse(Call<ResponseComment> call, Response<ResponseComment> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseComment> call, Throwable t) {
                 callback.onError(t);
             }
         });
