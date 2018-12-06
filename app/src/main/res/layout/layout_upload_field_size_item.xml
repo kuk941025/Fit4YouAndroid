@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/layout_upload_edit_total_length"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:hint="Total Length"
+        android:inputType="number"
+        android:padding="@dimen/margin_side"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_shoulder_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Shoulder width"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_total_length"
+        />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_chest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:hint="Chest size"
+        android:inputType="number"
+        android:padding="@dimen/margin_side"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_shoulder_width" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_arm_length"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Arm length"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_chest"
+        />
+
+</android.support.constraint.ConstraintLayout>
