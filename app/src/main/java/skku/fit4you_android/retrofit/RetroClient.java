@@ -1,11 +1,9 @@
 package skku.fit4you_android.retrofit;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import skku.fit4you_android.retrofit.response.ReponsePostInfo;
+import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
@@ -227,15 +225,15 @@ public class RetroClient {
     }
 
     public void getPostInfo(String pid, final RetroCallback callback){
-        apiService.getPostInfo(pid).enqueue(new Callback<ReponsePostInfo>() {
+        apiService.getPostInfo(pid).enqueue(new Callback<ResponsePostInfo>() {
             @Override
-            public void onResponse(Call<ReponsePostInfo> call, Response<ReponsePostInfo> response) {
+            public void onResponse(Call<ResponsePostInfo> call, Response<ResponsePostInfo> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
                 else callback.onFailure(response.code());
             }
 
             @Override
-            public void onFailure(Call<ReponsePostInfo> call, Throwable t) {
+            public void onFailure(Call<ResponsePostInfo> call, Throwable t) {
                 callback.onError(t);
             }
         });

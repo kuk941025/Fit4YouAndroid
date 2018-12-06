@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
-import skku.fit4you_android.retrofit.response.ReponsePostInfo;
+import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
@@ -64,7 +64,7 @@ public interface RetroApiService {
     @GET("/post/user/{uid}")
     Call <List<ResponsePost>> getUserPostList(@Path("uid") String uid);
     @GET("/post/specific/{pid}")
-    Call <ReponsePostInfo> getPostInfo(@Path("pid") String pid);
+    Call <ResponsePostInfo> getPostInfo(@Path("pid") String pid);
     @FormUrlEncoded
     @POST("/post/modify/{pid}")
     Call <ResponseSuccess> postPostModify(@Path("pid") String pid, @FieldMap HashMap<String, Object> parameter);
