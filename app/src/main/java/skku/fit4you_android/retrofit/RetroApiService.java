@@ -16,6 +16,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import skku.fit4you_android.retrofit.response.ResponseComment;
+import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
@@ -115,8 +117,11 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/post/deletelike")
     Call <ResponseLike> postPostDeleteLike(@Field("pid") String pid);
-    //LIKE
-
-
+    //COMMENT
+    @FormUrlEncoded
+    @POST("/comment/add")
+    Call <ResponseComment> postAddComment(@Field("pid") String pid,@Field("contents") String contents);
+    @GET("/comment/get/{pid}")
+    Call <List<ResponseCommentInfo>> getComment(@Path("pid") String pid);
 }
 

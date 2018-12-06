@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
@@ -33,6 +34,8 @@ public class RetroClient {
     public static final String MULTIPART_FORM_DATA = "multipart/form-data";
     private static Context mContext;
     private static Retrofit retrofit;
+
+
 
     public static class SingletonHolder{
         private  static RetroClient INSTANCE = new RetroClient(mContext);
@@ -463,5 +466,18 @@ public class RetroClient {
             }
         });
     }
+    public void getComment(String pid, final RetroCallback callback){
+        apiService.getComment(pid).enqueue(new Callback<List<ResponseCommentInfo>>() {
+            @Override
+            public void onResponse(Call<List<ResponseCommentInfo>> call, Response<List<ResponseCommentInfo>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
 
+            @Override
+            public void onFailure(Call<List<ResponseCommentInfo>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

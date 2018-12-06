@@ -26,6 +26,7 @@ import skku.fit4you_android.adapter.CommentAdapter;
 import skku.fit4you_android.adapter.PostImageViewAdapter;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
+import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 
 public class DetailPostActivity extends AppCompatActivity {
@@ -144,12 +145,30 @@ public class DetailPostActivity extends AppCompatActivity {
     private void setRecyclerComments(){
         //create temp data
         comments = new ArrayList<>();
-        for (int i = 0; i < commentNum; i++){ // here is comment
-            Comment comment = new Comment("User " + i);
-            comment.setContents("Comment number " + i);
-            comment.setLikes(110 + i);
-            comments.add(comment);
-        }
+        retroClient.getComment("1", new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                List<ResponseCommentInfo> RCI = (List<ResponseCommentInfo>) receivedData; //RCI: 커멘트 정보 받아오기
+                for (int i = 0; i < commentNum; i++){ // here is comment
+                    Comment comment = new Comment("User " + RCI.get(i).id);
+                    comment.setContents(RCI.get(i).contents);
+                    comment.setLikes(110 + i);
+                    comments.add(comment);
+                }
+            }
+
+            @Override
+            public void onFailure(int code) {
+
+            }
+        });
+
+
 
         commentAdapter = new CommentAdapter(comments);
         recyclerComments.setAdapter(commentAdapter);
