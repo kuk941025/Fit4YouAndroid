@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.opencv.android.Utils;
@@ -29,6 +32,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +43,7 @@ import skku.fit4you_android.dialog.SetDefaultImageDialog;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
 import skku.fit4you_android.fragment.SizeInfoFragment;
 import skku.fit4you_android.model.SizeFragment;
+import skku.fit4you_android.util.Constants;
 import skku.fit4you_android.util.Converter;
 import skku.fit4you_android.widget.HeightWrappingViewPager;
 
@@ -48,8 +53,10 @@ public class UploadClothingActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.layout_upload_view_pager)
     HeightWrappingViewPager sizeViewPager;
-
-
+    @BindView(R.id.layout_upload_weather)
+    ToggleSwitch toggleWeather;
+    @BindView(R.id.upload_txt_selected_clothing)
+            TextView txtSelectedClothing;
 
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
@@ -72,16 +79,19 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_clothing);
         ButterKnife.bind(this);
 
+
+        //set toggle weather
+        ArrayList<String> weatherLists = new ArrayList<>();
+        for (String weather : Constants.CLOTHING_WEATHER)
+            weatherLists.add(weather);
+        toggleWeather.setLabels(weatherLists);
         sizeFragmentList = new ArrayList<>();
         sizeFragmentList.add(new SizeFragment(new SizeInfoFragment(), "Medium"));
-
         sizeFragmentAdapter = new SizeFragmentAdapter(getSupportFragmentManager(), sizeFragmentList);
-
 
         sizeViewPager.setAdapter(sizeFragmentAdapter);
 
@@ -135,8 +145,9 @@ public class UploadClothingActivity extends AppCompatActivity {
                     wm.copyFrom(ListDialog.getWindow().getAttributes());
                     ListDialog.setDialogListener(new SetDefaultImageDialogListener() {
                         @Override
-                        public void onPositiveClicked(Drawable img) {
+                        public void onPositiveClicked(Drawable img, String selectedClothing) {
                             setDefaultImage(img);
+                            txtSelectedClothing.setText(selectedClothing);
                         }
                     });
                     ListDialog.show();

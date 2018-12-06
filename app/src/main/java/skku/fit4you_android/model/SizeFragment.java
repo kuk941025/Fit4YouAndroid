@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 public class SizeFragment {
     private Fragment fragment;
     private String sizeTitle;
-
+    private String[] strSizeInfo = new String[4];
 
     public SizeFragment(Fragment fragment, String sizeTitle) {
         this.fragment = fragment;

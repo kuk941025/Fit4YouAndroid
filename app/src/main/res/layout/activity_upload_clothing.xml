@@ -136,8 +136,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/UploadDefault"
                  />
 
+            <TextView
+                android:id="@+id/upload_txt_selected_clothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:text="Not selected."
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/setColor" />
             <include
-                app:layout_constraintTop_toBottomOf="@id/setColor"
+                app:layout_constraintTop_toBottomOf="@id/upload_txt_selected_clothing"
                 layout="@layout/layout_upload_fields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

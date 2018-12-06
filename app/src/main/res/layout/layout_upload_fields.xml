@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space.medium"
-        android:textSize="@dimen/text_default"
+        android:textSize="@dimen/text_small"
         app:activeBgColor="@color/colorPrimaryDark"
         app:inactiveBgColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@
         app:separatorColor="@color/colorBrightGray"
         app:textToggleLeft="Male"
         app:textToggleRight="ALL"
-        app:toggleWidth="100dp" />
+        app:toggleWidth="80dp" />
 
     <TextView
         android:id="@+id/layout_upload_txt_hashtag"

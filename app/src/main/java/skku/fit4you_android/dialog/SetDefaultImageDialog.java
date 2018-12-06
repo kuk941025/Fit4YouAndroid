@@ -21,6 +21,7 @@ import skku.fit4you_android.activity.UploadClothingActivity;
 import skku.fit4you_android.adapter.ImageListAdapter;
 import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
+import skku.fit4you_android.util.Constants;
 
 public class SetDefaultImageDialog extends Dialog{
     ListView LV;
@@ -46,32 +47,32 @@ public class SetDefaultImageDialog extends Dialog{
         ImageListAdapter LA = new ImageListAdapter(getContext());
         // 포문 등록
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_hood),
-                "hood") ;
+                Constants.CLOTHING_TYPE[0]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_long_pants),
-                "long pants") ;
+                Constants.CLOTHING_TYPE[1]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_long_skirt),
-                "long skirt") ;
+                Constants.CLOTHING_TYPE[2]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_long_sleeve),
-                "long sleeve") ;
+                Constants.CLOTHING_TYPE[3]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_shirt_top),
-                "shirt top") ;
+                Constants.CLOTHING_TYPE[4]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_pants),
-                "short pants") ;
+                Constants.CLOTHING_TYPE[5]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_skirt),
-                "short skirt") ;
+                Constants.CLOTHING_TYPE[6]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_top),
-                "short top") ;
+                Constants.CLOTHING_TYPE[7]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_top),
-                "short top collar") ;
+                Constants.CLOTHING_TYPE[8]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_wrinked_skirt),
-                "short wrinked skirt") ;
+                Constants.CLOTHING_TYPE[9]) ;
         LV.setAdapter(LA);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 img = (ImageView) view.findViewById(R.id.imageItem);
                 Drawable temp = img.getDrawable();
-                dialogListener.onPositiveClicked(temp);
+                dialogListener.onPositiveClicked(temp, Constants.CLOTHING_TYPE[i]);
                 dismiss();
             }
         });
