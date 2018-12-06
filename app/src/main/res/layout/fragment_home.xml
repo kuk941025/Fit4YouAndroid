@@ -86,5 +86,8 @@
         android:layout_height="@dimen/fab_Size"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/margin_side"
+        android:focusable="true"
+        android:clickable="true"
+        android:src="@drawable/img_write_white"
         android:backgroundTint="@color/colorPrimaryDark" />
 </android.support.design.widget.CoordinatorLayout>
