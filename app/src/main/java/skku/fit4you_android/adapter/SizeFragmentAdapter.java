@@ -32,4 +32,5 @@ public class SizeFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragments.get(position).getSizeTitle();
     }
+
 }

@@ -97,4 +97,27 @@ public class Converter {
             sharedPosts.add(sharedPost);
         }
     }
+    public static int StringClothingToOid(String type) {
+
+        if (type == "hood")
+            return 1;
+        else if (type == "long pants")
+            return 7;
+        else if (type == "long skirt")
+            return 31;
+        else if (type == "long sleeve")
+            return 17;
+        else if (type == "short pants")
+            return 8;
+        else if (type == "short skirt")
+            return 9;
+        else if (type == "shirt top")
+            return 12;
+        else if (type == "short top collar")
+            return 14;
+        else if (type == "short wrinkled skirt")
+            return 32;
+        else
+            return 0;
+    }
 }

@@ -23,6 +23,7 @@ import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.retrofit.response.ResponseSuccessClothing;
 import skku.fit4you_android.retrofit.response.ResponseWishList;
 import skku.fit4you_android.util.Constants;
 
@@ -95,6 +96,13 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/clothing/deletelike")
     Call <ResponseLike> postClothingDeleteLike(@Field("cid") String cid);
+    @Multipart
+    @POST("/clothing")
+    Call<ResponseSuccessClothing> postClothing(@Part MultipartBody.Part basicImage, @Part MultipartBody.Part photo1, @Part MultipartBody.Part photo2,
+                                               @PartMap() Map<String, RequestBody> partMap);
+    @FormUrlEncoded
+    @POST("/clothing/addsize")
+    Call<ResponseSuccess> postClothingAddSize(@FieldMap HashMap<String, Object> params);
 
     //POST
     @GET("/post/all/{page_num}/{option_num}")

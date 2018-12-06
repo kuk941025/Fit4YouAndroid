@@ -26,6 +26,7 @@ import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.retrofit.response.ResponseSuccessClothing;
 import skku.fit4you_android.retrofit.response.ResponseWishList;
 
 public class RetroClient {
@@ -121,6 +122,21 @@ public class RetroClient {
         });
     }
 
+    public void postClothing(MultipartBody.Part basicImage, MultipartBody.Part photo1, MultipartBody.Part photo2, Map<String, RequestBody> partMap,
+                             final RetroCallback callback){
+        apiService.postClothing(basicImage, photo1, photo2, partMap).enqueue(new Callback<ResponseSuccessClothing>() {
+            @Override
+            public void onResponse(Call<ResponseSuccessClothing> call, Response<ResponseSuccessClothing> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccessClothing> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
     public void postGetUserInfo(String uid, final RetroCallback callback){
         apiService.postGetUserInfo(uid).enqueue(new Callback<ResponseRegister>() {
             @Override
@@ -435,5 +451,19 @@ public class RetroClient {
         });
     }
 
+    public void postClothingAddSize(HashMap<String, Object> params, final RetroCallback callback){
+        apiService.postClothingAddSize(params).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 
 }

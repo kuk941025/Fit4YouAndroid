@@ -43,9 +43,24 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_upload_edit_url" />
+    <EditText
+        android:id="@+id/layout_upload_edit_brand_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Brand name"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_txt_cloth_info"
+        />
 
     <EditText
-        android:id="@+id/layout_upload_edit_name"
+        android:id="@+id/layout_upload_edit_cname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side"
@@ -57,7 +72,7 @@
         android:textSize="@dimen/text_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_upload_txt_cloth_info" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_brand_name" />
 
     <EditText
         android:id="@+id/layout_upload_edit_cost"
@@ -73,7 +88,7 @@
         android:textSize="@dimen/text_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_name" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_cname" />
 
 
     <belka.us.androidtoggleswitch.widgets.ToggleSwitch
@@ -98,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space.medium"
-        android:textSize="@dimen/text_small"
+        android:textSize="11dp"
         app:activeBgColor="@color/colorPrimaryDark"
         app:inactiveBgColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,13 +204,33 @@
         app:layout_constraintLeft_toRightOf="@id/layout_upload_add_size"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_upload_txt_size" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/layout_upload_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_marginTop="@dimen/margin_side"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_size_title"/>
+
     <skku.fit4you_android.widget.HeightWrappingViewPager
         android:id="@+id/layout_upload_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_side"
-        app:layout_constraintTop_toBottomOf="@id/layout_upload_txt_size"
+        app:layout_constraintTop_toBottomOf="@id/layout_upload_tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/layout_upload_add_clothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:text="Upload"
+        android:textSize="@dimen/text_default"
+        android:layout_marginBottom="@dimen/margin_side"
+        app:layout_constraintTop_toBottomOf="@id/layout_upload_view_pager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         />
 </android.support.constraint.ConstraintLayout>

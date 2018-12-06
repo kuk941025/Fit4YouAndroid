@@ -12,6 +12,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import skku.fit4you_android.R;
+import skku.fit4you_android.model.TopSizeInfo;
 
 public class SizeInfoFragment extends Fragment {
     @BindView(R.id.layout_upload_edit_total_length)
@@ -43,5 +44,15 @@ public class SizeInfoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    public TopSizeInfo getSizeInfo(){
+        TopSizeInfo topSizeInfo = new TopSizeInfo();
+        topSizeInfo.setTotalLength(Integer.parseInt(editTotalLength.getText().toString()));
+        topSizeInfo.setShoulderWidth(Integer.parseInt(editShoulderWidth.getText().toString()));
+        topSizeInfo.setChest(Integer.parseInt(editChest.getText().toString()));
+        topSizeInfo.setArmLength(Integer.parseInt(editArmLength.getText().toString()));
+
+        return  topSizeInfo;
     }
 }

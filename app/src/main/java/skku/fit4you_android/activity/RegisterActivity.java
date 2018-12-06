@@ -245,11 +245,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void modifyUser(){
         MultipartBody.Part multiFile = null;
-        if (checkValidity() && imgPathStr != null){
-            multiFile = getMultiFile();
+        //checkValidity() && imgPathStr != null
+        if (true){
+            //multiFile = getMultiFile();
             Map<String, RequestBody> params = getRegParams();
 
-            retroClient.postRegisterModify(multiFile, params, new RetroCallback() {
+            retroClient.postRegisterModify(null, params, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {
 
