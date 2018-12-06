@@ -49,7 +49,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     static final int REQUEST_CODE = 1003;
     private SetDefaultImageDialog ListDialog;
     boolean isActive1=false,isActive2=false, isActive3 =false; //for dialog checking
-
+    private Context mContext;
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
     static {
         System.loadLibrary("opencv_java3");
@@ -76,7 +76,7 @@ public class UploadClothingActivity extends AppCompatActivity {
 
         //Button PushData_Clothing = (Button) findViewById(R.id.btn_push);
         //화면 크기 구하는 곳
-        final Context mContext = this;
+        mContext = this;
         selectColor = (Button) findViewById(R.id.setColor);
         ColorDrawable btnColor = (ColorDrawable) selectColor.getBackground();
         color = String.valueOf(btnColor.getColor());

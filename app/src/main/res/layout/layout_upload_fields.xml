@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/layout_upload_edit_url"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:padding="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:hint="URL for auto completion"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toStartOf="@id/layout_upload_crawl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/layout_upload_crawl"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:text="Fill"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_upload_edit_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout_upload_edit_url" />
+    <TextView
+        android:id="@+id/layout_upload_txt_cloth_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:text="Clothing Information"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_upload_edit_url" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Clothing name"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_txt_cloth_info" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_cost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Cost"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_name" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_total_length"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Total Length"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_cost"
+        />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_shoulder_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Shoulder width"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_total_length"
+        />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_chest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:hint="Chest size"
+        android:inputType="number"
+        android:padding="@dimen/margin_side"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_shoulder_width" />
+
+    <EditText
+        android:id="@+id/layout_upload_edit_arm_length"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_side"
+        android:hint="Arm length"
+        android:inputType="number"
+        android:textSize="@dimen/text_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_chest"
+        />
+
+    <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+        android:id="@+id/layout_upload_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space.medium"
+        android:textSize="@dimen/text_default"
+        app:activeBgColor="@color/colorPrimaryDark"
+        app:inactiveBgColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_arm_length"
+        app:separatorColor="@color/colorBrightGray"
+        app:textToggleLeft="Male"
+        app:textToggleCenter="Female"
+        app:textToggleRight="ALL"
+        app:toggleWidth="100dp" />
+
+    <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+        android:id="@+id/layout_upload_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space.medium"
+        android:textSize="@dimen/text_default"
+        app:activeBgColor="@color/colorPrimaryDark"
+        app:inactiveBgColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_gender"
+        app:separatorColor="@color/colorBrightGray"
+        app:textToggleLeft="Male"
+        app:textToggleRight="ALL"
+        app:toggleWidth="100dp" />
+
+    <TextView
+        android:id="@+id/layout_upload_txt_hashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:text="Hashtag"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_weather" />
+
+
+
+</android.support.constraint.ConstraintLayout>

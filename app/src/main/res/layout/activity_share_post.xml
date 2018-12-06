@@ -10,79 +10,80 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_side"
         app:layout_constraintBottom_toTopOf="@id/share_add_post"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/share_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/template_post_viewpager_height"/>
 
-        <TextView
-            android:id="@+id/share_txt_dscrp_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_side"
-            android:layout_marginTop="@dimen/margin_side"
-            android:text="Total cost"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/text_large"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_view_pager" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/share_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/template_post_viewpager_height" />
 
-        <TextView
-            android:id="@+id/share_txt_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_side"
-            android:text="1000 won"
-            android:textSize="@dimen/text_default"
-            app:layout_constraintBottom_toBottomOf="@+id/share_txt_dscrp_cost"
-            app:layout_constraintStart_toEndOf="@+id/share_txt_dscrp_cost"
-            app:layout_constraintTop_toTopOf="@+id/share_txt_dscrp_cost" />
-        <TextView
-            android:id="@+id/share_txt_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_side"
-            android:layout_marginTop="@dimen/margin_side"
-            android:layout_marginEnd="@dimen/margin_side"
-            android:text="Title"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/text_large"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_txt_dscrp_cost" />
+            <TextView
+                android:id="@+id/share_txt_dscrp_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:text="Total cost"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/share_view_pager" />
 
-        <EditText
-            android:id="@+id/share_edit_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_side"
-            android:background="@color/colorWhite"
-            android:hint="Enter the title of styling"
-            android:padding="@dimen/margin_side"
-            android:textSize="@dimen/text_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_txt_title" />
+            <TextView
+                android:id="@+id/share_txt_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:text="1000 won"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintBottom_toBottomOf="@+id/share_txt_dscrp_cost"
+                app:layout_constraintStart_toEndOf="@+id/share_txt_dscrp_cost"
+                app:layout_constraintTop_toTopOf="@+id/share_txt_dscrp_cost" />
 
-        <TextView
-            android:id="@+id/share_txt_hash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#"
-            android:textSize="@dimen/text_extra_large"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginStart="@dimen/margin_side"
-            android:layout_marginTop="@dimen/space.medium"
-            app:layout_constraintTop_toBottomOf="@+id/share_edit_title"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
+            <TextView
+                android:id="@+id/share_txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:text="Title"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/share_txt_dscrp_cost" />
+
+            <EditText
+                android:id="@+id/share_edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="Enter the title of styling"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/share_txt_title" />
+
+            <TextView
+                android:id="@+id/share_txt_hash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/space.medium"
+                android:text="#"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_extra_large"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/share_edit_title" />
 
             <EditText
                 android:id="@+id/share_edit_hash"
@@ -99,27 +100,26 @@
                 app:layout_constraintStart_toEndOf="@+id/share_txt_hash"
                 app:layout_constraintTop_toTopOf="@+id/share_txt_hash" />
 
-        <Button
-            android:id="@+id/share_btn_add_hash"
-            android:layout_width="@dimen/margin_long_long"
-            android:layout_height="@dimen/margin_long_long"
-            android:layout_marginEnd="@dimen/margin_side"
-            android:background="@color/colorPrimary"
-            android:text="add"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="@+id/share_txt_hash"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/share_txt_hash" />
+            <Button
+                android:id="@+id/share_btn_add_hash"
+                android:layout_width="@dimen/margin_long_long"
+                android:layout_height="@dimen/margin_long_long"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorPrimary"
+                android:text="add"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@+id/share_txt_hash"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/share_txt_hash" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/share_recycler_hash"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/share_txt_hash"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="@dimen/margin_side"
-            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/share_recycler_hash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_side"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/share_txt_hash" />
 
 
         </android.support.constraint.ConstraintLayout>
