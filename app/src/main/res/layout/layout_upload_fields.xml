@@ -124,6 +124,22 @@
         app:textToggleRight="ALL"
         app:toggleWidth="80dp" />
 
+    <belka.us.androidtoggleswitch.widgets.ToggleSwitch
+        android:id="@+id/layout_upload_toggle_type_clothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_default"
+        android:textSize="@dimen/text_default"
+        app:activeBgColor="@color/colorPrimaryDark"
+        app:inactiveBgColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_weather"
+        app:separatorColor="@color/colorBrightGray"
+        app:textToggleLeft="Top"
+        app:textToggleRight="Pants"
+        app:toggleWidth="100dp"
+        ></belka.us.androidtoggleswitch.widgets.ToggleSwitch>
     <TextView
         android:id="@+id/layout_upload_txt_hashtag"
         android:layout_width="wrap_content"
@@ -135,7 +151,7 @@
         android:textSize="@dimen/text_large"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_upload_weather" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_toggle_type_clothing" />
 
     <EditText
         android:id="@+id/layout_upload_edit_hash"

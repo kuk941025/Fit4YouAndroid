@@ -1,6 +1,6 @@
 package skku.fit4you_android.model;
 
-public class TopSizeInfo {
+public class TopSizeInfo extends ClothingSizeInfo{
     private int totalLength, shoulderWidth, chest, armLength;
 
     public TopSizeInfo() {

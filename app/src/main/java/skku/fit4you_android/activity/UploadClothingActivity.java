@@ -1,5 +1,6 @@
 package skku.fit4you_android.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SizeF;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -60,6 +62,7 @@ import skku.fit4you_android.adapter.UploadClothingAdapter;
 import skku.fit4you_android.dialog.SetDefaultImageDialog;
 import skku.fit4you_android.etc.SetDefaultImageDialogListener;
 import skku.fit4you_android.fragment.SizeInfoFragment;
+import skku.fit4you_android.model.BottomSizeInfo;
 import skku.fit4you_android.model.SizeFragment;
 import skku.fit4you_android.model.TopSizeInfo;
 import skku.fit4you_android.retrofit.RetroCallback;
@@ -96,6 +99,9 @@ public class UploadClothingActivity extends AppCompatActivity {
     EditText editHash;
     @BindView(R.id.layout_upload_edit_url)
     EditText editURL;
+    @BindView(R.id.layout_upload_toggle_type_clothing)
+    ToggleSwitch toggleTyleClothing;
+
 
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
@@ -111,7 +117,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     private Context mContext;
     private Uri[] imgPath = new Uri[4];
     private RetroClient retroClient;
-
+    private int received_size_cnt = 0;
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
 
     static {
@@ -133,11 +139,17 @@ public class UploadClothingActivity extends AppCompatActivity {
             weatherLists.add(weather);
         toggleWeather.setLabels(weatherLists);
         sizeFragmentList = new ArrayList<>();
-        sizeFragmentList.add(new SizeFragment(new SizeInfoFragment(), "Medium"));
+        SizeInfoFragment firstTempFrag = new SizeInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_TOP);
+        firstTempFrag.setArguments(bundle);
+        sizeFragmentList.add(new SizeFragment(firstTempFrag, "Medium"));
         sizeFragmentAdapter = new SizeFragmentAdapter(getSupportFragmentManager(), sizeFragmentList);
         sizeViewPager.setAdapter(sizeFragmentAdapter);
         tabLayoutSize.setupWithViewPager(sizeViewPager);
         tabLayoutSize.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorPrimaryDark, null));
+        editSizeTitle.addTextChangedListener(sizeTextWatcher);
+
 
         //------- for UCAdapter -----
         UCAdapter = new UploadClothingAdapter(this, getSupportFragmentManager());
@@ -211,8 +223,30 @@ public class UploadClothingActivity extends AppCompatActivity {
         });
     }
 
+    TextWatcher sizeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String res = s.toString();
+            sizeFragmentList.get(sizeViewPager.getCurrentItem()).setSizeTitle(res);
+            sizeFragmentAdapter.notifyDataSetChanged();
+        }
+    };
+
     @OnClick(R.id.layout_upload_add_clothing)
     void onUploadClicked() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
         DefaultImage.buildDrawingCache();
         File basicImg = new File(getApplicationContext().getCacheDir(), "basicImg");
         RequestBody defaultImg = null;
@@ -244,33 +278,44 @@ public class UploadClothingActivity extends AppCompatActivity {
         retroClient.postClothing(defaultImgFile, photo1, photo2, params, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-                Toast.makeText(getApplicationContext(), "t", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
 
             @Override
             public void onSuccess(int code, Object receivedData) {
                 ResponseSuccessClothing responseSuccessClothing = (ResponseSuccessClothing) receivedData;
-                if (responseSuccessClothing.success == skku.fit4you_android.retrofit.response.Response.RESPONSE_RECEIVED){
-                    for (SizeFragment sizeFragment : sizeFragmentList){
-                        SizeInfoFragment sizeInfoFragment = (SizeInfoFragment)sizeFragment.getFragment();
+                received_size_cnt = 0;
+                if (responseSuccessClothing.success == skku.fit4you_android.retrofit.response.Response.RESPONSE_RECEIVED) {
+                    for (final SizeFragment sizeFragment : sizeFragmentList) {
+                        SizeInfoFragment sizeInfoFragment = (SizeInfoFragment) sizeFragment.getFragment();
                         TopSizeInfo topSizeInfo = sizeInfoFragment.getSizeInfo();
-                        HashMap<String, Object> params = getSizeParams(topSizeInfo, responseSuccessClothing.cid);
+                        HashMap<String, Object> params = getSizeParams(topSizeInfo, responseSuccessClothing.cid, sizeFragment.getSizeTitle(),
+                                sizeInfoFragment.getType_of_clothing());
                         retroClient.postClothingAddSize(params, new RetroCallback() {
                             @Override
                             public void onError(Throwable t) {
-
+                                Toast.makeText(getApplicationContext(), "Error on uploading size", Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
                             }
 
                             @Override
                             public void onSuccess(int code, Object receivedData) {
                                 ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
-                                if (responseSuccess.success == skku.fit4you_android.retrofit.response.Response.RESPONSE_RECEIVED)
-                                    Toast.makeText(getApplicationContext(), "Successfully added clothing", Toast.LENGTH_LONG).show();
+                                received_size_cnt++;
+//                                if (responseSuccess.success == skku.fit4you_android.retrofit.response.Response.RESPONSE_RECEIVED)
+//                                    Toast.makeText(getApplicationContext(), "Successfully added clothing", Toast.LENGTH_LONG).show();
+
+                                if (received_size_cnt == sizeFragmentList.size()) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "All done successfully", Toast.LENGTH_LONG).show();
+                                }
                             }
 
                             @Override
                             public void onFailure(int code) {
-
+                                Toast.makeText(getApplicationContext(), "Failed on uploading size", Toast.LENGTH_LONG).show();;
+                                progressDialog.dismiss();
                             }
                         });
                     }
@@ -279,21 +324,45 @@ public class UploadClothingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int code) {
-                Toast.makeText(getApplicationContext(), "taa", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
         });
 
     }
 
-    private HashMap<String, Object> getSizeParams(TopSizeInfo topSizeInfo, String cid){
+    private HashMap<String, Object> getSizeParams(TopSizeInfo topSizeInfo, String cid, String size_name, int type) {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("top_length", topSizeInfo.getTotalLength());
-        params.put("shoulder_width", topSizeInfo.getShoulderWidth());
-        params.put("bust", topSizeInfo.getChest());
-        params.put("sleeve", topSizeInfo.getArmLength());
+        if (type == SizeInfoFragment.TYPE_SIZE_TOP) {
+            params.put("top_length", topSizeInfo.getTotalLength());
+            params.put("shoulder_width", topSizeInfo.getShoulderWidth());
+            params.put("bust", topSizeInfo.getChest());
+            params.put("sleeve", topSizeInfo.getArmLength());
+        }
+        else{
+            params.put("down_length", topSizeInfo.getTotalLength());
+            params.put("thigh", topSizeInfo.getShoulderWidth());
+            params.put("rise", topSizeInfo.getChest());
+            params.put("waist", topSizeInfo.getArmLength());
+        }
         params.put("cid", cid);
+        params.put("size_name", size_name);
         return params;
     }
+
+    private HashMap<String, Object> getSizeParams(BottomSizeInfo bottomSizeInfo, String cid) {
+        HashMap<String, Object> pararms = new HashMap<>();
+
+        pararms.put("down_length", bottomSizeInfo.getDown_length());
+        pararms.put("thigh", bottomSizeInfo.getThigh());
+        pararms.put("rise", bottomSizeInfo.getRise());
+        pararms.put("hem", bottomSizeInfo.getHem());
+        pararms.put("waist", bottomSizeInfo.getWaist());
+        pararms.put("cid", cid);
+        pararms.put("size_name", bottomSizeInfo.getSize_name());
+        return pararms;
+    }
+
     private Map<String, RequestBody> getParams() {
         Map<String, RequestBody> params = new HashMap<>();
         params.put("cname", RetroClient.createRequestBody(editCName.getText().toString()));
@@ -311,7 +380,16 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     @OnClick(R.id.layout_upload_add_size)
     void onAddSizeClicked() {
-        sizeFragmentList.add(new SizeFragment(new SizeInfoFragment(), editSizeTitle.getText().toString()));
+        int type = toggleTyleClothing.getCheckedTogglePosition();
+        if (type == 0) type = SizeInfoFragment.TYPE_SIZE_TOP;
+        else type = SizeInfoFragment.TYPE_SIZE_PANTS;
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, type);
+        SizeInfoFragment sizeInfoFragment = new SizeInfoFragment();
+        sizeInfoFragment.setArguments(bundle);
+        sizeFragmentList.add(new SizeFragment(sizeInfoFragment, editSizeTitle.getText().toString()));
+
         sizeFragmentAdapter.notifyDataSetChanged();
     }
 
@@ -356,7 +434,8 @@ public class UploadClothingActivity extends AppCompatActivity {
                     imgPath[viewPager.getCurrentItem()] = data.getData();
                     String imgPath = getPathFromUri(data.getData());
 
-                    if (ivImage == null) ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
+                    if (ivImage == null)
+                        ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
                     Glide.with(this).load(imgPath).into(ivImage);
 
                 } catch (Exception e) {
@@ -371,7 +450,8 @@ public class UploadClothingActivity extends AppCompatActivity {
                     Bundle extras = data.getExtras();
                     Bitmap img = (Bitmap) extras.get("data");
                     // 이미지 표시
-                    if (ivImage == null) ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
+                    if (ivImage == null)
+                        ivImage = UCAdapter.getItem(viewPager.getCurrentItem()).getView().findViewById(R.id.clothing_image);
                     Glide.with(this).load(img).into(ivImage);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -433,7 +513,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private String getPathFromUri(Uri selectedImage){
+    private String getPathFromUri(Uri selectedImage) {
         String rtr;
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -445,6 +525,7 @@ public class UploadClothingActivity extends AppCompatActivity {
 
         return rtr;
     }
+
     private MultipartBody.Part getMultiFile(Uri selectedImage, String title) {
         String imgPathStr;
         File file = null;

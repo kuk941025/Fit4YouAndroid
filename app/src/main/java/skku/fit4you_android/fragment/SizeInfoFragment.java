@@ -25,9 +25,12 @@ public class SizeInfoFragment extends Fragment {
     EditText editArmLength;
 
     private View fragView = null;
-
-
+    public static final int TYPE_SIZE_TOP = 1;
+    public static final int TYPE_SIZE_PANTS = 0;
+    public static final String TYPE_OF_CLOTHING = "TYPE_CLOTHING";
+    private int type_of_clothing = 0;
     public SizeInfoFragment() {
+
     }
 
     @Nullable
@@ -36,7 +39,13 @@ public class SizeInfoFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.layout_upload_field_size_item, container, false);
             ButterKnife.bind(this, fragView);
-
+            type_of_clothing = getArguments().getInt(TYPE_OF_CLOTHING, TYPE_SIZE_TOP);
+            if (type_of_clothing == TYPE_SIZE_PANTS){
+                editTotalLength.setHint("down length");
+                editShoulderWidth.setHint("thigh");
+                editChest.setHint("rise");
+                editArmLength.setHint("waist");
+            }
         }
         return fragView;
     }
@@ -54,5 +63,9 @@ public class SizeInfoFragment extends Fragment {
         topSizeInfo.setArmLength(Integer.parseInt(editArmLength.getText().toString()));
 
         return  topSizeInfo;
+    }
+
+    public int getType_of_clothing() {
+        return type_of_clothing;
     }
 }
