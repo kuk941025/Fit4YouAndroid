@@ -58,28 +58,28 @@ public class CrawlingAsyncTask extends AsyncTask<String,Integer,String> {
                 }
 
                 if (size.size() != 0) {
-                    Log.d("crawling:","Name: " + cloth.title);
-                    Log.d("crawling:","Cost: " + cloth.cost);
-                    Log.d("crawling:",cloth.clothType+"");
-
-                    Log.d("crawling:","type\t");
-                    Log.d("crawling:","length\t");
-                    Log.d("crawling:","shoulder\t");
-                    Log.d("crawling:","chest\t");
-                    Log.d("crawling:","sleeve");
+//                    Log.d("crawling:","Name: " + cloth.title);
+//                    Log.d("crawling:","Cost: " + cloth.cost);
+//                    Log.d("crawling:",cloth.clothType+"");
+//
+//                    Log.d("crawling:","type\t");
+//                    Log.d("crawling:","length\t");
+//                    Log.d("crawling:","shoulder\t");
+//                    Log.d("crawling:","chest\t");
+//                    Log.d("crawling:","sleeve");
 
                     for (int i = 0; i < cloth.topSize.size(); i++) {
-                        Log.d("crawling:",cloth.topSize.get(i).type + "\t");
-                        Log.d("crawling:",cloth.topSize.get(i).length + "\t");
-                        Log.d("crawling:",cloth.topSize.get(i).shoulder + "\t\t");
-                        Log.d("crawling:",cloth.topSize.get(i).chest + "\t");
-                        Log.d("crawling:",cloth.topSize.get(i).sleeve+"");
+//                        Log.d("crawling:",cloth.topSize.get(i).type + "\t");
+//                        Log.d("crawling:",cloth.topSize.get(i).length + "\t");
+//                        Log.d("crawling:",cloth.topSize.get(i).shoulder + "\t\t");
+//                        Log.d("crawling:",cloth.topSize.get(i).chest + "\t");
+//                        Log.d("crawling:",cloth.topSize.get(i).sleeve+"");
                         result += "\ntype: "+cloth.topSize.get(i).type+"\nlength: "+cloth.topSize.get(i).length+"\nshoulder: "+cloth.topSize.get(i).shoulder+
                                 "\nchest: "+cloth.topSize.get(i).chest+"\nsleeve: "+cloth.topSize.get(i).sleeve;
                     }
                 }
                 else {
-                    Log.d("crawling:","No Size Info.");
+//                    Log.d("crawling:","No Size Info.");
                     cloth.topSize = null;
                     cloth.bottomSize = null;
                 }
@@ -100,40 +100,40 @@ public class CrawlingAsyncTask extends AsyncTask<String,Integer,String> {
                 }
 
                 if (size.size() != 0) {
-                    Log.d("crawling:","Name: " + cloth.title);
-                    Log.d("crawling:","Cost: " + cloth.cost);
-                    Log.d("crawling:","Cloth Type: " + cloth.clothType);
-
-                    Log.d("crawling:","type\t");
-                    Log.d("crawling:","length\t");
-                    Log.d("crawling:","waist\t");
-                    Log.d("crawling:","thigh\t");
-                    Log.d("crawling:","rise\t");
-                    Log.d("crawling:","hem");
+//                    Log.d("crawling:","Name: " + cloth.title);
+//                    Log.d("crawling:","Cost: " + cloth.cost);
+//                    Log.d("crawling:","Cloth Type: " + cloth.clothType);
+//
+//                    Log.d("crawling:","type\t");
+//                    Log.d("crawling:","length\t");
+//                    Log.d("crawling:","waist\t");
+//                    Log.d("crawling:","thigh\t");
+//                    Log.d("crawling:","rise\t");
+//                    Log.d("crawling:","hem");
 
                     for (int i = 0; i < cloth.bottomSize.size(); i++) {
-                        Log.d("crawling:",cloth.bottomSize.get(i).type + "\t");
-                        Log.d("crawling:",cloth.bottomSize.get(i).length + "\t");
-                        Log.d("crawling:",cloth.bottomSize.get(i).waist + "\t");
-                        Log.d("crawling:",cloth.bottomSize.get(i).thigh + "\t");
-                        Log.d("crawling:",cloth.bottomSize.get(i).rise + "\t");
-                        Log.d("crawling:",cloth.bottomSize.get(i).hem+"");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).type + "\t");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).length + "\t");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).waist + "\t");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).thigh + "\t");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).rise + "\t");
+//                        Log.d("crawling:",cloth.bottomSize.get(i).hem+"");
                         result += "\ntype: "+cloth.bottomSize.get(i).type+"\nlength: "+cloth.bottomSize.get(i).length+"\nwaist: "+cloth.bottomSize.get(i).waist+
                                 "\nthigh: "+cloth.bottomSize.get(i).thigh+"\nrise: "+cloth.bottomSize.get(i).rise+"\nhem: "+cloth.bottomSize.get(i).hem;
                     }
                 }
                 else {
-                    Log.d("crawling:","No Size Info.");
+//                    Log.d("crawling:","No Size Info.");
                     cloth.topSize = null;
                     cloth.bottomSize = null;
                 }
             }
 
-            Log.d("crawling:",cloth.url);
+//            Log.d("crawling:",cloth.url);
             result += "\nURL: "+cloth.url;
 
         } catch (Exception e) {
-            Log.d("crawling:","No Size Info.");
+//            Log.d("crawling:","No Size Info.");
             cloth.topSize = null;
             cloth.bottomSize = null;
             // e.printStackTrace();

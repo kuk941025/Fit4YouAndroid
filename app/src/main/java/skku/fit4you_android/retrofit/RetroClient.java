@@ -19,6 +19,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import skku.fit4you_android.retrofit.response.ResponseComment;
 import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
+import skku.fit4you_android.retrofit.response.ResponseFollow;
+import skku.fit4you_android.retrofit.response.ResponseFollowInfo;
+import skku.fit4you_android.retrofit.response.ResponseIsFollow;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
@@ -491,6 +494,63 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<ResponseComment> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    //Follow
+    public void postIsFollow(String id_two, final RetroCallback callback){
+        apiService.postIsFollow(id_two).enqueue(new Callback<ResponseIsFollow>() {
+            @Override
+            public void onResponse(Call<ResponseIsFollow> call, Response<ResponseIsFollow> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseIsFollow> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void postAddFollow(String id_two, final RetroCallback callback){
+        apiService.postAddFollow(id_two).enqueue(new Callback<ResponseFollow>() {
+            @Override
+            public void onResponse(Call<ResponseFollow> call, Response<ResponseFollow> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFollow> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void postDeleteFollow(String id_two, final RetroCallback callback){
+        apiService.postDeleteFollow(id_two).enqueue(new Callback<ResponseFollow>() {
+            @Override
+            public void onResponse(Call<ResponseFollow> call, Response<ResponseFollow> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFollow> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void getFollower(String uid, final RetroCallback callback){
+        apiService.getFollower(uid).enqueue(new Callback<List<ResponseFollowInfo>>() {
+            @Override
+            public void onResponse(Call<List<ResponseFollowInfo>> call, Response<List<ResponseFollowInfo>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseFollowInfo>> call, Throwable t) {
                 callback.onError(t);
             }
         });

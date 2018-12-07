@@ -16,8 +16,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseComment;
 import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
+import skku.fit4you_android.retrofit.response.ResponseFollow;
+import skku.fit4you_android.retrofit.response.ResponseFollowInfo;
+import skku.fit4you_android.retrofit.response.ResponseIsFollow;
 import skku.fit4you_android.retrofit.response.ResponsePostInfo;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponseLike;
@@ -123,5 +127,15 @@ public interface RetroApiService {
     Call <ResponseComment> postAddComment(@Field("pid") String pid,@Field("contents") String contents);
     @GET("/comment/get/{pid}")
     Call <List<ResponseCommentInfo>> getComment(@Path("pid") String pid);
+
+    //FOLLOWING
+    @POST("/follow/isfollow")
+    Call <ResponseIsFollow> postIsFollow(@Field("id_two") String id_two);
+    @POST("/follow/add")
+    Call <ResponseFollow> postAddFollow(@Field("id_two") String id_two);
+    @POST("/follow/delete")
+    Call <ResponseFollow> postDeleteFollow(@Field("id_two") String id_two);
+    @GET("/follow/followers/{uid}")
+    Call <List<ResponseFollowInfo>> getFollower(@Path("uid") String uid);
 }
 
