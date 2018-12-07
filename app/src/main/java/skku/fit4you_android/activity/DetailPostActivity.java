@@ -57,7 +57,7 @@ public class DetailPostActivity extends AppCompatActivity {
         final Button addComment = (Button) findViewById(R.id.detail_post_btn_add_comment);//댓글 추가하기 버튼
         final EditText contents = (EditText) findViewById(R.id.detail_post_edit_comment);//댓글 내용
         retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getPostInfo("1", new RetroCallback() {
+        retroClient.getPostInfo("1", new RetroCallback() {//포스트 가져오기
             @Override
             public void onError(Throwable t) {
 
@@ -66,35 +66,33 @@ public class DetailPostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 ResponsePostInfo responsepst = (ResponsePostInfo) receivedData;//post 정보 가져오기
-                title.setText(responsepst.title);
-                totalcost.setText(String.valueOf(responsepst.totalcost)+"won");
-                commentNum=responsepst.numcomment;
-                likeNum = responsepst.like;
-                LNC.setText(String.valueOf(likeNum)+"likes "+String.valueOf(commentNum)+"comments");
-                if(responsepst.islike=="true"){
+                title.setText(responsepst.title);//타이틀 설정
+                totalcost.setText(String.valueOf(responsepst.totalcost)+"won");//금액 설정
+                commentNum=responsepst.numcomment;//댓글 수 설정
+                likeNum = responsepst.like;//좋아요 수 설정
+                LNC.setText(String.valueOf(likeNum)+"likes "+String.valueOf(commentNum)+"comments");// 좋아요 + 댓글 수 표시
+                if(responsepst.islike=="true"){ // 좋아요가 눌려있을 경우
                     isLike=true;
                     likeimage.setImageResource(R.drawable.img_like_clicked);
                 }
-                else{
+                else{//안눌려있을 경우
                     isLike = false;
                     likeimage.setImageResource(R.drawable.img_like);
                 }
-                setRecyclerComments();
+                setRecyclerComments();//댓글 설정
 
             }
-
             @Override
             public void onFailure(int code) {
 
             }
         });
-
         hide_keyboard();
         setImageViewAdapter();
         likeimage.setOnClickListener(new Button.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                if(isLike){
+            public void onClick(View view) {//라이크 눌렀을 때
+                if(isLike){// 좋아요 취소의 경우
                     retroClient.postPostDeleteLike("1", new RetroCallback() {
                         @Override
                         public void onError(Throwable t) {
@@ -117,7 +115,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
 
                 }
-                else{
+                else{// 좋아요 경우
                     retroClient.postPostAddLike("1", new RetroCallback() {
                         @Override
                         public void onError(Throwable t) {
@@ -143,8 +141,9 @@ public class DetailPostActivity extends AppCompatActivity {
         });
         addComment.setOnClickListener(new Button.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Log.d("comment:",contents.getText().toString());
+            public void onClick(View view) { // 댓글 추가
+
+                Log.d("comment:",contents.getText().toString());//에딧텍스트 내용 가져오기
                 retroClient.postAddComment("1", contents.getText().toString(), new RetroCallback() {
                     @Override
                     public void onError(Throwable t) {
@@ -153,15 +152,15 @@ public class DetailPostActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(int code, Object receivedData) {
-                        contents.setText(null);
-                        retroClient.getPostInfo("1", new RetroCallback() {
+                        contents.setText(null);// 이미 가져갔으므로 초기화
+                        retroClient.getPostInfo("1", new RetroCallback() {//포스트 정보 가져오기
                             @Override
                             public void onError(Throwable t) {
 
                             }
 
                             @Override
-                            public void onSuccess(int code, Object receivedData) {
+                            public void onSuccess(int code, Object receivedData) {//다시 댓글 보여주기
                                 ResponsePostInfo responsePostInfo = (ResponsePostInfo) receivedData;
                                 commentNum = responsePostInfo.numcomment;
                                 LNC.setText(String.valueOf(likeNum)+"likes "+String.valueOf(commentNum)+"comments");
@@ -188,11 +187,11 @@ public class DetailPostActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    private void setRecyclerComments(){
+    private void setRecyclerComments(){ //리사이클 뷰에 댓글 집어넣는 코드
         //create temp data
         context = this;
         comments = new ArrayList<>();
-        retroClient.getComment("1", new RetroCallback() {
+        retroClient.getComment("1", new RetroCallback() {//1번 내용의 자료 가져오기
             @Override
             public void onError(Throwable t) {
 
@@ -204,9 +203,9 @@ public class DetailPostActivity extends AppCompatActivity {
                 List<ResponseCommentInfo> RCI = (List<ResponseCommentInfo>) receivedData; //RCI: 커멘트 정보 받아오기
                 Log.d("comment:","how"+commentNum);
                 for (int i = 0; i < commentNum; i++){ // here is comment
-                    Comment comment = new Comment("User " + RCI.get(i).id);
-                    comment.setContents(RCI.get(i).contents);
-                    comment.setLikes(110 + i);
+                    Comment comment = new Comment("User " + RCI.get(i).uid);// 여기서 유저 아이디
+                    comment.setContents(RCI.get(i).contents); //여기서는 내용
+                    comment.setLikes(110 + i);//그냥 있는 코드 (커맨드 라이크)
                     comments.add(comment);
                     Log.d("comment:","how");
                 }
@@ -226,7 +225,7 @@ public class DetailPostActivity extends AppCompatActivity {
     }
 
 
-    private void setImageViewAdapter(){
+    private void setImageViewAdapter(){ // 이미지뷰 어댑터
 //        List<Drawable> temp = new ArrayList<>();
 //        temp.add(ContextCompat.getDrawable(this, R.drawable.img_add));
 //        temp.add(ContextCompat.getDrawable(this, R.drawable.img_avatar));

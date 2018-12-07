@@ -48,6 +48,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.5'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.github.skydoves:colorpickerpreference:1.0.2'
+    implementation 'org.jsoup:jsoup:1.11.3'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testImplementation 'junit:junit:4.12'
