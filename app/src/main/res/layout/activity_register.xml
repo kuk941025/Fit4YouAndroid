@@ -243,6 +243,40 @@
                 app:layout_constraintTop_toBottomOf="@+id/register_weight" />
 
             <EditText
+                android:id="@+id/register_head_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="Head height"
+                android:inputType="number"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_btn_calculate_body"
+                />
+            <EditText
+                android:id="@+id/register_head_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_side"
+                android:layout_marginTop="@dimen/margin_side"
+                android:layout_marginEnd="@dimen/margin_side"
+                android:background="@color/colorWhite"
+                android:hint="Head width"
+                android:inputType="number"
+                android:padding="@dimen/margin_side"
+                android:textSize="@dimen/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_head_height"
+                />
+
+
+            <EditText
                 android:id="@+id/register_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -256,7 +290,7 @@
                 android:textSize="@dimen/text_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/register_btn_calculate_body" />
+                app:layout_constraintTop_toBottomOf="@+id/register_head_width" />
 
             <EditText
                 android:id="@+id/register_shoulder_width"
@@ -306,6 +340,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/register_waist" />
+
 
             <Button
                 android:id="@+id/register_btn_register"

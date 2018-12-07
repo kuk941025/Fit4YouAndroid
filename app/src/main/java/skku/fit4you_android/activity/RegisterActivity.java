@@ -1,5 +1,6 @@
 package skku.fit4you_android.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -92,6 +93,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editShoulderWidth;
     @BindView(R.id.register_leg_length)
     EditText editLegLength;
+    @BindView(R.id.register_head_height)
+    EditText editHeadHeight;
+    @BindView(R.id.register_head_width)
+    EditText editHeadWidth;
 
     public native String[] receiveData();
     public native String[] sendData(String[] strArray);
@@ -222,6 +227,9 @@ public class RegisterActivity extends AppCompatActivity {
         params.put("email", RetroClient.createRequestBody(editEmail.getText().toString()));
         params.put("shoulder", RetroClient.createRequestBody(editShoulderWidth.getText().toString()));
         params.put("down_length", RetroClient.createRequestBody(editLegLength.getText().toString()));
+        params.put("weight", RetroClient.createRequestBody(editWeight.getText().toString()));
+        params.put("head_height", RetroClient.createRequestBody(editHeadHeight.getText().toString()));
+        params.put("head_width", RetroClient.createRequestBody(editHeadWidth.getText().toString()));
         return params;
     }
 
@@ -273,6 +281,9 @@ public class RegisterActivity extends AppCompatActivity {
     private void registerUser(){
 
         MultipartBody.Part multiFile = null;
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registering the user...");
+        progressDialog.show();
         if (checkValidity()) {
             if (imgPathStr != null) {
                 multiFile = getMultiFile();
@@ -285,16 +296,24 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onError(Throwable t) {
                     Log.d("result", "error");
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 }
 
                 @Override
                 public void onSuccess(int code, Object receivedData) {
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    ResponseSuccess responseSuccess = (ResponseSuccess)receivedData;
+                    if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
+                        Toast.makeText(getApplicationContext(), "Register Successful", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else Toast.makeText(getApplicationContext(), "Register failed. Form may not be correct.", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+
                 }
 
                 @Override
                 public void onFailure(int code) {
                     Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                 }
             });
         }

@@ -242,7 +242,7 @@ public class FitRoomFragment extends Fragment {
     private void setWishlist(){
         //getWishLists();
 
-
+        if (responseWishLists.size() == 0) {txtTotalWishlists.setText("0 item"); return;}
         //responsewish list to wishlist
         for (ResponseWishList wish : responseWishLists){
 

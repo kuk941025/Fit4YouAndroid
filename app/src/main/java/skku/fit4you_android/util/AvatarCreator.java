@@ -19,19 +19,19 @@ public class AvatarCreator {
     private ImageView imgHead, imgLeftArm, imgRightArm, imgBody, imgLeg;
     private int px_per_cm;
     final private int TOP_MARGIN = 40;
-    final private int PADDING_SHOULDER_WIDTH = 10;
-    final private int PADDING_SHOULDER_HEIGHT = 9;
+    final private int PADDING_SHOULDER_WIDTH = 2;
+    final private int PADDING_SHOULDER_HEIGHT = 2;
     public AvatarCreator(Context mContext, RelativeLayout layoutAvatar) {
         this.mContext = mContext;
         this.layoutAvatar = layoutAvatar;
-        responseRegister = FitApp.getInstance().getUserData();
+
         init();
     }
     private void init(){
         responseRegister = FitApp.getInstance().getUserData();
 //        px_per_cm = layout_height / responseRegister.height;
         getLayoutParams();
-        px_per_cm = layout_height / 180;
+        px_per_cm = layout_height / responseRegister.height;
     }
     private void getLayoutParams(){
         layout_height = layoutAvatar.getHeight();
@@ -79,8 +79,8 @@ public class AvatarCreator {
 
         //draw left arm
         RelativeLayout.LayoutParams leftarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width()) + PADDING_SHOULDER_WIDTH;
-        leftarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER_HEIGHT + 1;
+        leftarmParams.leftMargin = bodyParams.leftMargin - cm2px(bodySize.getArm_width()) + (PADDING_SHOULDER_WIDTH * px_per_cm);
+        leftarmParams.topMargin = headParams.height + TOP_MARGIN + (PADDING_SHOULDER_HEIGHT * px_per_cm )+ 1;
         imgLeftArm.setLayoutParams(leftarmParams);
         imgLeftArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_left_arm));
 //        imgLeftArm.setBackgroundColor(Color.BLUE);
@@ -89,8 +89,8 @@ public class AvatarCreator {
 
         //draw right arm
         RelativeLayout.LayoutParams rightarmParams = new RelativeLayout.LayoutParams(cm2px(bodySize.getArm_width()), cm2px(bodySize.getArm_height()));
-        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width - PADDING_SHOULDER_WIDTH - 4;
-        rightarmParams.topMargin = headParams.height + TOP_MARGIN + PADDING_SHOULDER_HEIGHT + 2;
+        rightarmParams.leftMargin = bodyParams.leftMargin + bodyParams.width - (PADDING_SHOULDER_WIDTH * px_per_cm)- 4;
+        rightarmParams.topMargin = headParams.height + TOP_MARGIN + (PADDING_SHOULDER_HEIGHT * px_per_cm )+ 2;
         imgRightArm.setLayoutParams(rightarmParams);
         imgRightArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_right_arm));
         imgRightArm.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -103,12 +103,12 @@ public class AvatarCreator {
     private BodySize setBodySize(){
         //temporary set bodysize of avatar
         BodySize rtrBodySize = new BodySize();
-        rtrBodySize.setHead_height(25);
-        rtrBodySize.setHead_width(20);
-        rtrBodySize.setBody_height(60);
-        rtrBodySize.setBody_width(41);
-        rtrBodySize.setLeg_height(110);
-        rtrBodySize.setLeg_width(41);
+        rtrBodySize.setHead_height(29);
+        rtrBodySize.setHead_width(17);
+        rtrBodySize.setBody_height(61);
+        rtrBodySize.setBody_width(35);
+        rtrBodySize.setLeg_height(73);
+        rtrBodySize.setLeg_width(35);
         rtrBodySize.setArm_width(20);
         rtrBodySize.setArm_height(75);
         return  rtrBodySize;

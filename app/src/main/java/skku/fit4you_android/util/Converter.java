@@ -1,10 +1,14 @@
 package skku.fit4you_android.util;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,4 +125,21 @@ public class Converter {
         else
             return 0;
     }
+
+    public static Bitmap getBitmapFromURL(String src){
+        Bitmap image;
+        try{
+            URL url = new URL(src);
+            image = BitmapFactory.decodeStream(url.openStream());
+        } catch (MalformedURLException e ){
+            e.printStackTrace();
+            return null;
+        } catch (IOException ioE){
+            ioE.printStackTrace();
+            return  null;
+        }
+
+        return image;
+    }
+
 }

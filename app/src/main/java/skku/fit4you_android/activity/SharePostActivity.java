@@ -148,6 +148,7 @@ public class SharePostActivity extends AppCompatActivity {
         pararms.put("title", RetroClient.createRequestBody(editTitle.getText().toString()));
         pararms.put("totalcost", RetroClient.createRequestBody(Integer.toString(totalCost)));
         pararms.put("hashtag", RetroClient.createRequestBody(editHash.getText().toString()));
+
         return  pararms;
     }
 }
