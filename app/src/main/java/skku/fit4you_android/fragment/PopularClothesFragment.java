@@ -38,6 +38,7 @@ public class PopularClothesFragment extends Fragment {
     private SharedPostAdapter sharedPostAdapter;
     private ArrayList<SharedPost> sharedPosts;
     private RetroClient retroClient;
+    private HomeFragment parentFragment;
 
     public PopularClothesFragment() {
         // Required empty public constructor
@@ -48,11 +49,12 @@ public class PopularClothesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (fragView == null){
+        if (fragView == null) {
             fragView = inflater.inflate(R.layout.fragment_home_clothing, container, false);
             ButterKnife.bind(this, fragView);
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
             initClothingList();
+            parentFragment = (HomeFragment) getParentFragment();
         }
 
         return fragView;
@@ -65,7 +67,7 @@ public class PopularClothesFragment extends Fragment {
     }
 
 
-    private void initClothingList(){
+    private void initClothingList() {
         if (!isFirst) return;
         isRefreshed = false;
         isFirst = false;
@@ -73,7 +75,7 @@ public class PopularClothesFragment extends Fragment {
 
         //set recycler view
         sharedPosts = new ArrayList<>();
-        sharedPostAdapter = new SharedPostAdapter(getContext(),sharedPosts);
+        sharedPostAdapter = new SharedPostAdapter(getContext(), sharedPosts);
         recyclerClothing.setAdapter(sharedPostAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -83,11 +85,13 @@ public class PopularClothesFragment extends Fragment {
         loadClothingList();
 
     }
-    private void loadClothingList(){
+
+    private void loadClothingList() {
+        if (parentFragment != null) parentFragment.clothingStartRefreshing();
         retroClient.getClothingAll(Integer.toString(cur_page_num), "1", "0", "1", new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-
+                if (parentFragment != null) parentFragment.clothingEndRefreshing();
             }
 
             @Override
@@ -96,21 +100,27 @@ public class PopularClothesFragment extends Fragment {
                 Converter.responseClothingToSharedPost((ArrayList<ResponseClothing>) receivedData, sharedPosts);
                 sharedPostAdapter.notifyDataSetChanged();
                 Toast.makeText(getActivity().getApplicationContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+                if (parentFragment != null) parentFragment.clothingEndRefreshing();
             }
 
             @Override
             public void onFailure(int code) {
-
+                if (parentFragment != null) parentFragment.clothingEndRefreshing();
             }
         });
     }
 
-    public void refreshAll(){
+    public void refreshAll() {
         sharedPosts.clear();
         cur_page_num = 1;
         loadClothingList();
     }
-    public void notifyFrag(){
+
+    public void loadNextClothings(){
+        cur_page_num++;
+        loadClothingList();
+    }
+    public void notifyFrag() {
 //        if (getContext() != null && !isRefreshed){
 //            isRefreshed = true;
 //            initClothingList();

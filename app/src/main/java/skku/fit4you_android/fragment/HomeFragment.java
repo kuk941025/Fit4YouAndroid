@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment{
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
     private PopularMallFragment popularMallFragment = null;
-    private int isRefreshingMall, isRefreshingClothing;
+    private int flag_refresh_clothing, flag_refresh_mall;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment{
         if (fragView == null){
             fragView = inflater.inflate(R.layout.fragment_home, container, false);
             ButterKnife.bind(this, fragView);
+            flag_refresh_clothing = flag_refresh_mall = 0;
 
             nestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
@@ -72,11 +73,10 @@ public class HomeFragment extends Fragment{
                     if (diff <= 0){
                         Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
                         swipeRefreshLayout.setRefreshing(true);
-                        if (tabLayout.getSelectedTabPosition() == 0){
-
-
+                        if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
+                            popularClothesFragment.loadNextClothings();
                         }
-                        else if (tabLayout.getSelectedTabPosition() == 1){
+                        else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
                             popularMallFragment.loadNextItems();
                         }
                     }
@@ -87,10 +87,10 @@ public class HomeFragment extends Fragment{
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (tabLayout.getSelectedTabPosition() == 0){
+                    if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
                         popularClothesFragment.refreshAll();
                     }
-                    else if (tabLayout.getSelectedTabPosition() == 1){
+                    else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
                         popularMallFragment.refreshAll();
                     }
                 }
@@ -158,7 +158,27 @@ public class HomeFragment extends Fragment{
 
         }
     };
-
+    //called by fragments
+    public void clothingStartRefreshing(){
+        flag_refresh_clothing = 1;
+        refreshLayoutUpdate();
+    }
+    public void clothingEndRefreshing(){
+        flag_refresh_clothing = 0;
+        refreshLayoutUpdate();
+    }
+    public void postStartRefreshing(){
+        flag_refresh_mall = 1;
+        refreshLayoutUpdate();
+    }
+    public void postEndRefreshing(){
+        flag_refresh_mall = 0;
+        refreshLayoutUpdate();
+    }
+    private void refreshLayoutUpdate(){
+        if (flag_refresh_clothing == 1 || flag_refresh_mall == 1) swipeRefreshLayout.setRefreshing(true);
+        else if (flag_refresh_mall == 0 && flag_refresh_clothing == 0) swipeRefreshLayout.setRefreshing(false);
+    }
     public void called(){
         Toast.makeText(getActivity().getApplicationContext(), "Notified", Toast.LENGTH_LONG).show();
     }

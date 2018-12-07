@@ -40,10 +40,10 @@ public class PopularMallFragment extends Fragment {
     boolean isRefreshed = false, isFirst = true;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
+
     public PopularMallFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -56,7 +56,7 @@ public class PopularMallFragment extends Fragment {
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
             refreshMallList();
             parentFragment = (HomeFragment) getParentFragment();
-            parentFragment.called();
+
         }
         return fragView;
     }
@@ -78,12 +78,12 @@ public class PopularMallFragment extends Fragment {
         loadMallList();
     }
 
-    private void loadMallList(){
-
+    private void loadMallList() {
+        if (parentFragment != null) parentFragment.postStartRefreshing();
         retroClient.getPostAll(Integer.toString(cur_page_num), "1", new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-
+                if (parentFragment != null) parentFragment.postEndRefreshing();
             }
 
             @Override
@@ -91,24 +91,28 @@ public class PopularMallFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), "Post load success", Toast.LENGTH_LONG).show();
                 Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
                 sharedPostAdapter.notifyDataSetChanged();
+                if (parentFragment != null) parentFragment.postEndRefreshing();
 
             }
 
             @Override
             public void onFailure(int code) {
-
+                if (parentFragment != null) parentFragment.postEndRefreshing();
             }
         });
     }
-    public void refreshAll(){
+
+    public void refreshAll() {
         sharedPosts.clear();
         cur_page_num = 1;
         loadMallList();
     }
-    public void loadNextItems(){
+
+    public void loadNextItems() {
         cur_page_num++;
         loadMallList();
     }
+
     public void notifyFrag() {
 //        if (getContext() != null && !isRefreshed) {
 //            isRefreshed = true;

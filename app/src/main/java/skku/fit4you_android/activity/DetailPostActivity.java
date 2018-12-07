@@ -76,7 +76,7 @@ public class DetailPostActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 ResponsePostInfo responsepst = (ResponsePostInfo) receivedData;//post 정보 가져오기
                 title.setText(responsepst.title);//타이틀 설정
-                totalcost.setText(String.valueOf(responsepst.totalcost)+"won");//금액 설정
+                totalcost.setText(String.valueOf(responsepst.totalcost)+" won");//금액 설정
                 commentNum=responsepst.numcomment;//댓글 수 설정
                 likeNum = responsepst.like;//좋아요 수 설정
                 LNC.setText(String.valueOf(likeNum)+" likes "+String.valueOf(commentNum)+" comments");// 좋아요 + 댓글 수 표시
