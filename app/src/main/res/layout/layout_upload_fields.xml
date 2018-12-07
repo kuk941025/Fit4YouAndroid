@@ -198,28 +198,45 @@
         android:layout_width="40dp"
         android:layout_height="35dp"
         android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
         android:background="@color/colorPrimary"
         android:text="+"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_extra_large"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_upload_txt_size"
-        app:layout_constraintStart_toEndOf="@+id/layout_upload_txt_size"
-        app:layout_constraintTop_toTopOf="@+id/layout_upload_txt_size" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_txt_size"
+        app:layout_constraintLeft_toRightOf="@id/layout_upload_delete_size"
+         />
+
+    <Button
+        android:id="@+id/layout_upload_delete_size"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:background="@color/colorPrimary"
+        android:text="-"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_extra_large"
+        app:layout_constraintTop_toBottomOf="@+id/layout_upload_txt_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
     <EditText
         android:id="@+id/layout_upload_edit_size_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
         android:background="@color/colorWhite"
         android:padding="@dimen/margin_side"
         android:text="Medium"
         android:textSize="@dimen/text_small"
-        android:layout_marginStart="@dimen/margin_side"
-        android:layout_marginEnd="@dimen/margin_side"
-        app:layout_constraintBottom_toBottomOf="@+id/layout_upload_txt_size"
+
+        app:layout_constraintBottom_toBottomOf="@id/layout_upload_add_size"
         app:layout_constraintLeft_toRightOf="@id/layout_upload_add_size"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layout_upload_txt_size" />
+        app:layout_constraintTop_toTopOf="@+id/layout_upload_add_size"
+         />
     <android.support.design.widget.TabLayout
         android:id="@+id/layout_upload_tab_layout"
         android:layout_width="match_parent"

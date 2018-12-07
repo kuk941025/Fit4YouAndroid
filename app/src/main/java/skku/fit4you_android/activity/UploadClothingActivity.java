@@ -331,6 +331,11 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.layout_upload_delete_size)
+    void onDeleteItemClicked(){
+        sizeFragmentList.remove(viewPager.getCurrentItem());
+        sizeFragmentAdapter.notifyDataSetChanged();
+    }
     private HashMap<String, Object> getSizeParams(TopSizeInfo topSizeInfo, String cid, String size_name, int type) {
         HashMap<String, Object> params = new HashMap<>();
         if (type == SizeInfoFragment.TYPE_SIZE_TOP) {
