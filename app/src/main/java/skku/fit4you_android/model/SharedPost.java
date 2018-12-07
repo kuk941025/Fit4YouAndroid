@@ -15,7 +15,7 @@ public class SharedPost implements Comparable<SharedPost>{
     private boolean isLike;
     @Override
     public int compareTo(@NonNull SharedPost o) {
-        return getDate().compareTo(o.getDate());
+        return o.getDate().compareTo(getDate());
     }
 
     public boolean isLike() {
