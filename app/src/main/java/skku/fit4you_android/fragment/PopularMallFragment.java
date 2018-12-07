@@ -49,8 +49,6 @@ public class PopularMallFragment extends Fragment {
             fragView = inflater.inflate(R.layout.fragment_home_styling, container, false);
             ButterKnife.bind(this, fragView);
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
-        }
-        if (isRefreshed) {
             refreshMallList();
         }
         return fragView;
@@ -73,14 +71,7 @@ public class PopularMallFragment extends Fragment {
     }
 
     private void loadMallList(){
-//        for (int i = 0; i < 10; i++){
-//            //temp data
-//            SharedPost post = new SharedPost();
-//            post.setType_of_post(SharedPost.POST_STYLE_SHARE);
-//            post.setClothing_name("Clothing name" + i);
-//            post.setUser_name("User Name" + i);
-//            sharedPosts.add(post);
-//        }
+
         retroClient.getPostAll("1", "1", new RetroCallback() {
             @Override
             public void onError(Throwable t) {
@@ -102,10 +93,10 @@ public class PopularMallFragment extends Fragment {
         });
     }
     public void notifyFrag() {
-        if (getContext() != null && !isRefreshed) {
-            isRefreshed = true;
-            refreshMallList();
-        } else isRefreshed = true;
+//        if (getContext() != null && !isRefreshed) {
+//            isRefreshed = true;
+//            refreshMallList();
+//        } else isRefreshed = true;
 
     }
 

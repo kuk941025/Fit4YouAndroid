@@ -94,7 +94,7 @@ public class MyPageFragment extends Fragment {
                     postList.clear();
                     clothingList.clear();
                     loadNewsFeed();
-                    swipeRefreshLayout.setRefreshing(false);
+
                 }
             });
         }
@@ -128,6 +128,7 @@ public class MyPageFragment extends Fragment {
                 if (flag_post == 1){
                     setRecyclerNewsFeed();
                 }
+
             }
 
             @Override
@@ -164,7 +165,11 @@ public class MyPageFragment extends Fragment {
 
     private void setRecyclerNewsFeed(){
         //no data to be refreshed
-        if (postList.size() == prev_loaded_post && clothingList.size() == prev_loaded_clothing) return;
+        swipeRefreshLayout.setRefreshing(false);
+        if (postList.size() == prev_loaded_post && clothingList.size() == prev_loaded_clothing) {
+            Toast.makeText(getActivity(), "No data to be loaded.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Converter.responsePostToSharedPost(postList, sharedPosts);
         Converter.responseClothingToSharedPost(clothingList, sharedPosts);

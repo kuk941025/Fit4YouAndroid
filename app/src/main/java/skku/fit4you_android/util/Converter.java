@@ -58,6 +58,7 @@ public class Converter {
             sharedPost.setUid(clothing.uid);
             sharedPost.setOid(clothing.oid);
             sharedPost.setNum_likes(clothing.like);
+            sharedPost.setUser_name(clothing.nickname);
             if (clothing.islike == "true") sharedPost.setLike(true);
             else sharedPost.setLike(false);
             sharedPost.setType_of_post(SharedPost.POST_CLOTHING);
@@ -99,6 +100,10 @@ public class Converter {
             sharedPost.setDown(post.down);
             sharedPost.setDown_size(post.down_size);
             sharedPost.setType_of_post(SharedPost.POST_STYLE_SHARE);
+            sharedPost.setHeight(post.height);
+            sharedPost.setWeight(post.weight);
+            sharedPost.setUser_name(post.nickname);
+            sharedPost.setHash_tags(post.hashtag);
             sharedPosts.add(sharedPost);
         }
     }

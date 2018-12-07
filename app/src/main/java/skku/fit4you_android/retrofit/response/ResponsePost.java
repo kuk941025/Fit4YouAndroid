@@ -3,11 +3,11 @@ package skku.fit4you_android.retrofit.response;
 public class ResponsePost {
     public final int id, totalcost, views, top_outer, top_1, top_2, down, top_outer_size, top_1_size, top_2_size, down_size,
             uid, like, numpost, commentnum, height, weight;
-    public final String hashtag, clothingimage, avatarimage, title, createdAt, islike;
+    public final String hashtag, clothingimage, avatarimage, title, createdAt, islike, nickname;
 
-    public ResponsePost(int id, int totalcost, int views, int top_outer, int top_1, int top_2, int down, int top_outer_size,
-                        int top_1_size, int top_2_size, int down_size, int uid, int like, int numpost, int commentnum, int height, int weight,
-                        String hashtag, String clothingimage, String avatarimage, String title, String createdAt, String islike) {
+    public ResponsePost(int id, int totalcost, int views, int top_outer, int top_1, int top_2, int down, int top_outer_size, int top_1_size, int top_2_size,
+                        int down_size, int uid, int like, int numpost, int commentnum, int height,
+                        int weight, String hashtag, String clothingimage, String avatarimage, String title, String createdAt, String islike, String nickname) {
         this.id = id;
         this.totalcost = totalcost;
         this.views = views;
@@ -31,5 +31,6 @@ public class ResponsePost {
         this.title = title;
         this.createdAt = createdAt;
         this.islike = islike;
+        this.nickname = nickname;
     }
 }

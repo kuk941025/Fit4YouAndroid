@@ -52,10 +52,9 @@ public class PopularClothesFragment extends Fragment {
             fragView = inflater.inflate(R.layout.fragment_home_clothing, container, false);
             ButterKnife.bind(this, fragView);
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
-        }
-        if (isRefreshed){
             initClothingList();
         }
+
         return fragView;
     }
 
@@ -93,10 +92,10 @@ public class PopularClothesFragment extends Fragment {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                 Converter.responseClothingToSharedPost((ArrayList<ResponseClothing>) receivedData, sharedPosts);
                 sharedPostAdapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -106,11 +105,11 @@ public class PopularClothesFragment extends Fragment {
         });
     }
     public void notifyFrag(){
-        if (getContext() != null && !isRefreshed){
-            isRefreshed = true;
-            initClothingList();
-        }
-        else isRefreshed = true;
+//        if (getContext() != null && !isRefreshed){
+//            isRefreshed = true;
+//            initClothingList();
+//        }
+//        else isRefreshed = true;
     }
 
 }

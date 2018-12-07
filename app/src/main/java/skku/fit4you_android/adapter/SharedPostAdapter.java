@@ -91,6 +91,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + selectedPost.getPhoto1())
                     .apply(RequestOptions.fitCenterTransform()).into(holder.imgPreviewSmall);
             holder.txtComments.setText(selectedPost.getNum_likes() + " likes " + selectedPost.getNum_comments() + " comments");
+            holder.txtUserBodyInfo.setText(selectedPost.getHeight() + "cm " + selectedPost.getWeight() + "kg ");
         }
 
 //        holder.txtClothingCost.setText(Integer.toString(sharedPosts.get(position).getCost()));
@@ -100,6 +101,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         holder.txtItemName.setText(selectedPost.getClothing_name());
         holder.txtUserName.setText(selectedPost.getUser_name());
         holder.txtHashTags.setText(selectedPost.getHash_tags());
+        holder.txtNumViews.setText(selectedPost.getViews());
         if (selectedPost.isLike() == true)
             holder.imgLike.setImageResource(R.drawable.img_like_clicked);
         else holder.imgLike.setImageResource(R.drawable.img_like);
@@ -129,8 +131,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         TextView txtPostDate;
         @BindView(R.id.template_post_item_comments)
         TextView txtComments;
-        @BindView(R.id.template_post_item_style_wearing_clothes)
-        TextView txtWearingClothes;
+        @BindView(R.id.template_post_item_views)
+        TextView txtNumViews;
         @BindView(R.id.template_post_item_style_user_body_info)
         TextView txtUserBodyInfo;
         @BindView(R.id.template_post_item_view_clothing)
@@ -151,6 +153,11 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+        }
+
+        @OnClick(R.id.template_post_item_user_name)
+        void onUserNameClicked() {
 
         }
 
@@ -194,8 +201,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
                                 if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
                                     Toast.makeText(mContext, "Added to wishlist", Toast.LENGTH_LONG).show();
-                                }
-                                else{
+                                } else {
 
                                 }
                                 progressDialog.dismiss();
@@ -309,8 +315,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
                                 selectedPost.setLike(false);
                                 notifyItemChanged(getLayoutPosition());
-                            }
-                            else
+                            } else
                                 Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                         }
 

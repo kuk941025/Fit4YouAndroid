@@ -20,20 +20,20 @@
         android:background="@color/colorLightWhite"
         app:layout_constraintBottom_toBottomOf="@+id/template_post_item_style_preview_large"
         app:layout_constraintEnd_toEndOf="parent" />
-    <TextView
-        android:id="@+id/template_post_item_style_wearing_clothes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_side"
-        android:layout_marginTop="@dimen/margin_side"
-        android:layout_marginEnd="@dimen/margin_side"
-        android:text="White t- shirt (Free), Billie Jean (Med)"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_default"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_preview_large" />
+    <!--<TextView-->
+        <!--android:id="@+id/template_post_item_style_wearing_clothes"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="@dimen/margin_side"-->
+        <!--android:layout_marginTop="@dimen/margin_side"-->
+        <!--android:layout_marginEnd="@dimen/margin_side"-->
+        <!--android:text="White t- shirt (Free), Billie Jean (Med)"-->
+        <!--android:textColor="@color/colorBlack"-->
+        <!--android:textSize="@dimen/text_default"-->
+        <!--app:layout_constraintHorizontal_bias="0"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_preview_large" />-->
 
     <TextView
         android:id="@+id/template_post_item_style_user_body_info"
@@ -48,6 +48,6 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_wearing_clothes" />
+        app:layout_constraintTop_toBottomOf="@+id/template_post_item_style_preview_large" />
 
 </android.support.constraint.ConstraintLayout>
