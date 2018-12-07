@@ -224,8 +224,11 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         @OnClick(R.id.template_post_item_comments)
         void onCommentClicked() {
-            Intent intent = new Intent(mContext, DetailPostActivity.class);
-            mContext.startActivity(intent);
+            if (sharedPosts.get(getLayoutPosition()).getType_of_post() == SharedPost.POST_STYLE_SHARE) {
+                Intent intent = new Intent(mContext, DetailPostActivity.class);
+                intent.putExtra(DetailPostActivity.SPECIFIC_PID, sharedPosts.get(getLayoutPosition()).getId());
+                mContext.startActivity(intent);
+            }
         }
 
         @OnClick({R.id.template_post_item_style_preview_small, R.id.template_post_item_style_preview_large})

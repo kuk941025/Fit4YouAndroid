@@ -38,10 +38,12 @@ public class DetailPostActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.detail_post_tab_layout)
     TabLayout tabLayout;
+    public static final String SPECIFIC_PID = "SPECIFIC_PID";
     private CommentAdapter commentAdapter;
     private PostImageViewAdapter imageViewAdapter;
     private ArrayList<Comment> comments;
     private RetroClient retroClient;
+    private String pid;
     int commentNum = 0,likeNum=0; // 커멘트 개수, 라이크 개수
     Context context; // setRecycleComments 용
     Boolean isLike; // 현재 포스트에 좋아요를 눌렀는가?
@@ -56,8 +58,11 @@ public class DetailPostActivity extends AppCompatActivity {
         final TextView LNC = (TextView) findViewById(R.id.detail_post_post_info); // like comment 개수
         final Button addComment = (Button) findViewById(R.id.detail_post_btn_add_comment);//댓글 추가하기 버튼
         final EditText contents = (EditText) findViewById(R.id.detail_post_edit_comment);//댓글 내용
+
+
+        pid = Integer.toString(getIntent().getIntExtra(SPECIFIC_PID, 1));
         retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getPostInfo("1", new RetroCallback() {//포스트 가져오기
+        retroClient.getPostInfo(pid, new RetroCallback() {//포스트 가져오기
             @Override
             public void onError(Throwable t) {
 
@@ -116,7 +121,7 @@ public class DetailPostActivity extends AppCompatActivity {
 
                 }
                 else{// 좋아요 경우
-                    retroClient.postPostAddLike("1", new RetroCallback() {
+                    retroClient.postPostAddLike(pid, new RetroCallback() {
                         @Override
                         public void onError(Throwable t) {
 
@@ -144,7 +149,7 @@ public class DetailPostActivity extends AppCompatActivity {
             public void onClick(View view) { // 댓글 추가
 
                 Log.d("comment:",contents.getText().toString());//에딧텍스트 내용 가져오기
-                retroClient.postAddComment("1", contents.getText().toString(), new RetroCallback() {
+                retroClient.postAddComment(pid, contents.getText().toString(), new RetroCallback() {
                     @Override
                     public void onError(Throwable t) {
 
@@ -153,7 +158,7 @@ public class DetailPostActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int code, Object receivedData) {
                         contents.setText(null);// 이미 가져갔으므로 초기화
-                        retroClient.getPostInfo("1", new RetroCallback() {//포스트 정보 가져오기
+                        retroClient.getPostInfo(pid, new RetroCallback() {//포스트 정보 가져오기
                             @Override
                             public void onError(Throwable t) {
 
@@ -191,7 +196,7 @@ public class DetailPostActivity extends AppCompatActivity {
         //create temp data
         context = this;
         comments = new ArrayList<>();
-        retroClient.getComment("1", new RetroCallback() {//1번 내용의 자료 가져오기
+        retroClient.getComment(pid, new RetroCallback() {//1번 내용의 자료 가져오기
             @Override
             public void onError(Throwable t) {
 
