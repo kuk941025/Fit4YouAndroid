@@ -101,7 +101,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         holder.txtItemName.setText(selectedPost.getClothing_name());
         holder.txtUserName.setText(selectedPost.getUser_name());
         holder.txtHashTags.setText(selectedPost.getHash_tags());
-        holder.txtNumViews.setText(selectedPost.getViews());
+        holder.txtNumViews.setText(Integer.toString(selectedPost.getViews()) + " views");
         if (selectedPost.isLike() == true)
             holder.imgLike.setImageResource(R.drawable.img_like_clicked);
         else holder.imgLike.setImageResource(R.drawable.img_like);
