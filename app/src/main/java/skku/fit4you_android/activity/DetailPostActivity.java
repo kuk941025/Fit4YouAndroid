@@ -26,6 +26,7 @@ import skku.fit4you_android.model.Comment;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.CommentAdapter;
 import skku.fit4you_android.adapter.PostImageViewAdapter;
+import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
@@ -38,12 +39,15 @@ public class DetailPostActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.detail_post_tab_layout)
     TabLayout tabLayout;
+    @BindView(R.id.detail_post_mall_title)
+    TextView txtMallTitle;
     public static final String SPECIFIC_PID = "SPECIFIC_PID";
     private CommentAdapter commentAdapter;
     private PostImageViewAdapter imageViewAdapter;
     private ArrayList<Comment> comments;
     private RetroClient retroClient;
     private String pid;
+    private List<String> imageList;
     int commentNum = 0,likeNum=0; // 커멘트 개수, 라이크 개수
     Context context; // setRecycleComments 용
     Boolean isLike; // 현재 포스트에 좋아요를 눌렀는가?
@@ -58,7 +62,7 @@ public class DetailPostActivity extends AppCompatActivity {
         final TextView LNC = (TextView) findViewById(R.id.detail_post_post_info); // like comment 개수
         final Button addComment = (Button) findViewById(R.id.detail_post_btn_add_comment);//댓글 추가하기 버튼
         final EditText contents = (EditText) findViewById(R.id.detail_post_edit_comment);//댓글 내용
-
+        imageList = new ArrayList<>();
 
         pid = Integer.toString(getIntent().getIntExtra(SPECIFIC_PID, 1));
         retroClient = RetroClient.getInstance(this).createBaseApi();
@@ -75,7 +79,7 @@ public class DetailPostActivity extends AppCompatActivity {
                 totalcost.setText(String.valueOf(responsepst.totalcost)+"won");//금액 설정
                 commentNum=responsepst.numcomment;//댓글 수 설정
                 likeNum = responsepst.like;//좋아요 수 설정
-                LNC.setText(String.valueOf(likeNum)+"likes "+String.valueOf(commentNum)+"comments");// 좋아요 + 댓글 수 표시
+                LNC.setText(String.valueOf(likeNum)+" likes "+String.valueOf(commentNum)+" comments");// 좋아요 + 댓글 수 표시
                 if(responsepst.islike=="true"){ // 좋아요가 눌려있을 경우
                     isLike=true;
                     likeimage.setImageResource(R.drawable.img_like_clicked);
@@ -84,6 +88,17 @@ public class DetailPostActivity extends AppCompatActivity {
                     isLike = false;
                     likeimage.setImageResource(R.drawable.img_like);
                 }
+                //set clothes + malls
+                String strClothes = "";
+                if (responsepst.top_outer_name != null) strClothes = responsepst.top_outer_name + "(" + responsepst.top_outer_mall + "), ";
+                if (responsepst.top_1_name != null) strClothes = strClothes + responsepst.top_1_name + "(" + responsepst.top_1_mall + "), ";
+                if (responsepst.top_2_name != null) strClothes = strClothes + " " + responsepst.top_2_name + "(" + responsepst.top_1_mall + "), ";
+                if (responsepst.down_name != null) strClothes = strClothes + " " + responsepst.down_name + "(" + responsepst.down_mall + ")";
+                txtMallTitle.setText(strClothes);
+
+                imageList.add(responsepst.clothingimage);
+                imageList.add(responsepst.avatarimage);
+                imageViewAdapter.notifyDataSetChanged();
                 setRecyclerComments();//댓글 설정
 
             }
@@ -109,7 +124,7 @@ public class DetailPostActivity extends AppCompatActivity {
                             likeimage.setImageResource(R.drawable.img_like);
                             Log.d("DetailPost: ","unlike");
                             isLike = false;
-                            LNC.setText(String.valueOf(--likeNum)+"likes "+String.valueOf(commentNum)+"comments");
+                            LNC.setText(String.valueOf(--likeNum)+" likes "+String.valueOf(commentNum)+" comments");
                         }
 
                         @Override
@@ -132,7 +147,7 @@ public class DetailPostActivity extends AppCompatActivity {
                             likeimage.setImageResource(R.drawable.img_like_clicked);
                             Log.d("DetailPost: ","like");
                             isLike = true;
-                            LNC.setText(String.valueOf(++likeNum)+"likes "+String.valueOf(commentNum)+"comments");
+                            LNC.setText(String.valueOf(++likeNum)+" likes "+String.valueOf(commentNum)+" comments");
                         }
 
                         @Override
@@ -168,7 +183,7 @@ public class DetailPostActivity extends AppCompatActivity {
                             public void onSuccess(int code, Object receivedData) {//다시 댓글 보여주기
                                 ResponsePostInfo responsePostInfo = (ResponsePostInfo) receivedData;
                                 commentNum = responsePostInfo.numcomment;
-                                LNC.setText(String.valueOf(likeNum)+"likes "+String.valueOf(commentNum)+"comments");
+                                LNC.setText(String.valueOf(likeNum)+" likes "+String.valueOf(commentNum)+" comments");
                                 setRecyclerComments();
                             }
 
@@ -208,9 +223,9 @@ public class DetailPostActivity extends AppCompatActivity {
                 List<ResponseCommentInfo> RCI = (List<ResponseCommentInfo>) receivedData; //RCI: 커멘트 정보 받아오기
                 Log.d("comment:","how"+commentNum);
                 for (int i = 0; i < commentNum; i++){ // here is comment
-                    Comment comment = new Comment("User " + RCI.get(i).uid);// 여기서 유저 아이디
+                    Comment comment = new Comment(RCI.get(i).User.nickname);// 여기서 유저 아이디
                     comment.setContents(RCI.get(i).contents); //여기서는 내용
-                    comment.setLikes(110 + i);//그냥 있는 코드 (커맨드 라이크)
+                    //comment.setLikes(110 + i);//그냥 있는 코드 (커맨드 라이크)
                     comments.add(comment);
                     Log.d("comment:","how");
                 }
@@ -235,8 +250,8 @@ public class DetailPostActivity extends AppCompatActivity {
 //        temp.add(ContextCompat.getDrawable(this, R.drawable.img_add));
 //        temp.add(ContextCompat.getDrawable(this, R.drawable.img_avatar));
 //        temp.add(ContextCompat.getDrawable(this, R.drawable.img_search));
-        List<String> temp = new ArrayList<>();
-        imageViewAdapter = new PostImageViewAdapter(this, temp);
+//        List<String> temp = new ArrayList<>();
+        imageViewAdapter = new PostImageViewAdapter(this, imageList);
         viewPager.setAdapter(imageViewAdapter);
 
         tabLayout.setupWithViewPager(viewPager);

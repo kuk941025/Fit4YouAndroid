@@ -1,6 +1,7 @@
 package skku.fit4you_android.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -29,7 +30,7 @@ import skku.fit4you_android.util.Constants;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     @BindView(R.id.home_tab)
     TabLayout tabLayout;
     @BindView(R.id.home_container)
@@ -40,14 +41,18 @@ public class HomeFragment extends Fragment {
     Spinner spinnerFilter;
     @BindView(R.id.home_items_nested_scroll)
     NestedScrollView nestedScrollView;
+    @BindView(R.id.home_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
     private PopularMallFragment popularMallFragment = null;
+    private int isRefreshingMall, isRefreshingClothing;
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -66,8 +71,28 @@ public class HomeFragment extends Fragment {
                     int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
                     if (diff <= 0){
                         Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
+                        swipeRefreshLayout.setRefreshing(true);
+                        if (tabLayout.getSelectedTabPosition() == 0){
+
+
+                        }
+                        else if (tabLayout.getSelectedTabPosition() == 1){
+                            popularMallFragment.loadNextItems();
+                        }
                     }
 
+                }
+            });
+
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (tabLayout.getSelectedTabPosition() == 0){
+                        popularClothesFragment.refreshAll();
+                    }
+                    else if (tabLayout.getSelectedTabPosition() == 1){
+                        popularMallFragment.refreshAll();
+                    }
                 }
             });
         }
@@ -98,8 +123,8 @@ public class HomeFragment extends Fragment {
         popularClothesFragment = new PopularClothesFragment();
         popularMallFragment = new PopularMallFragment();
         tabLayout.addOnTabSelectedListener(tabSelectedListener);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
-        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
+        getChildFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
+        getChildFragmentManager().beginTransaction().addToBackStack(null);
     }
     private void init(){
         initFrag();
@@ -112,14 +137,15 @@ public class HomeFragment extends Fragment {
             Fragment selectedFragment = popularMallFragment;
             if (pos == 0){
                 selectedFragment = popularClothesFragment;
-                popularClothesFragment.notifyFrag();
+//                popularClothesFragment.notifyFrag();
             }
             else if (pos == 1){
                 selectedFragment = popularMallFragment;
-                popularMallFragment.notifyFrag();
+//                popularMallFragment.notifyFrag();
             }
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.home_container, selectedFragment).commit();
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null);
+
+            getChildFragmentManager().beginTransaction().replace(R.id.home_container, selectedFragment).commit();
+            getChildFragmentManager().beginTransaction().addToBackStack(null);
         }
 
         @Override
@@ -133,8 +159,11 @@ public class HomeFragment extends Fragment {
         }
     };
 
+    public void called(){
+        Toast.makeText(getActivity().getApplicationContext(), "Notified", Toast.LENGTH_LONG).show();
+    }
     public void homeFragSelected(){
-        if (tabLayout.getSelectedTabPosition() == 0) popularClothesFragment.notifyFrag();
-        else popularMallFragment.notifyFrag();
+//        if (tabLayout.getSelectedTabPosition() == 0) popularClothesFragment.notifyFrag();
+//        else popularMallFragment.notifyFrag();
     }
 }

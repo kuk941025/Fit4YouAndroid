@@ -34,7 +34,7 @@ public class PopularClothesFragment extends Fragment {
 
     boolean isRefreshed = false, isFirst = true;
     private View fragView;
-
+    private int cur_page_num = 1;
     private SharedPostAdapter sharedPostAdapter;
     private ArrayList<SharedPost> sharedPosts;
     private RetroClient retroClient;
@@ -84,7 +84,7 @@ public class PopularClothesFragment extends Fragment {
 
     }
     private void loadClothingList(){
-        retroClient.getClothingAll("1", "1", "0", "1", new RetroCallback() {
+        retroClient.getClothingAll(Integer.toString(cur_page_num), "1", "0", "1", new RetroCallback() {
             @Override
             public void onError(Throwable t) {
 
@@ -103,6 +103,12 @@ public class PopularClothesFragment extends Fragment {
 
             }
         });
+    }
+
+    public void refreshAll(){
+        sharedPosts.clear();
+        cur_page_num = 1;
+        loadClothingList();
     }
     public void notifyFrag(){
 //        if (getContext() != null && !isRefreshed){

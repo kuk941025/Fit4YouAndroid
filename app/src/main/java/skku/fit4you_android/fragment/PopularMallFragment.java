@@ -1,8 +1,10 @@
 package skku.fit4you_android.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,11 +36,14 @@ public class PopularMallFragment extends Fragment {
     View fragView;
     private SharedPostAdapter sharedPostAdapter;
     private ArrayList<SharedPost> sharedPosts;
+    private int cur_page_num = 1;
     boolean isRefreshed = false, isFirst = true;
     private RetroClient retroClient;
+    private HomeFragment parentFragment;
     public PopularMallFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -50,9 +55,12 @@ public class PopularMallFragment extends Fragment {
             ButterKnife.bind(this, fragView);
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
             refreshMallList();
+            parentFragment = (HomeFragment) getParentFragment();
+            parentFragment.called();
         }
         return fragView;
     }
+
 
     private void refreshMallList() {
         if (!isFirst) return;
@@ -72,7 +80,7 @@ public class PopularMallFragment extends Fragment {
 
     private void loadMallList(){
 
-        retroClient.getPostAll("1", "1", new RetroCallback() {
+        retroClient.getPostAll(Integer.toString(cur_page_num), "1", new RetroCallback() {
             @Override
             public void onError(Throwable t) {
 
@@ -91,6 +99,15 @@ public class PopularMallFragment extends Fragment {
 
             }
         });
+    }
+    public void refreshAll(){
+        sharedPosts.clear();
+        cur_page_num = 1;
+        loadMallList();
+    }
+    public void loadNextItems(){
+        cur_page_num++;
+        loadMallList();
     }
     public void notifyFrag() {
 //        if (getContext() != null && !isRefreshed) {
