@@ -18,6 +18,9 @@ import skku.fit4you_android.retrofit.response.ResponseClothing;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 
 public class Converter {
+    public static final int CLOTHING_TOP = 1;
+    public static final int CLOTHING_OUTER = 0;
+    public static final int CLOTHING_BOTTOM = 2;
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
 
@@ -135,6 +138,41 @@ public class Converter {
             return 0;
     }
 
+    public static int StringOidToClothingType(int oid){
+        switch (oid){
+            case 4:
+            case 5:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+                return CLOTHING_OUTER;
+            case 1:
+            case 2:
+            case 3:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+                return CLOTHING_TOP;
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 25:
+            case 26:
+            case 27:
+            case 29:
+                return CLOTHING_BOTTOM;
+            default:
+                return -1;
+        }
+    }
     public static Bitmap getBitmapFromURL(String src){
         Bitmap image;
         try{

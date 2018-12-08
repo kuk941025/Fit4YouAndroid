@@ -246,7 +246,7 @@ public class FitRoomFragment extends Fragment {
         //responsewish list to wishlist
         for (ResponseWishList wish : responseWishLists){
 
-            if (wish.top_1 != 0 && wish.top_1_size != 0){
+            if (wish.top_1 != 0){
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_1);
                 wishlist.setSid(wish.top_1_size);
@@ -254,7 +254,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.top_2 != 0 && wish.top_2_size != 0){
+            if (wish.top_2 != 0){
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_2);
                 wishlist.setSid(wish.top_2_size);
@@ -262,7 +262,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.down != 0 && wish.down_size != 0){
+            if (wish.down != 0){
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.down);
                 wishlist.setSid(wish.down_size);
@@ -270,7 +270,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_PANTS);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.top_outer != 0 && wish.top_outer_size != 0){
+            if (wish.top_outer != 0){
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_outer);
                 wishlist.setSid(wish.top_outer_size);

@@ -7,17 +7,43 @@
     android:paddingBottom="@dimen/margin_long_long"
     >
 
+    <TextView
+        android:id="@+id/dialog_txt_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
+        android:text="Gender"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_default"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Spinner
         android:id="@+id/dialog_spinner_gender"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side"
-        android:layout_marginTop="@dimen/margin_side"
         android:layout_marginEnd="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_txt_gender" />
 
+    <TextView
+        android:id="@+id/dialog_txt_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:text="Weather"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_default"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_spinner_gender" />
     <Spinner
         android:id="@+id/dialog_spinner_season"
         android:layout_width="0dp"
@@ -27,7 +53,7 @@
         android:layout_marginEnd="@dimen/margin_side"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_spinner_gender" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_txt_weather" />
 
     <Button
         android:id="@+id/dialog_btn_set"

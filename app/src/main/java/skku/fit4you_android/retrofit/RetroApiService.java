@@ -28,6 +28,7 @@ import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
+import skku.fit4you_android.retrofit.response.ResponseSize;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.retrofit.response.ResponseSuccessClothing;
 import skku.fit4you_android.retrofit.response.ResponseWishList;
@@ -109,6 +110,9 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/clothing/addsize")
     Call<ResponseSuccess> postClothingAddSize(@FieldMap HashMap<String, Object> params);
+    @FormUrlEncoded
+    @GET("/clothing/sizes/{cid}")
+    Call <ResponseSize> getClothingSize(@Path("cid") String cid);
 
     //POST
     @GET("/post/all/{page_num}/{option_num}")

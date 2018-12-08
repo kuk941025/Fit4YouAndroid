@@ -44,6 +44,7 @@ import skku.fit4you_android.retrofit.response.Response;
 import skku.fit4you_android.retrofit.response.ResponseIsFollow;
 import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
+import skku.fit4you_android.util.Converter;
 
 public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.postViewHolder> {
     private ArrayList<SharedPost> sharedPosts;
@@ -208,11 +209,10 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                         @Override
                         public void onSuccess(int code, Object receivedData) {
                             ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
-                            if (responseSuccess.success == Response.RESPONSE_RECEIVED){
+                            if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
                                 Toast.makeText(mContext, "Following added.", Toast.LENGTH_LONG).show();
                                 sharedPosts.get(getLayoutPosition()).setIsFollowing(1);
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(mContext, "Following add failed.", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -222,7 +222,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
                         }
                     });
-                    return  true;
+                    return true;
                 case R.id.menu_remove_follower:
                     retroClient.postDeleteFollow(Integer.toString(sharedPosts.get(getLayoutPosition()).getUid()), new RetroCallback() {
                         @Override
@@ -233,11 +233,10 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                         @Override
                         public void onSuccess(int code, Object receivedData) {
                             ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
-                            if (responseSuccess.success == Response.RESPONSE_RECEIVED){
+                            if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
                                 Toast.makeText(mContext, "Following removed.", Toast.LENGTH_LONG).show();
                                 sharedPosts.get(getLayoutPosition()).setIsFollowing(2);
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(mContext, "Following remove error", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -258,7 +257,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             popupMenu.setOnMenuItemClickListener(this);
             if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 1) { //if followed
                 popupMenu.inflate(R.menu.popup_remove_follower);
-            } else if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 2){
+            } else if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 2) {
                 popupMenu.inflate(R.menu.popup_add_follower);
             }
             popupMenu.show();
@@ -271,21 +270,38 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                     case DialogInterface.BUTTON_POSITIVE:
                         HashMap<String, Object> params = new HashMap<>();
                         SharedPost selectedPost = sharedPosts.get(getLayoutPosition());
-                        if (selectedPost.getTop_outer() != 0) {
-                            params.put("top_outer", selectedPost.getTop_outer());
-                            params.put("top_outer_size", selectedPost.getTop_outer_size());
-                        }
-                        if (selectedPost.getTop_1() != 0) {
-                            params.put("top_1", selectedPost.getTop_1());
-                            params.put("top_1_size", selectedPost.getTop_1_size());
-                        }
-                        if (selectedPost.getTop_2() != 0) {
-                            params.put("top_2", selectedPost.getTop_2());
-                            params.put("top_2_size", selectedPost.getTop_2_size());
-                        }
-                        if (selectedPost.getDown() != 0) {
-                            params.put("down", selectedPost.getDown());
-                            params.put("down_size", selectedPost.getDown_size());
+                        if (selectedPost.getType_of_post() == SharedPost.POST_STYLE_SHARE) {
+                            if (selectedPost.getTop_outer() != 0) {
+                                params.put("top_outer", selectedPost.getTop_outer());
+                                params.put("top_outer_size", selectedPost.getTop_outer_size());
+                            }
+                            if (selectedPost.getTop_1() != 0) {
+                                params.put("top_1", selectedPost.getTop_1());
+                                params.put("top_1_size", selectedPost.getTop_1_size());
+                            }
+                            if (selectedPost.getTop_2() != 0) {
+                                params.put("top_2", selectedPost.getTop_2());
+                                params.put("top_2_size", selectedPost.getTop_2_size());
+                            }
+                            if (selectedPost.getDown() != 0) {
+                                params.put("down", selectedPost.getDown());
+                                params.put("down_size", selectedPost.getDown_size());
+                            }
+                        } else if (selectedPost.getType_of_post() == SharedPost.POST_CLOTHING) {
+                            switch (Converter.StringOidToClothingType(selectedPost.getOid())) {
+                                case Converter.CLOTHING_OUTER:
+                                    params.put("top_outer", selectedPost.getId());
+                                    break;
+                                case Converter.CLOTHING_TOP:
+                                    params.put("top_1", selectedPost.getId());
+                                    break;
+                                case Converter.CLOTHING_BOTTOM:
+                                    params.put("down", selectedPost.getId());
+                                    break;
+                                default:
+                                    break;
+
+                            }
                         }
                         final ProgressDialog progressDialog = new ProgressDialog(mContext);
                         progressDialog.setMessage("Loading...");

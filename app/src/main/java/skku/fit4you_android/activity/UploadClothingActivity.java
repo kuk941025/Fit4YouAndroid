@@ -237,8 +237,13 @@ public class UploadClothingActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             String res = s.toString();
-            sizeFragmentList.get(sizeViewPager.getCurrentItem()).setSizeTitle(res);
-            sizeFragmentAdapter.notifyDataSetChanged();
+            if (sizeFragmentList.size() > 0) {
+                sizeFragmentList.get(sizeViewPager.getCurrentItem()).setSizeTitle(res);
+                sizeFragmentAdapter.notifyDataSetChanged();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No size is selected to be added", Toast.LENGTH_LONG).show();
+            }
         }
     };
 

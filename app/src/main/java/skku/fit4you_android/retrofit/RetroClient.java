@@ -28,6 +28,7 @@ import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseLogin;
 import skku.fit4you_android.retrofit.response.ResponsePost;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
+import skku.fit4you_android.retrofit.response.ResponseSize;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 import skku.fit4you_android.retrofit.response.ResponseSuccessClothing;
 import skku.fit4you_android.retrofit.response.ResponseWishList;
@@ -596,6 +597,21 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<List<ResponseClothing>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void getClothingSize(String cid, final RetroCallback callback){
+        apiService.getClothingSize(cid).enqueue(new Callback<ResponseSize>() {
+            @Override
+            public void onResponse(Call<ResponseSize> call, Response<ResponseSize> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSize> call, Throwable t) {
                 callback.onError(t);
             }
         });

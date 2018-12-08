@@ -96,7 +96,7 @@ public class PopularMallFragment extends Fragment {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(getActivity().getApplicationContext(), "Post load success", Toast.LENGTH_LONG).show();
+                Toast.makeText(FitApp.getInstance().getApplicationContext(), "Post load success", Toast.LENGTH_LONG).show();
                 if (parentFragment != null) parentFragment.postEndRefreshing();
 
                 int prev_size = sharedPosts.size();
