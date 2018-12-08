@@ -70,6 +70,16 @@
         app:layout_constraintStart_toEndOf="@+id/template_post_item_user_name"
         app:layout_constraintTop_toTopOf="@+id/template_post_item_user_name" />
 
+    <TextView
+        android:id="@+id/template_post_txt_is_following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_side"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_user_name"
+        app:layout_constraintStart_toEndOf="@+id/template_post_item_user_name"
+        app:layout_constraintTop_toTopOf="@+id/template_post_item_user_name" />
+
     <ImageView
         android:id="@+id/template_post_item_add_wishlist"
         android:layout_width="@dimen/icon_size"

@@ -129,12 +129,15 @@ public interface RetroApiService {
     Call <List<ResponseCommentInfo>> getComment(@Path("pid") String pid);
 
     //FOLLOWING
+    @FormUrlEncoded
     @POST("/follow/isfollow")
     Call <ResponseIsFollow> postIsFollow(@Field("id_two") String id_two);
+    @FormUrlEncoded
     @POST("/follow/add")
-    Call <ResponseFollow> postAddFollow(@Field("id_two") String id_two);
+    Call <ResponseSuccess> postAddFollow(@Field("id_two") String id_two);
+    @FormUrlEncoded
     @POST("/follow/delete")
-    Call <ResponseFollow> postDeleteFollow(@Field("id_two") String id_two);
+    Call <ResponseSuccess> postDeleteFollow(@Field("id_two") String id_two);
     @GET("/follow/followers/{uid}")
     Call <List<ResponseFollowInfo>> getFollower(@Path("uid") String uid);
 }

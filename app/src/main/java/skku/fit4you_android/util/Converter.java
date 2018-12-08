@@ -68,6 +68,7 @@ public class Converter {
                 sharedPost.setDate(simpleDateFormat.parse(clothing.createdAt));
             } catch (ParseException e){e.printStackTrace();}
 
+            sharedPost.setIsFollowing(0);
             sharedPosts.add(sharedPost);
         }
 
@@ -106,6 +107,7 @@ public class Converter {
             sharedPost.setWeight(post.weight);
             sharedPost.setUser_name(post.nickname);
             sharedPost.setHash_tags(post.hashtag);
+            sharedPost.setIsFollowing(0);
             sharedPosts.add(sharedPost);
         }
     }

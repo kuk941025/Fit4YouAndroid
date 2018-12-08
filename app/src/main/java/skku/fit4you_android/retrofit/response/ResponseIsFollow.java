@@ -1,9 +1,9 @@
 package skku.fit4you_android.retrofit.response;
 
 public class ResponseIsFollow {
-    public final Boolean isfollow;
+    public final String isfollow;
 
-    public ResponseIsFollow(Boolean isfollow) {
+    public ResponseIsFollow(String isfollow) {
         this.isfollow = isfollow;
     }
 }

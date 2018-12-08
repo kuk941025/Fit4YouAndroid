@@ -10,8 +10,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,12 +34,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import skku.fit4you_android.activity.DetailPostActivity;
 import skku.fit4you_android.activity.MainActivity;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.Response;
+import skku.fit4you_android.retrofit.response.ResponseIsFollow;
 import skku.fit4you_android.retrofit.response.ResponseLike;
 import skku.fit4you_android.retrofit.response.ResponseSuccess;
 
@@ -106,6 +110,10 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             holder.imgLike.setImageResource(R.drawable.img_like_clicked);
         else holder.imgLike.setImageResource(R.drawable.img_like);
 
+        if (selectedPost.getUid() == FitApp.getInstance().getUid()) {
+            holder.txtIsFollowing.setText("(Me)");
+        }
+
     }
 
 
@@ -114,7 +122,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         return sharedPosts.size();
     }
 
-    class postViewHolder extends RecyclerView.ViewHolder {
+    class postViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
         @BindView(R.id.template_post_item_name)
         TextView txtItemName;
         @BindView(R.id.template_post_item_user_name)
@@ -149,6 +157,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         ImageView imgPreviewSmall;
         @BindView(R.id.template_post_item_like)
         ImageView imgLike;
+        @BindView(R.id.template_post_txt_is_following)
+        TextView txtIsFollowing;
 
         public postViewHolder(View itemView) {
             super(itemView);
@@ -159,6 +169,99 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         @OnClick(R.id.template_post_item_user_name)
         void onUserNameClicked() {
 
+            //0 following not loaded
+            //1 following, 2 not following
+            if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 0) { //data is yet to be loaded
+                retroClient.postIsFollow(Integer.toString(sharedPosts.get(getLayoutPosition()).getUid()), new RetroCallback() {
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(int code, Object receivedData) {
+                        ResponseIsFollow responseIsFollow = (ResponseIsFollow) receivedData;
+                        if (responseIsFollow.isfollow == "true") {
+                            sharedPosts.get(getLayoutPosition()).setIsFollowing(1);
+                        } else sharedPosts.get(getLayoutPosition()).setIsFollowing(2);
+                        loadMenuBar();
+                    }
+
+                    @Override
+                    public void onFailure(int code) {
+
+                    }
+                });
+            } else loadMenuBar();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_add_follower:
+                    retroClient.postAddFollow(Integer.toString(sharedPosts.get(getLayoutPosition()).getUid()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                            if (responseSuccess.success == Response.RESPONSE_RECEIVED){
+                                Toast.makeText(mContext, "Following added.", Toast.LENGTH_LONG).show();
+                                sharedPosts.get(getLayoutPosition()).setIsFollowing(1);
+                            }
+                            else{
+                                Toast.makeText(mContext, "Following add failed.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+
+                        }
+                    });
+                    return  true;
+                case R.id.menu_remove_follower:
+                    retroClient.postDeleteFollow(Integer.toString(sharedPosts.get(getLayoutPosition()).getUid()), new RetroCallback() {
+                        @Override
+                        public void onError(Throwable t) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                            if (responseSuccess.success == Response.RESPONSE_RECEIVED){
+                                Toast.makeText(mContext, "Following removed.", Toast.LENGTH_LONG).show();
+                                sharedPosts.get(getLayoutPosition()).setIsFollowing(2);
+                            }
+                            else{
+                                Toast.makeText(mContext, "Following remove error", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+
+                        }
+                    });
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private void loadMenuBar() {
+            PopupMenu popupMenu = new PopupMenu(mContext, itemView);
+            popupMenu.setOnMenuItemClickListener(this);
+            if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 1) { //if followed
+                popupMenu.inflate(R.menu.popup_remove_follower);
+            } else if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 2){
+                popupMenu.inflate(R.menu.popup_add_follower);
+            }
+            popupMenu.show();
         }
 
         DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {

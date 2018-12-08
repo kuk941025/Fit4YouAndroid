@@ -201,9 +201,6 @@ public class HomeFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void called() {
-        Toast.makeText(getActivity().getApplicationContext(), "Notified", Toast.LENGTH_LONG).show();
-    }
 
     public void homeFragSelected() {
 //        if (tabLayout.getSelectedTabPosition() == 0) popularClothesFragment.notifyFrag();
