@@ -110,9 +110,8 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/clothing/addsize")
     Call<ResponseSuccess> postClothingAddSize(@FieldMap HashMap<String, Object> params);
-    @FormUrlEncoded
     @GET("/clothing/sizes/{cid}")
-    Call <ResponseSize> getClothingSize(@Path("cid") String cid);
+    Call <List<ResponseSize>> getClothingSizes(@Path("cid") String cid);
 
     //POST
     @GET("/post/all/{page_num}/{option_num}")

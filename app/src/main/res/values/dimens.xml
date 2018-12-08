@@ -27,4 +27,5 @@
     <dimen name="tab_indicator_thickness">5dp</dimen>
     <dimen name="profile_pic_height">200dp</dimen>
     <dimen name="fit_real_clothing_width">100dp</dimen>
+    <dimen name="dialog_width">300dp</dimen>
 </resources>

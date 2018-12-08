@@ -2,10 +2,12 @@ package skku.fit4you_android.model;
 
 import java.io.Serializable;
 
+import skku.fit4you_android.util.Converter;
+
 public class Wishlist implements Serializable {
-    public static final int CLOTHING_TOP = 0;
-    public static final int CLOTHING_PANTS = 1;
-    public static final int CLOTHING_OUTER = 2;
+    public static final int CLOTHING_TOP = Converter.CLOTHING_TOP;
+    public static final int CLOTHING_PANTS = Converter.CLOTHING_BOTTOM;
+    public static final int CLOTHING_OUTER = Converter.CLOTHING_OUTER;
     private static int WISH_COUNT = 0;
     private int cid, uid, sid, wid;
     private String name, dscrp; //dscrp == price

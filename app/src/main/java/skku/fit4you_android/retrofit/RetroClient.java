@@ -602,16 +602,16 @@ public class RetroClient {
         });
     }
 
-    public void getClothingSize(String cid, final RetroCallback callback){
-        apiService.getClothingSize(cid).enqueue(new Callback<ResponseSize>() {
+    public void getClothingSizes(String cid, final RetroCallback callback){
+        apiService.getClothingSizes(cid).enqueue(new Callback<List<ResponseSize>>() {
             @Override
-            public void onResponse(Call<ResponseSize> call, Response<ResponseSize> response) {
+            public void onResponse(Call<List<ResponseSize>> call, Response<List<ResponseSize>> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
                 else callback.onFailure(response.code());
             }
 
             @Override
-            public void onFailure(Call<ResponseSize> call, Throwable t) {
+            public void onFailure(Call<List<ResponseSize>> call, Throwable t) {
                 callback.onError(t);
             }
         });

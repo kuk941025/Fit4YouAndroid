@@ -21,6 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
+import skku.fit4you_android.dialog.SelectSizeDialogInterface;
+import skku.fit4you_android.dialog.SetSizeDialog;
 import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 import skku.fit4you_android.retrofit.RetroApiService;
@@ -56,11 +58,11 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
     public void onBindViewHolder(@NonNull wishitemViewHolder holder, final int position) {
         holder.textDscrp.setText(wishlists.get(position).getDscrp() + " won");
         holder.textName.setText(wishlists.get(position).getName());
-        if (wishlists.get(position).isUserSelected()){
+        if (wishlists.get(position).isUserSelected()) {
             holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.gray_light, null));
-        }
-        else holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.colorLightWhite, null));
-        if (wishlists.get(position).getImgURL() != null){
+        } else
+            holder.layoutWishlist.setBackgroundColor(holder.layoutWishlist.getResources().getColor(R.color.colorLightWhite, null));
+        if (wishlists.get(position).getImgURL() != null) {
             Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(position).getImgURL()).into(holder.imgClothing);
         }
 
@@ -71,7 +73,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         return wishlists.size();
     }
 
-    class wishitemViewHolder extends RecyclerView.ViewHolder{
+    class wishitemViewHolder extends RecyclerView.ViewHolder implements SelectSizeDialogInterface {
         @BindView(R.id.template_wishlist_dscrp)
         TextView textDscrp;
         @BindView(R.id.template_wishlist_image)
@@ -80,18 +82,19 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         TextView textName;
         @BindView(R.id.template_layout_wishlist)
         View layoutWishlist;
+
         public wishitemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             layoutWishlist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (recentlySelected == getLayoutPosition()) {
+
+                    if (recentlySelected == getLayoutPosition()) { //canceled
                         wishlists.get(getLayoutPosition()).setUserSelected(false);
                         imgActualClothing.setVisibility(View.GONE);
                         recentlySelected = -1;
-                    }
-                    else{
+                    } else { //wishlist item selected
                         wishlists.get(getLayoutPosition()).setUserSelected(true);
                         if (recentlySelected >= 0) {
                             wishlists.get(recentlySelected).setUserSelected(false);
@@ -105,10 +108,23 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
                 }
             });
         }
+
+        @Override
+        public void setSid(int sid) {
+            wishlists.get(getLayoutPosition()).setSid(sid);
+        }
+
+        @OnClick(R.id.template_layout_wishlist)
+        void onLayoutClicked() {
+            SetSizeDialog dialog = new SetSizeDialog(itemView.getContext(), this, retroClient, wishlists.get(getLayoutPosition()).getType(), wishlists.get(getLayoutPosition()).getCid());
+            dialog.show();
+
+        }
+
         DialogInterface.OnClickListener dialogInterface = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         retroClient.postDeleteWishlist(Integer.toString(wishlists.get(getLayoutPosition()).getWid()), new RetroCallback() {
                             @Override
@@ -132,8 +148,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
                 }
             }
         };
+
         @OnLongClick(R.id.template_layout_wishlist)
-        boolean onDeleteWishlistClicked(){
+        boolean onDeleteWishlistClicked() {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
             alertDialog.setMessage("Are you sure to delete the item from wishlist?").setPositiveButton("Yes", dialogInterface)
                     .setNegativeButton("No", dialogInterface).show();
