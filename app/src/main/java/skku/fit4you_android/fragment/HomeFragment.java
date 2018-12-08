@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -24,13 +25,16 @@ import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.R;
+import skku.fit4you_android.dialog.FilterDialogInterface;
+import skku.fit4you_android.dialog.SetFilterDialog;
 import skku.fit4you_android.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements FilterDialogInterface {
     @BindView(R.id.home_tab)
     TabLayout tabLayout;
     @BindView(R.id.home_container)
@@ -43,17 +47,29 @@ public class HomeFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.layout_home_view)
     View viewSelectLayout;
+    @BindView(R.id.layout_home_selected_filter)
+    TextView txtSelectedFilter;
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
     private PopularMallFragment popularMallFragment = null;
     private int flag_refresh_clothing, flag_refresh_mall;
     private int flag_detecting_scroll_twice = 0;
-
+    private int filter_gender = 0, filter_weather = 0, option_sort = 1;
+    /*
+    Each fragment has unique page num
+    Filter/sort information is referenced from this home fragment
+     */
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onOkClicked(int gender, int weather) {
+        txtSelectedFilter.setText(Constants.GENDER[gender] + ", " + Constants.CLOTHING_WEATHER[weather]);
+        filter_gender = gender;
+        filter_weather = weather;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -160,6 +176,13 @@ public class HomeFragment extends Fragment {
 
         }
     };
+
+    @OnClick(R.id.layout_home_btn_set_filter)
+    void onSetFilterClicked(){
+        SetFilterDialog setFilterDialog = new SetFilterDialog(getActivity(), this);
+        setFilterDialog.show();
+    }
+
     public void searchKeyWords(String keywords){
         //if clothing is selected
         if (tabLayout.getSelectedTabPosition() == 0){
@@ -190,6 +213,15 @@ public class HomeFragment extends Fragment {
     public void postEndRefreshing() {
         flag_refresh_mall = 0;
         refreshLayoutUpdate();
+    }
+    public int getOptionSort(){
+        return (option_sort + 1);
+    }
+    public int getFilterGedner(){
+        return (filter_gender);
+    }
+    public int getFilterWeather(){
+        return (filter_weather);
     }
 
     private void refreshLayoutUpdate() {

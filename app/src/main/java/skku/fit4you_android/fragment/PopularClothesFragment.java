@@ -40,7 +40,12 @@ public class PopularClothesFragment extends Fragment {
     private ArrayList<SharedPost> sharedPosts;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
+    private int filter_gender = 0, filter_weather = 0, option_sort = 1;
+/*
+each fragment has unique cur_page_num
+option, gender, weather data are from parentFragment
 
+ */
     public PopularClothesFragment() {
         // Required empty public constructor
     }
@@ -89,8 +94,12 @@ public class PopularClothesFragment extends Fragment {
     }
 
     private void loadClothingList() {
-        if (parentFragment != null) parentFragment.clothingStartRefreshing();
-        retroClient.getClothingAll(Integer.toString(cur_page_num), "1", "0", "1", new RetroCallback() {
+        if (parentFragment != null) {
+            parentFragment.clothingStartRefreshing();
+            setOptionFilterValues();
+        }
+        retroClient.getClothingAll(Integer.toString(cur_page_num), Integer.toString(option_sort), Integer.toString(filter_weather),
+                Integer.toString(filter_weather), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 if (parentFragment != null) parentFragment.clothingEndRefreshing();
@@ -127,11 +136,18 @@ public class PopularClothesFragment extends Fragment {
         cur_page_num++;
         loadClothingList();
     }
+    private void setOptionFilterValues(){
+        filter_gender = parentFragment.getFilterGedner();
+        filter_weather = parentFragment.getFilterWeather();
+        option_sort = parentFragment.getOptionSort();
+    }
     public void searchClothesKeyWords(String keywords){
         sharedPosts.clear();
         if (keywords == "") loadClothingList();
         else{
-            if (parentFragment != null) parentFragment.clothingStartRefreshing();
+            if (parentFragment != null) {
+                parentFragment.clothingStartRefreshing();
+            }
             retroClient.postSearchClothing(keywords, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {

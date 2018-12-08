@@ -42,7 +42,7 @@ public class PopularMallFragment extends Fragment {
     boolean isRefreshed = false, isFirst = true;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
-
+    private int option_sort = 1;
     public PopularMallFragment() {
         // Required empty public constructor
     }
@@ -80,10 +80,15 @@ public class PopularMallFragment extends Fragment {
 
         loadMallList();
     }
-
+    private void setFilterOptionValues(){
+        option_sort = parentFragment.getOptionSort();
+    }
     private void loadMallList() {
-        if (parentFragment != null) parentFragment.postStartRefreshing();
-        retroClient.getPostAll(Integer.toString(cur_page_num), "1", new RetroCallback() {
+        if (parentFragment != null) {
+            parentFragment.postStartRefreshing();
+            setFilterOptionValues();
+        }
+        retroClient.getPostAll(Integer.toString(cur_page_num), Integer.toString(option_sort), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 if (parentFragment != null) parentFragment.postEndRefreshing();

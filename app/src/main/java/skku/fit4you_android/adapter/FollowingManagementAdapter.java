@@ -46,14 +46,7 @@ public class FollowingManagementAdapter extends RecyclerView.Adapter<FollowingMa
     @Override
     public void onBindViewHolder(@NonNull followingViewHolder holder, final int position) {
         holder.txtUserName.setText(followingUsers.get(position).getUserName());
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, position + " Clicked", Toast.LENGTH_SHORT).show();
-                notifyItemRemoved(position);
-                followingUsers.remove(followingUsers.get(position));
-            }
-        });
+
     }
 
     @Override
@@ -94,10 +87,11 @@ public class FollowingManagementAdapter extends RecyclerView.Adapter<FollowingMa
                                 ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
                                 if (responseSuccess.success == Response.RESPONSE_RECEIVED){
                                     Toast.makeText(mContext, "Successfully removed", Toast.LENGTH_LONG).show();
+                                    followingUsers.remove(getLayoutPosition());
                                     notifyItemRemoved(getLayoutPosition());
                                 }
                                 else{
-                                    Toast.makeText(mContext"removal failed", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(mContext, "removal failed", Toast.LENGTH_LONG).show();
                                 }
                             }
 
