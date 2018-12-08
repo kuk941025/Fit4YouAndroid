@@ -86,38 +86,37 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.wishit
         public wishitemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            layoutWishlist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    if (recentlySelected == getLayoutPosition()) { //canceled
-                        wishlists.get(getLayoutPosition()).setUserSelected(false);
-                        imgActualClothing.setVisibility(View.GONE);
-                        recentlySelected = -1;
-                    } else { //wishlist item selected
-                        wishlists.get(getLayoutPosition()).setUserSelected(true);
-                        if (recentlySelected >= 0) {
-                            wishlists.get(recentlySelected).setUserSelected(false);
-                            notifyItemChanged(recentlySelected);
-                        }
-                        recentlySelected = getLayoutPosition();
-                        imgActualClothing.setVisibility(View.VISIBLE);
-                        Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(getLayoutPosition()).getImgURL()).into(imgActualClothing);
-                    }
-                    notifyItemChanged(getLayoutPosition());
-                }
-            });
         }
 
         @Override
         public void setSid(int sid) {
+            wishlists.get(getLayoutPosition()).setUserSelected(true);
+            if (recentlySelected >= 0) {
+                wishlists.get(recentlySelected).setUserSelected(false);
+                notifyItemChanged(recentlySelected);
+            }
+            recentlySelected = getLayoutPosition();
+            imgActualClothing.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(RetroApiService.IMAGE_URL + wishlists.get(getLayoutPosition()).getImgURL()).into(imgActualClothing);
+
+            notifyItemChanged(getLayoutPosition());
             wishlists.get(getLayoutPosition()).setSid(sid);
         }
 
         @OnClick(R.id.template_layout_wishlist)
         void onLayoutClicked() {
-            SetSizeDialog dialog = new SetSizeDialog(itemView.getContext(), this, retroClient, wishlists.get(getLayoutPosition()).getType(), wishlists.get(getLayoutPosition()).getCid());
-            dialog.show();
+            if (recentlySelected == getLayoutPosition()){ //canceled
+                wishlists.get(getLayoutPosition()).setUserSelected(false);
+                imgActualClothing.setVisibility(View.GONE);
+                recentlySelected = -1;
+                notifyItemChanged(getLayoutPosition());
+            }
+            else{
+                SetSizeDialog dialog = new SetSizeDialog(itemView.getContext(), this, retroClient, wishlists.get(getLayoutPosition()).getType(), wishlists.get(getLayoutPosition()).getCid());
+                dialog.show();
+
+            }
 
         }
 
