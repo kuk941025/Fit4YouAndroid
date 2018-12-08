@@ -76,20 +76,21 @@ public class SharePostActivity extends AppCompatActivity {
         setTotalCost();
     }
 
-    private void setTotalCost(){
+    private void setTotalCost() {
         totalCost = 0;
         for (Wishlist wishlist : selectedWishLists)
             totalCost += Integer.parseInt(wishlist.getDscrp());
 
         txtCost.setText(totalCost + " won");
     }
+
     @OnClick(R.id.share_cancel)
-    void onCancelClicked(){
+    void onCancelClicked() {
         finish();
     }
 
     @OnClick(R.id.share_add_post)
-    void onAddPostClicked(){
+    void onAddPostClicked() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Sharing your post");
         progressDialog.show();
@@ -108,7 +109,7 @@ public class SharePostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
-                if (responseSuccess.success == Response.RESPONSE_RECEIVED){
+                if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
                     Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                 }
                 progressDialog.dismiss();
@@ -123,7 +124,8 @@ public class SharePostActivity extends AppCompatActivity {
         });
 
     }
-    private MultipartBody.Part getMultiFileFromBitmap(Bitmap bitmap, String param, String temp_file_name){
+
+    private MultipartBody.Part getMultiFileFromBitmap(Bitmap bitmap, String param, String temp_file_name) {
         MultipartBody.Part part = null;
         File file = new File(getApplicationContext().getCacheDir(), temp_file_name);
         try {
@@ -139,16 +141,36 @@ public class SharePostActivity extends AppCompatActivity {
 
             RequestBody bodyFile = RequestBody.create(MediaType.parse("image/*"), file);
             part = MultipartBody.Part.createFormData(param, file.getName(), bodyFile);
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return part;
     }
-    private Map<String, RequestBody> getParams(){
+
+    private Map<String, RequestBody> getParams() {
         Map<String, RequestBody> pararms = new HashMap<>();
         pararms.put("title", RetroClient.createRequestBody(editTitle.getText().toString()));
         pararms.put("totalcost", RetroClient.createRequestBody(Integer.toString(totalCost)));
         pararms.put("hashtag", RetroClient.createRequestBody(editHash.getText().toString()));
+        for (Wishlist wishlist : selectedWishLists) {
+            switch (wishlist.getType()) {
+                case Wishlist.CLOTHING_TOP:
+                    pararms.put("top_1", RetroClient.createRequestBody(Integer.toString(wishlist.getCid())));
+                    pararms.put("top_1_size", RetroClient.createRequestBody(Integer.toString(wishlist.getSid())));
+                    break;
 
-        return  pararms;
+                case Wishlist.CLOTHING_PANTS:
+                    pararms.put("down", RetroClient.createRequestBody(Integer.toString(wishlist.getCid())));
+                    pararms.put("down_size", RetroClient.createRequestBody(Integer.toString(wishlist.getSid())));
+                    break;
+
+                case Wishlist.CLOTHING_OUTER:
+                    pararms.put("top_outer", RetroClient.createRequestBody(Integer.toString(wishlist.getCid())));
+                    pararms.put("top_outer_size", RetroClient.createRequestBody(Integer.toString(wishlist.getSid())));
+                    break;
+            }
+        }
+        return pararms;
     }
 }
