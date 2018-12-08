@@ -94,8 +94,8 @@ public interface RetroApiService {
     @GET("/clothing/all/{page_num}/{option_num}/{gender}/{season}")
     Call <List<ResponseClothing>> getClothingAll(@Path("page_num") String page_num, @Path("option_num") String option_num,
                                                  @Path("gender") String gender, @Path("season") String season);
-    @GET("/clothing/user/{page_num}/{uid}")
-    Call <List<ResponseClothing>> getUserClothing(@Path("page_num") String page_num, @Path("uid") String uid);
+    @GET("/clothing/user/{uid}")
+    Call <List<ResponseClothing>> getUserClothing(@Path("uid") String uid);
     @FormUrlEncoded
     @POST("/clothing/addlike")
     Call <ResponseLike> postClothingAddLike(@Field( "cid") String cid);
@@ -113,8 +113,8 @@ public interface RetroApiService {
     //POST
     @GET("/post/all/{page_num}/{option_num}")
     Call <List<ResponsePost>> getPostAll(@Path("page_num") String page_num, @Path("option_num") String option_num);
-    @GET("/post/user/{page_num}/{uid}")
-    Call <List<ResponsePost>> getUserPost(@Path("page_num") String page_num, @Path("uid") String uid);
+    @GET("/post/user/{uid}")
+    Call <List<ResponsePost>> getUserPost(@Path("uid") String uid);
     @FormUrlEncoded
     @POST("/post/addlike")
     Call <ResponseLike> postPostAddLike(@Field("pid") String pid);

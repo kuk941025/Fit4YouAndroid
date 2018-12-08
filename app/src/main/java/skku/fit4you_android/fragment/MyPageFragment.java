@@ -48,6 +48,7 @@ public class MyPageFragment extends Fragment {
     private ArrayList<ResponsePost> postList;
     private int flag_post, flag_clothing;
     private int cur_page_num = 1, isRefreshing = 0, prev_loaded_clothing, prev_loaded_post;
+//    private int flag_detecting_scroll_twice = 0;
     public MyPageFragment() {
         // Required empty public constructor
     }
@@ -69,22 +70,22 @@ public class MyPageFragment extends Fragment {
             postList = new ArrayList<>();
 
             //detect bottom listener
-            nestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    View view = (View) nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
-
-                    int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-                    if (diff <= 0){
-//                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
-                        cur_page_num++;
-                        if (isRefreshing == 0) {
-                            loadNewsFeed();
-                        }
-                    }
-
-                }
-            });
+//            nestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//                @Override
+//                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                    if (flag_detecting_scroll_twice % 2 != 0) {
+//                        flag_detecting_scroll_twice++;
+//                        if (scrollY == (nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight())) {
+////                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
+//                            cur_page_num++;
+//                            if (isRefreshing == 0) {
+//                                loadNewsFeed();
+//                            }
+//                        }
+//                    }
+//
+//                }
+//            });
             //refresh listener
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
