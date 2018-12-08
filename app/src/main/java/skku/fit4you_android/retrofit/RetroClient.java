@@ -556,6 +556,21 @@ public class RetroClient {
         });
     }
 
+    public void getFollowing(final RetroCallback callback){
+        apiService.getFollowings().enqueue(new Callback<List<ResponseFollowInfo>>() {
+            @Override
+            public void onResponse(Call<List<ResponseFollowInfo>> call, Response<List<ResponseFollowInfo>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseFollowInfo>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
     public void postSearchPost(String keywords, final RetroCallback callback){
         apiService.postSearchPost(keywords).enqueue(new Callback<List<ResponsePost>>() {
             @Override

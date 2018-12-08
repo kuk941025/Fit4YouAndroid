@@ -44,7 +44,7 @@ public class FollowingManagementActivity extends AppCompatActivity {
     private FollowingManagementAdapter followerAdapter, followingAdapter;
     private String uid = "4"; // 유저 아이디
     private RetroClient retroClient;
-    private ArrayList<FollowingUser> followingUsers;
+    private ArrayList<FollowingUser> followers, followings;
     Context mContext;
 
     @Override
@@ -55,9 +55,11 @@ public class FollowingManagementActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         retroClient = RetroClient.getInstance(this).createBaseApi();
         setToolbar();
+        mContext = this;
+        setFollowersRecyclerViews();
+        setFollowingsRecyclerViews();
 //        setLayout(viewFollowers, "100 Followers");
 //        setLayout(viewFollowings, "100 Followings");
-        setRecyclerViews();
     }
 
     private void setLayout(View view, String text) {
@@ -66,11 +68,38 @@ public class FollowingManagementActivity extends AppCompatActivity {
 
     }
 
-    private void setRecyclerViews() {
-        recyclerFollowers = viewFollowers.findViewById(R.id.template_following_recycler_user);
+    private void setFollowingsRecyclerViews(){
         recyclerFollowings = viewFollowings.findViewById(R.id.template_following_recycler_user);
+        followings = new ArrayList<>();
+        retroClient.getFollowing(new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                List<ResponseFollowInfo> responseFollowInfos = (List<ResponseFollowInfo>) receivedData;
+                for (ResponseFollowInfo response : responseFollowInfos){
+                    followings.add(new FollowingUser(response.nickname, response.id_one, response.id_two));
+                }
+                followerAdapter = new FollowingManagementAdapter(followings, mContext, retroClient);
+                recyclerFollowings.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+                recyclerFollowings.setAdapter(followerAdapter);
+                setLayout(viewFollowings, followings.size() + " followings");
+            }
+
+            @Override
+            public void onFailure(int code) {
+
+            }
+        });
+    }
+    private void setFollowersRecyclerViews() {
+        recyclerFollowers = viewFollowers.findViewById(R.id.template_following_recycler_user);
+
         mContext = this;
-        followingUsers = new ArrayList<>();
+        followers = new ArrayList<>();
         retroClient.getFollower(Integer.toString(FitApp.getInstance().getUid()), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
@@ -82,23 +111,12 @@ public class FollowingManagementActivity extends AppCompatActivity {
 
                 List<ResponseFollowInfo> responseFollowInfoList = (List<ResponseFollowInfo>) receivedData;
                 for (ResponseFollowInfo followInfo : responseFollowInfoList){
-//                    followingUsers.add(new FollowingUser(followInfo.id))
+                    followers.add(new FollowingUser(followInfo.nickname, followInfo.id_one, followInfo.id_two));
                 }
-                int length = responseFollowInfoList.size();
-
-                for (int i = 0; i < length; i++) {
-                    FollowingUser user = new FollowingUser("Name " + i);
-                    Log.d("Follow", user.getUserName());
-                    followingUsers.add(user);
-                }
-//
-                followerAdapter = new FollowingManagementAdapter(followingUsers, mContext);
-                followingAdapter = new FollowingManagementAdapter(followingUsers, mContext);
-                Log.d("Follow", "me" + length);
+                followerAdapter = new FollowingManagementAdapter(followers, mContext, retroClient);
                 recyclerFollowers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-                recyclerFollowings.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
                 recyclerFollowers.setAdapter(followerAdapter);
-                recyclerFollowings.setAdapter(followingAdapter);
+                setLayout(viewFollowers, followers.size() + " followings");
             }
 
             @Override
