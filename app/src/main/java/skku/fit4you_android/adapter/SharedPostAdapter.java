@@ -112,7 +112,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         if (selectedPost.getUid() == FitApp.getInstance().getUid()) {
             holder.txtIsFollowing.setText("(Me)");
-        }
+        } else holder.txtIsFollowing.setText("");
 
     }
 

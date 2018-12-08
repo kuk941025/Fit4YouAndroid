@@ -37,13 +37,12 @@ public class HomeFragment extends Fragment {
     FrameLayout frameLayout;
     @BindView(R.id.home_toolbar_spinner_show_option)
     Spinner spinnerOption;
-    @BindView(R.id.home_toolbar_spinner_filter)
-    Spinner spinnerFilter;
     @BindView(R.id.home_items_nested_scroll)
     NestedScrollView nestedScrollView;
     @BindView(R.id.home_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    @BindView(R.id.layout_home_view)
+    View viewSelectLayout;
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
@@ -82,18 +81,6 @@ public class HomeFragment extends Fragment {
                             }
                         }
                     }
-//                    int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-//                    if (diff <= 0){
-//                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
-//                        swipeRefreshLayout.setRefreshing(true);
-//                        if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
-//                            popularClothesFragment.loadNextClothings();
-//                        }
-//                        else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
-//                            popularMallFragment.loadNextItems();
-//                        }
-//                    }
-
                 }
             });
 
@@ -122,14 +109,13 @@ public class HomeFragment extends Fragment {
 
     private void initSpinner() {
         ArrayList<String> optionArray = new ArrayList<>();
-        ArrayList<String> filterArray = new ArrayList<>();
+
         Collections.addAll(optionArray, Constants.HomeShowOptions);
-        Collections.addAll(filterArray, Constants.HomeFilter);
 
         ArrayAdapter<String> optionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, optionArray);
         spinnerOption.setAdapter(optionAdapter);
-        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, filterArray);
-        spinnerFilter.setAdapter(filterAdapter);
+
+//        spinnerOption.getSelectedItem().toString();
     }
 
     private void initFrag() {
@@ -152,9 +138,11 @@ public class HomeFragment extends Fragment {
             Fragment selectedFragment = popularMallFragment;
             if (pos == 0) {
                 selectedFragment = popularClothesFragment;
+                viewSelectLayout.setVisibility(View.VISIBLE);
 //                popularClothesFragment.notifyFrag();
             } else if (pos == 1) {
                 selectedFragment = popularMallFragment;
+                viewSelectLayout.setVisibility(View.GONE);
 //                popularMallFragment.notifyFrag();
             }
 

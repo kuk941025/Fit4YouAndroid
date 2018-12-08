@@ -143,7 +143,7 @@ public class PopularMallFragment extends Fragment {
                         Converter.responsePostToSharedPost(responsePosts, sharedPosts);
                         sharedPostAdapter.notifyDataSetChanged();
                     }
-                    if (parentFragment != null) parentFragment.postStartRefreshing();
+                    if (parentFragment != null) parentFragment.postEndRefreshing();
                 }
 
                 @Override
