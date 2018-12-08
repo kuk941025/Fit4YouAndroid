@@ -42,6 +42,7 @@ public class Converter {
 
     public static void responseClothingToSharedPost(ArrayList<ResponseClothing> responseClothings, ArrayList<SharedPost> sharedPosts){
         for (ResponseClothing clothing : responseClothings){
+            if (clothing == null) continue;
             SharedPost sharedPost = new SharedPost();
             sharedPost.setId(clothing.id);
             sharedPost.setClothing_name(clothing.cname);
@@ -74,6 +75,7 @@ public class Converter {
 
     public static void responsePostToSharedPost(ArrayList<ResponsePost> responsePosts, ArrayList<SharedPost> sharedPosts){
         for (ResponsePost post : responsePosts){
+            if (post == null) continue;
             SharedPost sharedPost = new SharedPost();
             sharedPost.setId(post.id);
             sharedPost.setClothing_name(post.title);

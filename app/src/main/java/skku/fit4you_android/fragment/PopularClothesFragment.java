@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
@@ -55,6 +56,7 @@ public class PopularClothesFragment extends Fragment {
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
             initClothingList();
             parentFragment = (HomeFragment) getParentFragment();
+
         }
 
         return fragView;
@@ -96,11 +98,16 @@ public class PopularClothesFragment extends Fragment {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(getActivity().getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(FitApp.getInstance().getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                int prev_size = sharedPosts.size();
                 Converter.responseClothingToSharedPost((ArrayList<ResponseClothing>) receivedData, sharedPosts);
-                sharedPostAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity().getApplicationContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+
                 if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                if (prev_size == sharedPosts.size()) Toast.makeText(FitApp.getInstance().getApplicationContext(), "No data to be loaded.", Toast.LENGTH_LONG).show();
+                else {
+                    sharedPostAdapter.notifyDataSetChanged();
+                    Toast.makeText(FitApp.getInstance().getApplicationContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

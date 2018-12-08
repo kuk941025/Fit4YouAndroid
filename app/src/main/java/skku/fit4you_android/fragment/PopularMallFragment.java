@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.SharedPost;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.SharedPostAdapter;
@@ -57,6 +58,7 @@ public class PopularMallFragment extends Fragment {
             refreshMallList();
             parentFragment = (HomeFragment) getParentFragment();
 
+
         }
         return fragView;
     }
@@ -89,9 +91,14 @@ public class PopularMallFragment extends Fragment {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 Toast.makeText(getActivity().getApplicationContext(), "Post load success", Toast.LENGTH_LONG).show();
-                Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
-                sharedPostAdapter.notifyDataSetChanged();
                 if (parentFragment != null) parentFragment.postEndRefreshing();
+
+                int prev_size = sharedPosts.size();
+                Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
+                if (prev_size == sharedPosts.size()) Toast.makeText(FitApp.getInstance().getApplicationContext(), "No data to be loaded", Toast.LENGTH_LONG).show();
+                else{
+                    sharedPostAdapter.notifyDataSetChanged();
+                }
 
             }
 

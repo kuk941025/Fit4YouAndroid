@@ -30,7 +30,7 @@ import skku.fit4you_android.util.Constants;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
     @BindView(R.id.home_tab)
     TabLayout tabLayout;
     @BindView(R.id.home_container)
@@ -49,17 +49,18 @@ public class HomeFragment extends Fragment{
     private PopularClothesFragment popularClothesFragment = null;
     private PopularMallFragment popularMallFragment = null;
     private int flag_refresh_clothing, flag_refresh_mall;
+    private int flag_detecting_scroll_twice = 0;
+
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (fragView == null){
+        if (fragView == null) {
             fragView = inflater.inflate(R.layout.fragment_home, container, false);
             ButterKnife.bind(this, fragView);
             flag_refresh_clothing = flag_refresh_mall = 0;
@@ -67,19 +68,31 @@ public class HomeFragment extends Fragment{
             nestedScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    View view = (View) nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+                    flag_detecting_scroll_twice++;
 
-                    int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
-                    if (diff <= 0){
-                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
-                        swipeRefreshLayout.setRefreshing(true);
-                        if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
-                            popularClothesFragment.loadNextClothings();
-                        }
-                        else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
-                            popularMallFragment.loadNextItems();
+                    //avoid detecting bottom detection twice
+                    if (flag_detecting_scroll_twice % 2 != 0) {
+                        if (scrollY == (nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight())) {
+                            Toast.makeText(getActivity(), "bottom detected", Toast.LENGTH_LONG).show();
+                            swipeRefreshLayout.setRefreshing(true);
+                            if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0) {
+                                popularClothesFragment.loadNextClothings();
+                            } else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0) {
+                                popularMallFragment.loadNextItems();
+                            }
                         }
                     }
+//                    int diff = (view.getBottom() - (nestedScrollView.getHeight() + nestedScrollView.getScrollY()));
+//                    if (diff <= 0){
+//                        Toast.makeText(getActivity().getApplicationContext(), "Bottom detected.", Toast.LENGTH_LONG).show();
+//                        swipeRefreshLayout.setRefreshing(true);
+//                        if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
+//                            popularClothesFragment.loadNextClothings();
+//                        }
+//                        else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
+//                            popularMallFragment.loadNextItems();
+//                        }
+//                    }
 
                 }
             });
@@ -87,10 +100,9 @@ public class HomeFragment extends Fragment{
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0){
+                    if (tabLayout.getSelectedTabPosition() == 0 && flag_refresh_clothing == 0) {
                         popularClothesFragment.refreshAll();
-                    }
-                    else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0){
+                    } else if (tabLayout.getSelectedTabPosition() == 1 && flag_refresh_mall == 0) {
                         popularMallFragment.refreshAll();
                     }
                 }
@@ -108,7 +120,7 @@ public class HomeFragment extends Fragment{
         }
     }
 
-    private void initSpinner(){
+    private void initSpinner() {
         ArrayList<String> optionArray = new ArrayList<>();
         ArrayList<String> filterArray = new ArrayList<>();
         Collections.addAll(optionArray, Constants.HomeShowOptions);
@@ -119,27 +131,29 @@ public class HomeFragment extends Fragment{
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, filterArray);
         spinnerFilter.setAdapter(filterAdapter);
     }
-    private void initFrag(){
+
+    private void initFrag() {
         popularClothesFragment = new PopularClothesFragment();
         popularMallFragment = new PopularMallFragment();
         tabLayout.addOnTabSelectedListener(tabSelectedListener);
         getChildFragmentManager().beginTransaction().replace(R.id.home_container, popularClothesFragment).commit();
         getChildFragmentManager().beginTransaction().addToBackStack(null);
     }
-    private void init(){
+
+    private void init() {
         initFrag();
         initSpinner();
     }
+
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             int pos = tab.getPosition();
             Fragment selectedFragment = popularMallFragment;
-            if (pos == 0){
+            if (pos == 0) {
                 selectedFragment = popularClothesFragment;
 //                popularClothesFragment.notifyFrag();
-            }
-            else if (pos == 1){
+            } else if (pos == 1) {
                 selectedFragment = popularMallFragment;
 //                popularMallFragment.notifyFrag();
             }
@@ -158,31 +172,40 @@ public class HomeFragment extends Fragment{
 
         }
     };
+
     //called by fragments
-    public void clothingStartRefreshing(){
+    public void clothingStartRefreshing() {
         flag_refresh_clothing = 1;
         refreshLayoutUpdate();
     }
-    public void clothingEndRefreshing(){
+
+    public void clothingEndRefreshing() {
         flag_refresh_clothing = 0;
         refreshLayoutUpdate();
     }
-    public void postStartRefreshing(){
+
+    public void postStartRefreshing() {
         flag_refresh_mall = 1;
         refreshLayoutUpdate();
     }
-    public void postEndRefreshing(){
+
+    public void postEndRefreshing() {
         flag_refresh_mall = 0;
         refreshLayoutUpdate();
     }
-    private void refreshLayoutUpdate(){
-        if (flag_refresh_clothing == 1 || flag_refresh_mall == 1) swipeRefreshLayout.setRefreshing(true);
-        else if (flag_refresh_mall == 0 && flag_refresh_clothing == 0) swipeRefreshLayout.setRefreshing(false);
+
+    private void refreshLayoutUpdate() {
+        if (flag_refresh_clothing == 1 || flag_refresh_mall == 1)
+            swipeRefreshLayout.setRefreshing(true);
+        else if (flag_refresh_mall == 0 && flag_refresh_clothing == 0)
+            swipeRefreshLayout.setRefreshing(false);
     }
-    public void called(){
+
+    public void called() {
         Toast.makeText(getActivity().getApplicationContext(), "Notified", Toast.LENGTH_LONG).show();
     }
-    public void homeFragSelected(){
+
+    public void homeFragSelected() {
 //        if (tabLayout.getSelectedTabPosition() == 0) popularClothesFragment.notifyFrag();
 //        else popularMallFragment.notifyFrag();
     }
