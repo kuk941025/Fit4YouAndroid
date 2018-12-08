@@ -1,6 +1,7 @@
 package skku.fit4you_android.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,8 @@ import com.skydoves.colorpickerpreference.ColorPickerView;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import skku.fit4you_android.R;
 
 public class ColorActivity extends AppCompatActivity {
@@ -24,6 +27,7 @@ public class ColorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.colorpicker);
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         currentColor = intent.getExtras().getString("Color");
         btn_ok  = (Button) findViewById(R.id.btn_okColor);
@@ -56,6 +60,17 @@ public class ColorActivity extends AppCompatActivity {
                 //colorEnvelope.getRgb();
             }
         });
+    }
+    @OnClick(R.id.btn_black)
+    void onBlackClicked(){
+        int colorint = Color.BLACK;
+        Intent intentResult = getIntent();
+        intentResult.putExtra("Color", String.valueOf(colorint));
+        colorRGB.clear();
+        for (int i = 0; i < 3; i++) colorRGB.add(0);
+        intentResult.putIntegerArrayListExtra(RESULT_COLOR_RGB, colorRGB);
+        setResult(RESULT_OK, intentResult);
+        finish();
     }
 
 }
