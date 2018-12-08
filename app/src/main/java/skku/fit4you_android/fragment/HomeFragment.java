@@ -28,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import skku.fit4you_android.R;
+import skku.fit4you_android.activity.UploadClothingActivity;
 import skku.fit4you_android.dialog.FilterDialogInterface;
 import skku.fit4you_android.dialog.SetFilterDialog;
 import skku.fit4you_android.util.Constants;
@@ -186,7 +187,7 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
 
     @OnClick(R.id.home_fab)
     void onFabAddClicked(){
-        Intent intent = new Intent(getActivity(), UploadClothingFragment.class);
+        Intent intent = new Intent(getActivity(), UploadClothingActivity.class);
         startActivity(intent);
     }
 
