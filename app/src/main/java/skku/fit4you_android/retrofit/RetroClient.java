@@ -555,4 +555,34 @@ public class RetroClient {
             }
         });
     }
+
+    public void postSearchPost(String keywords, final RetroCallback callback){
+        apiService.postSearchPost(keywords).enqueue(new Callback<List<ResponsePost>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePost>> call, Response<List<ResponsePost>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void postSearchClothing(String keywords, final RetroCallback callback){
+        apiService.postSearchClothing(keywords).enqueue(new Callback<List<ResponseClothing>>() {
+            @Override
+            public void onResponse(Call<List<ResponseClothing>> call, Response<List<ResponseClothing>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseClothing>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

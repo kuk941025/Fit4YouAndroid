@@ -172,6 +172,16 @@ public class HomeFragment extends Fragment {
 
         }
     };
+    public void searchKeyWords(String keywords){
+        //if clothing is selected
+        if (tabLayout.getSelectedTabPosition() == 0){
+            popularClothesFragment.searchClothesKeyWords(keywords);
+        }
+        //if styling is selected
+        else{
+            popularMallFragment.searchPostKeyWords(keywords);
+        }
+    }
 
     //called by fragments
     public void clothingStartRefreshing() {

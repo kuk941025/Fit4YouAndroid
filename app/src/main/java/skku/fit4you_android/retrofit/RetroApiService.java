@@ -140,5 +140,13 @@ public interface RetroApiService {
     Call <ResponseSuccess> postDeleteFollow(@Field("id_two") String id_two);
     @GET("/follow/followers/{uid}")
     Call <List<ResponseFollowInfo>> getFollower(@Path("uid") String uid);
+
+    //SEARCH
+    @FormUrlEncoded
+    @POST("/search/post")
+    Call <List<ResponsePost>> postSearchPost(@Field("string") String keywords);
+    @FormUrlEncoded
+    @POST("/search/clothing")
+    Call <List<ResponseClothing>> postSearchClothing(@Field("string") String keywords);
 }
 

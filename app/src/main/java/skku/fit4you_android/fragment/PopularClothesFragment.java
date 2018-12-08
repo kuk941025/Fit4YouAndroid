@@ -127,6 +127,37 @@ public class PopularClothesFragment extends Fragment {
         cur_page_num++;
         loadClothingList();
     }
+    public void searchClothesKeyWords(String keywords){
+        sharedPosts.clear();
+        if (keywords == "") loadClothingList();
+        else{
+            if (parentFragment != null) parentFragment.clothingStartRefreshing();
+            retroClient.postSearchClothing(keywords, new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+                    if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    ArrayList<ResponseClothing> responseClothings = (ArrayList<ResponseClothing>) receivedData;
+                    if (responseClothings.size() == 0){
+                        Toast.makeText(getActivity().getApplicationContext(), "No data to be loaded.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Converter.responseClothingToSharedPost(responseClothings, sharedPosts);
+                        sharedPostAdapter.notifyDataSetChanged();
+                    }
+                    if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                }
+
+                @Override
+                public void onFailure(int code) {
+                    if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                }
+            });
+        }
+    }
     public void notifyFrag() {
 //        if (getContext() != null && !isRefreshed){
 //            isRefreshed = true;

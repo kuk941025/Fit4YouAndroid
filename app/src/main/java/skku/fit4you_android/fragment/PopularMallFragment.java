@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,6 +121,38 @@ public class PopularMallFragment extends Fragment {
         loadMallList();
     }
 
+
+    public void searchPostKeyWords(String keywords){
+        sharedPosts.clear();
+        if (keywords =="") loadMallList();
+        else{
+            if (parentFragment != null) parentFragment.postStartRefreshing();
+            retroClient.postSearchPost(keywords, new RetroCallback() {
+                @Override
+                public void onError(Throwable t) {
+                    if (parentFragment != null) parentFragment.postStartRefreshing();
+                }
+
+                @Override
+                public void onSuccess(int code, Object receivedData) {
+                    ArrayList<ResponsePost> responsePosts = (ArrayList<ResponsePost>) receivedData;
+                    if (responsePosts.size() == 0){
+                        Toast.makeText(getActivity().getApplicationContext(), "No data found.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Converter.responsePostToSharedPost(responsePosts, sharedPosts);
+                        sharedPostAdapter.notifyDataSetChanged();
+                    }
+                    if (parentFragment != null) parentFragment.postStartRefreshing();
+                }
+
+                @Override
+                public void onFailure(int code) {
+                    if (parentFragment != null) parentFragment.postStartRefreshing();
+                }
+            });
+        }
+    }
     public void notifyFrag() {
 //        if (getContext() != null && !isRefreshed) {
 //            isRefreshed = true;

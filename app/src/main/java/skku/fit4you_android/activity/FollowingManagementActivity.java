@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.FollowingManagementAdapter;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.FollowingUser;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
@@ -45,6 +46,7 @@ public class FollowingManagementActivity extends AppCompatActivity {
     private RetroClient retroClient;
     private ArrayList<FollowingUser> followingUsers;
     Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,35 +55,23 @@ public class FollowingManagementActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         retroClient = RetroClient.getInstance(this).createBaseApi();
         setToolbar();
-        setExpandableLayout(viewFollowers, "100 Followers");
-        setExpandableLayout(viewFollowings, "100 Followings");
+//        setLayout(viewFollowers, "100 Followers");
+//        setLayout(viewFollowings, "100 Followings");
         setRecyclerViews();
     }
 
-    private void setExpandableLayout(View view,  String text){
+    private void setLayout(View view, String text) {
         TextView txtTitle = view.findViewById(R.id.template_following_txt_tpye);
         txtTitle.setText(text);
 
-        final View layout = view.findViewById(R.id.template_following_layout_top);
-        final ExpandableRelativeLayout expandableRelativeLayout = view.findViewById(R.id.template_following_layout_expandable);
-        expandableRelativeLayout.collapse();
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for(int i=0;i<followingUsers.size();i++){
-                    Log.d("Follow",i+"");
-                }
-                expandableRelativeLayout.toggle();
-            }
-        });
-
     }
-    private void setRecyclerViews(){
+
+    private void setRecyclerViews() {
         recyclerFollowers = viewFollowers.findViewById(R.id.template_following_recycler_user);
         recyclerFollowings = viewFollowings.findViewById(R.id.template_following_recycler_user);
         mContext = this;
         followingUsers = new ArrayList<>();
-        retroClient.getFollower(uid, new RetroCallback() {
+        retroClient.getFollower(Integer.toString(FitApp.getInstance().getUid()), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
 
@@ -90,10 +80,13 @@ public class FollowingManagementActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
 
-                List<ResponseFollowInfo> responseFollowInfo = (List<ResponseFollowInfo>) receivedData;
-                int length = responseFollowInfo.size();
+                List<ResponseFollowInfo> responseFollowInfoList = (List<ResponseFollowInfo>) receivedData;
+                for (ResponseFollowInfo followInfo : responseFollowInfoList){
+//                    followingUsers.add(new FollowingUser(followInfo.id))
+                }
+                int length = responseFollowInfoList.size();
 
-                for(int i=0;i<length;i++){
+                for (int i = 0; i < length; i++) {
                     FollowingUser user = new FollowingUser("Name " + i);
                     Log.d("Follow", user.getUserName());
                     followingUsers.add(user);
@@ -101,7 +94,7 @@ public class FollowingManagementActivity extends AppCompatActivity {
 //
                 followerAdapter = new FollowingManagementAdapter(followingUsers, mContext);
                 followingAdapter = new FollowingManagementAdapter(followingUsers, mContext);
-                Log.d("Follow","me"+length);
+                Log.d("Follow", "me" + length);
                 recyclerFollowers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
                 recyclerFollowings.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
                 recyclerFollowers.setAdapter(followerAdapter);
@@ -116,7 +109,8 @@ public class FollowingManagementActivity extends AppCompatActivity {
 
 
     }
-    private void setToolbar(){
+
+    private void setToolbar() {
         setSupportActionBar(toolbar);
         toolTitle.setText("Following Management");
         imgToolIcon.setVisibility(View.VISIBLE);
@@ -124,7 +118,7 @@ public class FollowingManagementActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.toolbar_main_icon)
-    void onGoBackClicked(){
+    void onGoBackClicked() {
         finish();
     }
 }

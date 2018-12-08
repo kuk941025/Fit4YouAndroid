@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     View toolHomeLayout;
     @BindView(R.id.toolbar_news_layout)
     View toolNewsLayout;
+    @BindView(R.id.toolbar_home_edit_search)
+    EditText editHomeSearch;
 
     public final static String SEND_WISHLIST = "WISHLIST";
     public final static String SEND_BITMAP_REAL_CLOTHING = "REAL_CLOTHING";
@@ -117,5 +120,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e){e.printStackTrace();}
         startActivity(intent);
 
+    }
+
+    @OnClick(R.id.toolbar_home_btn_search)
+    void onHomeSearchClicked(){
+        HomeFragment homeFragment = (HomeFragment) pageAdapter.getItem(1);
+        homeFragment.searchKeyWords(editHomeSearch.getText().toString());
     }
 }
