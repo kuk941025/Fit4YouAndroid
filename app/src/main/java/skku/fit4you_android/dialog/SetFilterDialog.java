@@ -57,5 +57,6 @@ public class SetFilterDialog extends Dialog {
     @OnClick(R.id.dialog_btn_set)
     void onSetClikced(){
         mListener.onOkClicked(spinnerGender.getSelectedItemPosition(), spinnerWeather.getSelectedItemPosition());
+        dismiss();
     }
 }

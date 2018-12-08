@@ -2,6 +2,7 @@ package skku.fit4you_android.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -181,6 +182,12 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
     void onSetFilterClicked(){
         SetFilterDialog setFilterDialog = new SetFilterDialog(getActivity(), this);
         setFilterDialog.show();
+    }
+
+    @OnClick(R.id.home_fab)
+    void onFabAddClicked(){
+        Intent intent = new Intent(getActivity(), UploadClothingFragment.class);
+        startActivity(intent);
     }
 
     public void searchKeyWords(String keywords){
