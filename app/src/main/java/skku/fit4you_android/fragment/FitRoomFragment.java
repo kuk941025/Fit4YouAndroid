@@ -90,6 +90,7 @@ public class FitRoomFragment extends Fragment {
                 @Override
                 public void run() {
                     AvatarCreator avatarCreator = new AvatarCreator(getContext(), layoutAvatar);
+
                     avatarCreator.createAvatar();
 
                     Log.d("Height", layoutAvatar.getHeight() + ", " + layoutAvatar.getWidth());

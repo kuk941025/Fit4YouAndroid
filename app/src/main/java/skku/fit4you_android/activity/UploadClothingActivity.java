@@ -118,6 +118,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     private Uri[] imgPath = new Uri[4];
     private RetroClient retroClient;
     private int received_size_cnt = 0;
+
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
 
     static {
@@ -173,17 +174,11 @@ public class UploadClothingActivity extends AppCompatActivity {
         selectColor.setOnClickListener(new Button.OnClickListener() {//select color
             @Override
             public void onClick(View view) {
-                if (isActive2) {// default image ok
-                    if (!isActive1) {
-                        isActive3 = true;
-                        isActive1 = true;
-                        Intent intent = new Intent(UploadClothingActivity.this, ColorActivity.class);
-                        intent.putExtra("Color", color);
-                        startActivityForResult(intent, REQUEST_CODE);
-                    }
-                } else {//no!
-                    Toast.makeText(mContext, "Select the Default Image", Toast.LENGTH_SHORT).show();
-                }
+
+                Intent intent = new Intent(UploadClothingActivity.this, ColorActivity.class);
+                intent.putExtra("Color", color);
+                startActivityForResult(intent, REQUEST_CODE);
+
             }
         });
 
@@ -240,8 +235,7 @@ public class UploadClothingActivity extends AppCompatActivity {
             if (sizeFragmentList.size() > 0) {
                 sizeFragmentList.get(sizeViewPager.getCurrentItem()).setSizeTitle(res);
                 sizeFragmentAdapter.notifyDataSetChanged();
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), "No size is selected to be added", Toast.LENGTH_LONG).show();
             }
         }
@@ -314,16 +308,21 @@ public class UploadClothingActivity extends AppCompatActivity {
                                 if (received_size_cnt == sizeFragmentList.size()) {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "All done successfully", Toast.LENGTH_LONG).show();
+                                    finish();
                                 }
                             }
 
                             @Override
                             public void onFailure(int code) {
-                                Toast.makeText(getApplicationContext(), "Failed on uploading size", Toast.LENGTH_LONG).show();;
+                                Toast.makeText(getApplicationContext(), "Failed on uploading size", Toast.LENGTH_LONG).show();
+                                ;
                                 progressDialog.dismiss();
                             }
                         });
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), responseSuccessClothing.text + ".", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
 
@@ -337,10 +336,11 @@ public class UploadClothingActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.layout_upload_delete_size)
-    void onDeleteItemClicked(){
+    void onDeleteItemClicked() {
         sizeFragmentList.remove(viewPager.getCurrentItem());
         sizeFragmentAdapter.notifyDataSetChanged();
     }
+
     private HashMap<String, Object> getSizeParams(TopSizeInfo topSizeInfo, String cid, String size_name, int type) {
         HashMap<String, Object> params = new HashMap<>();
         if (type == SizeInfoFragment.TYPE_SIZE_TOP) {
@@ -348,8 +348,7 @@ public class UploadClothingActivity extends AppCompatActivity {
             params.put("shoulder_width", topSizeInfo.getShoulderWidth());
             params.put("bust", topSizeInfo.getChest());
             params.put("sleeve", topSizeInfo.getArmLength());
-        }
-        else{
+        } else {
             params.put("down_length", topSizeInfo.getTotalLength());
             params.put("thigh", topSizeInfo.getShoulderWidth());
             params.put("rise", topSizeInfo.getChest());

@@ -102,15 +102,17 @@ public class AvatarCreator {
     }
     private BodySize setBodySize(){
         //temporary set bodysize of avatar
+        responseRegister = FitApp.getInstance().getUserData();
         BodySize rtrBodySize = new BodySize();
-        rtrBodySize.setHead_height(29);
-        rtrBodySize.setHead_width(17);
-        rtrBodySize.setBody_height(61);
-        rtrBodySize.setBody_width(35);
-        rtrBodySize.setLeg_height(73);
-        rtrBodySize.setLeg_width(35);
-        rtrBodySize.setArm_width(20);
-        rtrBodySize.setArm_height(75);
+
+        rtrBodySize.setHead_height(responseRegister.head_height + 5);
+        rtrBodySize.setHead_width(responseRegister.head_width);
+        rtrBodySize.setBody_height(responseRegister.topsize);
+        rtrBodySize.setBody_width(responseRegister.shoulder);
+        rtrBodySize.setLeg_height(responseRegister.down_length);
+        rtrBodySize.setLeg_width(responseRegister.shoulder);
+        rtrBodySize.setArm_width(15);
+        rtrBodySize.setArm_height((int)(responseRegister.topsize * 1.2));
         return  rtrBodySize;
     }
 

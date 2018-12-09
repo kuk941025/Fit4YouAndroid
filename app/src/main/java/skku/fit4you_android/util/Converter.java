@@ -116,23 +116,25 @@ public class Converter {
     }
     public static int StringClothingToOid(String type) {
 
-        if (type == "hood")
+        if (type == Constants.CLOTHING_TYPE[0])
             return 1;
-        else if (type == "long pants")
+        else if (type == Constants.CLOTHING_TYPE[1])
             return 7;
-        else if (type == "long skirt")
+        else if (type == Constants.CLOTHING_TYPE[2])
             return 31;
-        else if (type == "long sleeve")
+        else if (type == Constants.CLOTHING_TYPE[3])
             return 17;
-        else if (type == "short pants")
-            return 8;
-        else if (type == "short skirt")
-            return 9;
-        else if (type == "shirt top")
+        else if (type == Constants.CLOTHING_TYPE[4])
             return 12;
-        else if (type == "short top collar")
+        else if (type == Constants.CLOTHING_TYPE[5])
+            return 8;
+        else if (type == Constants.CLOTHING_TYPE[6])
+            return 9;
+        else if (type == Constants.CLOTHING_TYPE[7])
+            return 2;
+        else if (type == Constants.CLOTHING_TYPE[8])
             return 14;
-        else if (type == "short wrinkled skirt")
+        else if (type == Constants.CLOTHING_TYPE[9])
             return 32;
         else
             return 0;

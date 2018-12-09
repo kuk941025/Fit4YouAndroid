@@ -207,6 +207,10 @@ public class RegisterActivity extends AppCompatActivity {
         editWeight.setText(Integer.toString(responseRegister.weight));
         editTop.setText(Integer.toString(responseRegister.topsize));
         editWaist.setText(Integer.toString(responseRegister.waist));
+        editHeadHeight.setText(Integer.toString(responseRegister.head_height));
+        editHeadWidth.setText(Integer.toString(responseRegister.head_width));
+        editShoulderWidth.setText(Integer.toString(responseRegister.shoulder));
+        editLegLength.setText(Integer.toString(responseRegister.down_length));
         Glide.with(context).load(RetroApiService.IMAGE_URL + responseRegister.photo).into(imageProfile);
         imageProfile.setBackgroundColor(getResources().getColor(R.color.colorLightGray, null));
         txtProfileTxt.setText("");
@@ -257,23 +261,51 @@ public class RegisterActivity extends AppCompatActivity {
         if (true){
             //multiFile = getMultiFile();
             Map<String, RequestBody> params = getRegParams();
-
+            final ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
             retroClient.postRegisterModify(null, params, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {
-
+                    progressDialog.dismiss();
                 }
 
                 @Override
                 public void onSuccess(int code, Object receivedData) {
+
                     ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
-                    if (responseSuccess.success == Response.RESPONSE_RECEIVED) Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                    else Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                        //get user information
+                        retroClient.postGetUserInfo(Integer.toString(FitApp.getInstance().getUid()), new RetroCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                                progressDialog.dismiss();
+                                FitApp.getInstance().setUserData((ResponseRegister) receivedData);
+                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Failed to receive user data.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Failed + " + responseSuccess.text, Toast.LENGTH_SHORT).show();
+
+                    }
                 }
 
                 @Override
                 public void onFailure(int code) {
-
+                    progressDialog.dismiss();
                 }
             });
         }
@@ -305,7 +337,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
                         Toast.makeText(getApplicationContext(), "Register Successful", Toast.LENGTH_LONG).show();
                         finish();
-                    }else Toast.makeText(getApplicationContext(), "Register failed. Form may not be correct.", Toast.LENGTH_LONG).show();
+                    }else Toast.makeText(getApplicationContext(), "Register failed. Form may not be correct.\n" + responseSuccess.text, Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
 
                 }

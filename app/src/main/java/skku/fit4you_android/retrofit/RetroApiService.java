@@ -52,7 +52,7 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/register/getinfo")
     Call<ResponseRegister> postGetUserInfo(@Field("uid") String uid);
-    @FormUrlEncoded
+    @Multipart
     @POST("/register/modify")
     Call<ResponseSuccess> postRegisterModify(@Part MultipartBody.Part file, @PartMap Map<String, RequestBody> parameter);
     @FormUrlEncoded

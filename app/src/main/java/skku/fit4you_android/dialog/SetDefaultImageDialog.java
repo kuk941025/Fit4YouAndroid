@@ -62,7 +62,7 @@ public class SetDefaultImageDialog extends Dialog{
                 Constants.CLOTHING_TYPE[6]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_top),
                 Constants.CLOTHING_TYPE[7]) ;
-        LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_top),
+        LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_top_collar),
                 Constants.CLOTHING_TYPE[8]) ;
         LA.addItem(ContextCompat.getDrawable(context, R.drawable.img_clothing_short_wrinked_skirt),
                 Constants.CLOTHING_TYPE[9]) ;
