@@ -3,26 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.skydoves.colorpickerpreference.ColorPickerView
+    <com.skydoves.colorpickerview.ColorPickerView
         android:id="@+id/colorPickerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="450dp"
         app:palette="@drawable/palette"
         app:selector="@drawable/wheel"
+        app:alpha_selector="0.8"
+        app:alpha_flag="0.8"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_okColor"/>
-
-    <Button
-        android:id="@+id/btn_black"
-        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/alphaSlideBar"/>
+    <com.skydoves.colorpickerview.sliders.AlphaSlideBar
+        android:id="@+id/alphaSlideBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_okColor" />
-
+        app:selector_AlphaSlideBar="@drawable/wheel"
+        app:borderColor_AlphaSlideBar="@android:color/darker_gray"
+        app:borderSize_AlphaSlideBar="5"
+        app:layout_constraintTop_toBottomOf="@+id/colorPickerView"
+        app:layout_constraintBottom_toTopOf="@+id/brightnessSlide"/>
+    <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+        android:id="@+id/brightnessSlide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:selector_BrightnessSlider="@drawable/wheel"
+        app:borderColor_BrightnessSlider="@android:color/darker_gray"
+        app:borderSize_BrightnessSlider="5"
+        app:layout_constraintTop_toBottomOf="@+id/alphaSlideBar"
+        app:layout_constraintBottom_toTopOf="@id/btn_okColor"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn_black"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="black"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/btn_okColor" />-->
     <Button
         android:id="@+id/btn_okColor"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -30,6 +49,6 @@
         android:text="Set Color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/black"
-        app:layout_constraintTop_toBottomOf="@+id/colorPickerView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brightnessSlide" />
 </android.support.constraint.ConstraintLayout>
