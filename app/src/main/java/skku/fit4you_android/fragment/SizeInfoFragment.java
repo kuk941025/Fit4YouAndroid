@@ -27,8 +27,16 @@ public class SizeInfoFragment extends Fragment {
     private View fragView = null;
     public static final int TYPE_SIZE_TOP = 1;
     public static final int TYPE_SIZE_PANTS = 0;
+    public static final String TOTAL_LENGTH = "TOTAL_LENGTH";
+    public static final String SHOULDER_WIDTH = "SHOULDER_WIDTH";
+    public static final String CHEST_SIZE = "CHEST_SIZE";
+    public static final String ARM_LENGTH = "ARM_LENGTH";
     public static final String TYPE_OF_CLOTHING = "TYPE_CLOTHING";
     private int type_of_clothing = 0;
+    private int length_of_clothing=0;
+    private int shoulder_width_of_clothing=0;
+    private int chest_size_of_clothing=0;
+    private int arm_length_of_clothing=0;
     public SizeInfoFragment() {
 
     }
@@ -40,13 +48,23 @@ public class SizeInfoFragment extends Fragment {
             fragView = inflater.inflate(R.layout.layout_upload_field_size_item, container, false);
             ButterKnife.bind(this, fragView);
             type_of_clothing = getArguments().getInt(TYPE_OF_CLOTHING, TYPE_SIZE_TOP);
-            if (type_of_clothing == TYPE_SIZE_PANTS){
+            length_of_clothing = getArguments().getInt(TOTAL_LENGTH,0);
+            shoulder_width_of_clothing = getArguments().getInt(SHOULDER_WIDTH,0);
+            chest_size_of_clothing = getArguments().getInt(CHEST_SIZE,0);
+            arm_length_of_clothing = getArguments().getInt(ARM_LENGTH,0);
+            editArmLength.setText(String.valueOf(arm_length_of_clothing));
+            editTotalLength.setText(String.valueOf(length_of_clothing));
+            editChest.setText(String.valueOf(chest_size_of_clothing));
+            editShoulderWidth.setText(String.valueOf(shoulder_width_of_clothing));
+            if (type_of_clothing == TYPE_SIZE_PANTS){//하의 일 때
                 editTotalLength.setHint("down length");
                 editShoulderWidth.setHint("thigh");
                 editChest.setHint("rise");
                 editArmLength.setHint("waist");
             }
+
         }
+
         return fragView;
     }
 

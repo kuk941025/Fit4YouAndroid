@@ -30,7 +30,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import skku.fit4you_android.crawling.BottomSize;
+import skku.fit4you_android.crawling.Clothing;
+import skku.fit4you_android.crawling.CrawlingAsyncTask;
+import skku.fit4you_android.crawling.TopSize;
 
+import java.util.concurrent.ExecutionException;
 import com.bumptech.glide.Glide;
 
 import org.opencv.android.Utils;
@@ -118,7 +123,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     private Uri[] imgPath = new Uri[4];
     private RetroClient retroClient;
     private int received_size_cnt = 0;
-
+    Clothing cloth;
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
 
     static {
@@ -334,7 +339,70 @@ public class UploadClothingActivity extends AppCompatActivity {
         });
 
     }
+    @OnClick(R.id.layout_upload_crawl)
+    void onCrawlingClicked(){
+        CrawlingAsyncTask crawlingAsyncTask = new CrawlingAsyncTask();//크롤링
+        try {
+            //cloth = crawlingAsyncTask.execute(editURL.getText().toString()).get();
+            cloth = crawlingAsyncTask.execute("https://store.musinsa.com/app/product/detail/312174/0").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(cloth!=null){//반환 값 널아니면 뭐라도 나온거임
 
+            editCName.setText(cloth.title);
+            editCost.setText(cloth.cost);
+            int sizeLength = sizeFragmentList.size();
+            Log.d("hey",sizeLength+"");
+            for(int i=0;i<sizeLength;i++){
+                onDeleteItemClicked();
+            }
+            onAddSizeClicked();
+            if(cloth.clothType==1||cloth.clothType==2){//타입설정
+                toggleTyleClothing.setCheckedTogglePosition(0);
+                sizeLength = cloth.topSize.size();
+                for(int j=0;j<sizeLength;j++){
+
+                }
+                for(int j=0;j<sizeLength;j++){
+                    Bundle bundle = new Bundle();
+                    SizeInfoFragment sizeInfoFragment = new SizeInfoFragment();
+                    TopSize topSize = cloth.topSize.get(j);
+                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_TOP);
+                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
+                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.chest);
+                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.shoulder);
+                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.sleeve);
+                    sizeInfoFragment.setArguments(bundle);
+                    sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.topSize.get(j).type));
+                    sizeFragmentAdapter.notifyDataSetChanged();
+                }
+
+            }
+            else{
+                toggleTyleClothing.setCheckedTogglePosition(1);
+                sizeLength = cloth.bottomSize.size();
+                for(int j=0;j<sizeLength;j++){
+                    BottomSize topSize = cloth.bottomSize.get(j);
+                    Bundle bundle = new Bundle();
+                    SizeInfoFragment sizeInfoFragment = new SizeInfoFragment();
+                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_PANTS);
+                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
+                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.rise);
+                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.thigh);
+                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.waist);
+                    sizeInfoFragment.setArguments(bundle);
+                    sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.bottomSize.get(j).type));
+                    sizeFragmentAdapter.notifyDataSetChanged();
+                }
+            }
+//            onDeleteItemClicked();
+
+        }
+
+    }
     @OnClick(R.id.layout_upload_delete_size)
     void onDeleteItemClicked() {
         sizeFragmentList.remove(viewPager.getCurrentItem());

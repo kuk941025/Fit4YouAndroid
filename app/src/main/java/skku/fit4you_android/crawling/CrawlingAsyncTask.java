@@ -30,8 +30,9 @@ public class CrawlingAsyncTask extends AsyncTask<String,Integer,Clothing> {
             // String url3 = "https://store.musinsa.com/app/product/detail/836498/0"; // No Size Info.
             // String url4 = "https://store.musinsa.com/app/product/detail/834307/0"; // Different Format
             // String url5 = "https://store.musinsa.com/app/product/detail/900297/0"; // Outer
-            String url6 = "https://store.musinsa.com/app/product/detail/67485/0"; // bottom
-            Document doc = Jsoup.connect(url6).get();
+            //String url6 = "https://store.musinsa.com/app/product/detail/67485/0"; // bottom
+            String url = voids[0];
+            Document doc = Jsoup.connect(url).get();
             Elements eTitle = doc.select("span.product_title span");// 제목
             Elements eCost = doc.select("span.product_article_price"); // 코스트
             Elements type = doc.select("p.item_categories a[href]"); // 타입
