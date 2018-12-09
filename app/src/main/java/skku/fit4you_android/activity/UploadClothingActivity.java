@@ -357,7 +357,8 @@ public class UploadClothingActivity extends AppCompatActivity {
             int sizeLength = sizeFragmentList.size();
             Log.d("hey",sizeLength+"");
             for(int i=0;i<sizeLength;i++){
-                onDeleteItemClicked();
+                sizeFragmentList.remove(0);
+                sizeFragmentAdapter.notifyDataSetChanged();
             }
             onAddSizeClicked();
             if(cloth.clothType==1||cloth.clothType==2){//타입설정
@@ -405,7 +406,7 @@ public class UploadClothingActivity extends AppCompatActivity {
     }
     @OnClick(R.id.layout_upload_delete_size)
     void onDeleteItemClicked() {
-        sizeFragmentList.remove(viewPager.getCurrentItem());
+        sizeFragmentList.remove(sizeViewPager.getCurrentItem());
         sizeFragmentAdapter.notifyDataSetChanged();
     }
 
