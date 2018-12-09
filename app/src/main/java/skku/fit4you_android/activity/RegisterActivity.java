@@ -259,10 +259,10 @@ public class RegisterActivity extends AppCompatActivity {
         MultipartBody.Part multiFile = null;
         //checkValidity() && imgPathStr != null
         if (true){
-            //multiFile = getMultiFile();
+            multiFile = getMultiFile();
             Map<String, RequestBody> params = getRegParams();
             final ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
-            retroClient.postRegisterModify(null, params, new RetroCallback() {
+            retroClient.postRegisterModify(multiFile, params, new RetroCallback() {
                 @Override
                 public void onError(Throwable t) {
                     progressDialog.dismiss();
