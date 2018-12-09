@@ -238,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private MultipartBody.Part getMultiFile(){
+        if (selectedImage == null) return  null;
         File file = null;
         RequestBody requestFile = null;
         MultipartBody.Part multiFile;
