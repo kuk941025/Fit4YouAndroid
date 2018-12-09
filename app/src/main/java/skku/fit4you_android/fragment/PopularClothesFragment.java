@@ -40,7 +40,7 @@ public class PopularClothesFragment extends Fragment {
     private ArrayList<SharedPost> sharedPosts;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
-    private int filter_gender = 0, filter_weather = 0, option_sort = 1;
+    private int filter_gender = 3, filter_weather = 4, option_sort = 1;
 /*
 each fragment has unique cur_page_num
 option, gender, weather data are from parentFragment
@@ -98,7 +98,7 @@ option, gender, weather data are from parentFragment
             parentFragment.clothingStartRefreshing();
             setOptionFilterValues();
         }
-        retroClient.getClothingAll(Integer.toString(cur_page_num), Integer.toString(option_sort), Integer.toString(filter_weather),
+        retroClient.getClothingAll(Integer.toString(cur_page_num), Integer.toString(option_sort), Integer.toString(filter_gender),
                 Integer.toString(filter_weather), new RetroCallback() {
             @Override
             public void onError(Throwable t) {

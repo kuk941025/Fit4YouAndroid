@@ -42,7 +42,8 @@ public class PopularMallFragment extends Fragment {
     boolean isRefreshed = false, isFirst = true;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
-    private int option_sort = 1;
+    private int option_sort = 1, flag_init = 0;
+
     public PopularMallFragment() {
         // Required empty public constructor
     }
@@ -58,7 +59,7 @@ public class PopularMallFragment extends Fragment {
             retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
             refreshMallList();
             parentFragment = (HomeFragment) getParentFragment();
-
+            flag_init++;
 
         }
         return fragView;
@@ -78,10 +79,31 @@ public class PopularMallFragment extends Fragment {
         recyclerStyles.setAdapter(sharedPostAdapter);
         recyclerStyles.setLayoutManager(layoutManager);
 
-        loadMallList();
+        if (flag_init == 0) initMallListWithRecommendation();
+        else loadMallList();
     }
     private void setFilterOptionValues(){
         option_sort = parentFragment.getOptionSort();
+    }
+    private void initMallListWithRecommendation(){
+        retroClient.getRecommendation(new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getContext(), "Recommendation error", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                //List <ResponsePost> responsePosts = (List<ResponsePost>) receivedData;
+                Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
+                sharedPostAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(getContext(), "Recommendation failure", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void loadMallList() {
         if (parentFragment != null) {

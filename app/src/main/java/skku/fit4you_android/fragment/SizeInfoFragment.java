@@ -39,7 +39,7 @@ public class SizeInfoFragment extends Fragment {
         if (fragView == null){
             fragView = inflater.inflate(R.layout.layout_upload_field_size_item, container, false);
             ButterKnife.bind(this, fragView);
-            type_of_clothing = getArguments().getInt(TYPE_OF_CLOTHING, TYPE_SIZE_TOP);
+            type_of_clothing = getArguments().getInt(TYPE_OF_CLOTHING, TYPE_SIZE_PANTS);
             if (type_of_clothing == TYPE_SIZE_PANTS){
                 editTotalLength.setHint("down length");
                 editShoulderWidth.setHint("thigh");

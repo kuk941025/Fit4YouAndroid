@@ -616,4 +616,19 @@ public class RetroClient {
             }
         });
     }
+
+    public void getRecommendation(final RetroCallback callback){
+        apiService.getRecommendation().enqueue(new Callback<List<ResponsePost>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePost>> call, Response<List<ResponsePost>> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePost>> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

@@ -78,6 +78,8 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("post/delete/{pid}")
     Call <ResponseSuccess> postPostDelete(@Path("pid") String pid);
+    @GET("/post/recomendation")
+    Call <List<ResponsePost>> getRecommendation();
 
 
     //WISHLIST
