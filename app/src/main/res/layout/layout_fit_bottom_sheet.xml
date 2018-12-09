@@ -34,6 +34,13 @@
         app:layout_constraintStart_toEndOf="@+id/fit_bottom_title"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/fit_btn_add"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Wear"
+        app:layout_constraintStart_toEndOf="@+id/fit_refresh_wishlist" />
     <TextView
         android:id="@+id/fit_bottom_total_items"
         android:layout_width="wrap_content"

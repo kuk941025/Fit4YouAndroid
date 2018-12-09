@@ -11,7 +11,7 @@ public class Wishlist implements Serializable {
     private static int WISH_COUNT = 0;
     private int cid, uid, sid, wid;
     private String name, dscrp; //dscrp == price
-    private String imgURL;
+    private String imgURL, basicURL;
     private int type;
     private boolean isUserSelected;
     public Wishlist() {
@@ -31,6 +31,14 @@ public class Wishlist implements Serializable {
         this.dscrp = dscrp;
         this.wid = WISH_COUNT++;
         isUserSelected = false;
+    }
+
+    public String getBasicURL() {
+        return basicURL;
+    }
+
+    public void setBasicURL(String basicURL) {
+        this.basicURL = basicURL;
     }
 
     public boolean isUserSelected() {

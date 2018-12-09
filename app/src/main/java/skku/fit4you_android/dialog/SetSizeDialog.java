@@ -37,6 +37,7 @@ public class SetSizeDialog extends Dialog {
     private RetroClient retroClient;
     private int oid, cid;
     private List<ResponseSize> responseSizes;
+    private int cur_size_pos = 0;
     public SetSizeDialog(@NonNull Context context, SelectSizeDialogInterface listener, RetroClient retroClient, int oid, int cid) {
         super(context);
 
@@ -103,6 +104,7 @@ public class SetSizeDialog extends Dialog {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         setFields(position);
+                        cur_size_pos = position;
                     }
 
                     @Override
@@ -127,7 +129,12 @@ public class SetSizeDialog extends Dialog {
     }
     @OnClick(R.id.dialog_btn_confirm_size)
     void onSetClicked(){
-        mListener.setSid(responseSizes.get(spinnerSizeName.getSelectedItemPosition()).id);
+        if (oid == Converter.CLOTHING_BOTTOM)
+        mListener.setSid(responseSizes.get(spinnerSizeName.getSelectedItemPosition()).id,
+                responseSizes.get(cur_size_pos).down_length, responseSizes.get(cur_size_pos).waist);
+        else
+            mListener.setSid(responseSizes.get(spinnerSizeName.getSelectedItemPosition()).id,
+                    responseSizes.get(cur_size_pos).top_length, responseSizes.get(cur_size_pos).shoulder_width);
         dismiss();
     }
 }

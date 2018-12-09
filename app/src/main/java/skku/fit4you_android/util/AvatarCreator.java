@@ -5,12 +5,16 @@ import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import skku.fit4you_android.R;
 import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.BodySize;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 
 public class AvatarCreator {
+    private final int ARM_WIDTH = 20;
     private ResponseRegister responseRegister;
     private Context mContext;
     private RelativeLayout layoutAvatar;
@@ -21,6 +25,7 @@ public class AvatarCreator {
     final private int TOP_MARGIN = 40;
     final private int PADDING_SHOULDER_WIDTH = 2;
     final private int PADDING_SHOULDER_HEIGHT = 2;
+
     public AvatarCreator(Context mContext, RelativeLayout layoutAvatar) {
         this.mContext = mContext;
         this.layoutAvatar = layoutAvatar;
@@ -29,7 +34,6 @@ public class AvatarCreator {
     }
     private void init(){
         responseRegister = FitApp.getInstance().getUserData();
-//        px_per_cm = layout_height / responseRegister.height;
         getLayoutParams();
         px_per_cm = layout_height / responseRegister.height;
     }
@@ -45,6 +49,7 @@ public class AvatarCreator {
         imgRightArm = new ImageView(mContext);
         imgBody = new ImageView(mContext);
         imgLeg = new ImageView(mContext);
+
 
         //get cm in pixel
         this.bodySize = setBodySize();
@@ -95,8 +100,10 @@ public class AvatarCreator {
         imgRightArm.setImageDrawable(mContext.getDrawable(R.drawable.img_avatar_right_arm));
         imgRightArm.setScaleType(ImageView.ScaleType.FIT_XY);
         layoutAvatar.addView(imgRightArm);
-    }
 
+
+
+    }
     public void tryClothing(){
 
     }
@@ -111,7 +118,7 @@ public class AvatarCreator {
         rtrBodySize.setBody_width(responseRegister.shoulder);
         rtrBodySize.setLeg_height(responseRegister.down_length);
         rtrBodySize.setLeg_width(responseRegister.shoulder);
-        rtrBodySize.setArm_width(15);
+        rtrBodySize.setArm_width(ARM_WIDTH);
         rtrBodySize.setArm_height((int)(responseRegister.topsize * 1.2));
         return  rtrBodySize;
     }

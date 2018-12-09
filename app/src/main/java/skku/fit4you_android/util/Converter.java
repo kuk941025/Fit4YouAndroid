@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -175,20 +177,19 @@ public class Converter {
                 return -1;
         }
     }
-    public static Bitmap getBitmapFromURL(String src){
-        Bitmap image;
-        try{
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
             URL url = new URL(src);
-            image = BitmapFactory.decodeStream(url.openStream());
-        } catch (MalformedURLException e ){
-            e.printStackTrace();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
             return null;
-        } catch (IOException ioE){
-            ioE.printStackTrace();
-            return  null;
         }
-
-        return image;
     }
 
 }

@@ -2,6 +2,7 @@ package skku.fit4you_android.fragment;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowId;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,20 +23,27 @@ import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import skku.fit4you_android.app.FitApp;
 import skku.fit4you_android.model.Wishlist;
 import skku.fit4you_android.R;
 import skku.fit4you_android.adapter.WishListAdapter;
+import skku.fit4you_android.retrofit.RetroApiService;
 import skku.fit4you_android.retrofit.RetroCallback;
 import skku.fit4you_android.retrofit.RetroClient;
 import skku.fit4you_android.retrofit.response.ResponseClothing;
+import skku.fit4you_android.retrofit.response.ResponseRegister;
 import skku.fit4you_android.retrofit.response.ResponseWishList;
 import skku.fit4you_android.util.AvatarCreator;
+import skku.fit4you_android.util.Converter;
 
 
 /**
@@ -64,6 +74,8 @@ public class FitRoomFragment extends Fragment {
     TextView txtTotalWishlists;
     @BindView(R.id.fit_layout_real_clothing_avatar)
     View layoutRealClothing;
+    @BindView(R.id.fit_btn_add)
+    Button btnAddClothing;
 
     private RecyclerView recyclerWishTops, recyclerWishPants, recyclerWishOuter;
     private BottomSheetBehavior sheetBehavior;
@@ -73,23 +85,71 @@ public class FitRoomFragment extends Fragment {
     private ArrayList<TextView> wishItemsLoaded = new ArrayList<>();
     private RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
     private int flag_last_wish = 0, send_cnt = 0;
+    private AvatarCreator avatarCreator;
     List<ResponseWishList> responseWishLists;
+
     public FitRoomFragment() {
 
         // Required empty public constructor
+    }
+
+    public native void tryClothing(Mat imgAvatar, Mat imgBasicClothing, int[] userArr, int[] sizeArr, int clothingType);
+
+    static {
+        System.loadLibrary("opencv_java3");
+        System.loadLibrary("native-lib");
+    }
+
+    @OnClick(R.id.fit_btn_add)
+    void onAddWearClicked() {
+        Wishlist topWishlist = null;
+        for (Wishlist wishlist : topWishlists) {
+            if (wishlist.isUserSelected()) {
+                topWishlist = wishlist;
+            }
+        }
+        Mat matAvatar = new Mat();
+        Mat matBasicClothing = new Mat();
+        imgAvatar.invalidate();
+        imgAvatar.buildDrawingCache();
+        Bitmap bitAvatar = imgAvatar.getDrawingCache();
+//        Bitmap bitBasic = Converter.getBitmapFromURL(RetroApiService.IMAGE_URL + topWishlist.getBasicURL());
+        Bitmap bitBasic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_clothing_short_top_collar);
+
+        Utils.bitmapToMat(bitAvatar, matAvatar);
+        Utils.bitmapToMat(bitBasic, matBasicClothing);
+        int[] intUserArr = new int[9];
+        ResponseRegister responseRegister = FitApp.getInstance().getUserData();
+        intUserArr[0] = responseRegister.height;
+        intUserArr[1] = responseRegister.head_width;
+        intUserArr[2] = responseRegister.head_height;
+        intUserArr[3] = responseRegister.shoulder;
+        intUserArr[4] = responseRegister.topsize;
+        intUserArr[5] = responseRegister.waist;
+        intUserArr[6] = responseRegister.down_length;
+        intUserArr[7] = 15;
+        intUserArr[8] = (int) (responseRegister.topsize * 1.2);
+
+        int[] intSizeArr = new int[2];
+        intSizeArr[0] = topListAdapter.getCur_height();
+        intSizeArr[1] = topListAdapter.getCur_height();
+        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, 0);
+        Bitmap bitResult = bitAvatar;
+        Utils.matToBitmap(matAvatar, bitAvatar);
+        imgAvatar.setImageBitmap(bitResult);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (fragView == null){
+        if (fragView == null) {
             fragView = inflater.inflate(R.layout.fragment_fit_room, container, false);
             ButterKnife.bind(this, fragView);
             fragView.post(new Runnable() {
                 @Override
                 public void run() {
-                    AvatarCreator avatarCreator = new AvatarCreator(getContext(), layoutAvatar);
+                    avatarCreator = new AvatarCreator(getContext(), layoutAvatar);
 
                     avatarCreator.createAvatar();
 
@@ -105,7 +165,7 @@ public class FitRoomFragment extends Fragment {
         return fragView;
     }
 
-    private void getWishLists(){
+    private void getWishLists() {
         retroClient.getWishlist(new RetroCallback() {
             @Override
             public void onError(Throwable t) {
@@ -124,6 +184,7 @@ public class FitRoomFragment extends Fragment {
             }
         });
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -131,7 +192,8 @@ public class FitRoomFragment extends Fragment {
     }
 
     @OnClick(R.id.fit_refresh_wishlist)
-    void onAddWishlistClicked(){;
+    void onAddWishlistClicked() {
+        ;
         txtTotalWishlists.setText("items loading...");
         topWishlists.clear();
         pantsWishlists.clear();
@@ -142,7 +204,7 @@ public class FitRoomFragment extends Fragment {
         getWishLists();
     }
 
-    private void initRecyclerViews(){
+    private void initRecyclerViews() {
         topWishlists = new ArrayList<>();
         pantsWishlists = new ArrayList<>();
         outerWishlists = new ArrayList<>();
@@ -169,14 +231,15 @@ public class FitRoomFragment extends Fragment {
         recyclerWishOuter.setAdapter(outerListAdapter);
 
     }
-    private void setBottomList(){
+
+    private void setBottomList() {
         //load top
         setBottomCategoryTitle(btnShowOuter, "Outers");
         setBottomCategoryTitle(btnShowTop, "Top");
         setBottomCategoryTitle(btnShowPants, "Pants");
     }
 
-    private void setBottomCategoryTitle(View view, String title){
+    private void setBottomCategoryTitle(View view, String title) {
         //set texts on category
         TextView txtCategoryTitle, txtItemNum;
         //shopping_cart_list_btn_title
@@ -198,12 +261,12 @@ public class FitRoomFragment extends Fragment {
 
     }
 
-    private void setSheetBehavior(){
+    private void setSheetBehavior() {
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState){
+                switch (newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                         break;
@@ -216,38 +279,44 @@ public class FitRoomFragment extends Fragment {
                 }
 //                topListAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
             }
         });
     }
-    public ArrayList<Wishlist> getSelectedWishList(){
+
+    public ArrayList<Wishlist> getSelectedWishList() {
         ArrayList<Wishlist> selectedLists = new ArrayList<>();
-        for (Wishlist wishlist : combinedWishlist){
+        for (Wishlist wishlist : combinedWishlist) {
             if (wishlist.isUserSelected()) selectedLists.add(wishlist);
         }
         return selectedLists;
     }
 
-    public Bitmap getAvatarImage(){
+    public Bitmap getAvatarImage() {
         layoutAvatar.buildDrawingCache();
         return layoutAvatar.getDrawingCache();
     }
 
-    public Bitmap getRealClothing(){
+    public Bitmap getRealClothing() {
         layoutRealClothing.invalidate();
         layoutRealClothing.buildDrawingCache();
-        return  layoutRealClothing.getDrawingCache();
+        return layoutRealClothing.getDrawingCache();
     }
-    private void setWishlist(){
+
+    private void setWishlist() {
         //getWishLists();
 
-        if (responseWishLists.size() == 0) {txtTotalWishlists.setText("0 item"); return;}
+        if (responseWishLists.size() == 0) {
+            txtTotalWishlists.setText("0 item");
+            return;
+        }
         //responsewish list to wishlist
-        for (ResponseWishList wish : responseWishLists){
+        for (ResponseWishList wish : responseWishLists) {
 
-            if (wish.top_1 != 0){
+            if (wish.top_1 != 0) {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_1);
                 wishlist.setSid(wish.top_1_size);
@@ -255,7 +324,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.top_2 != 0){
+            if (wish.top_2 != 0) {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_2);
                 wishlist.setSid(wish.top_2_size);
@@ -263,7 +332,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_TOP);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.down != 0){
+            if (wish.down != 0) {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.down);
                 wishlist.setSid(wish.down_size);
@@ -271,7 +340,7 @@ public class FitRoomFragment extends Fragment {
                 wishlist.setType(Wishlist.CLOTHING_PANTS);
                 combinedWishlist.add(wishlist);
             }
-            if (wish.top_outer != 0){
+            if (wish.top_outer != 0) {
                 Wishlist wishlist = new Wishlist(wish.uid);
                 wishlist.setCid(wish.top_outer);
                 wishlist.setSid(wish.top_outer_size);
@@ -282,8 +351,8 @@ public class FitRoomFragment extends Fragment {
         }
 
 
-        send_cnt=0;
-        for (final Wishlist wishlist : combinedWishlist){
+        send_cnt = 0;
+        for (final Wishlist wishlist : combinedWishlist) {
 
             retroClient.getSpecificClothing(Integer.toString(wishlist.getCid()), new RetroCallback() {
                 @Override
@@ -297,6 +366,7 @@ public class FitRoomFragment extends Fragment {
                     wishlist.setName(responseClothing.cname);
                     wishlist.setDscrp(Integer.toString(responseClothing.cost));
                     wishlist.setImgURL(responseClothing.photo1);
+                    wishlist.setBasicURL(responseClothing.basicimage);
                     send_cnt++;
                     if (send_cnt >= combinedWishlist.size())
                         setWishlistToView();
@@ -310,16 +380,15 @@ public class FitRoomFragment extends Fragment {
         }
 
     }
-    private void setWishlistToView(){
+
+    private void setWishlistToView() {
         //distribute
-        for (Wishlist wishlist : combinedWishlist){
-            if (wishlist.getType() == Wishlist.CLOTHING_TOP){
+        for (Wishlist wishlist : combinedWishlist) {
+            if (wishlist.getType() == Wishlist.CLOTHING_TOP) {
                 topWishlists.add(wishlist);
-            }
-            else if (wishlist.getType() == Wishlist.CLOTHING_PANTS){
+            } else if (wishlist.getType() == Wishlist.CLOTHING_PANTS) {
                 pantsWishlists.add(wishlist);
-            }
-            else{
+            } else {
                 outerWishlists.add(wishlist);
             }
         }
