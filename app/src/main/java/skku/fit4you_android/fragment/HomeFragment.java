@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -132,7 +133,17 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
 
         ArrayAdapter<String> optionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, optionArray);
         spinnerOption.setAdapter(optionAdapter);
+        spinnerOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                option_sort = position + 1;
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 //        spinnerOption.getSelectedItem().toString();
     }
 
@@ -223,7 +234,7 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
         refreshLayoutUpdate();
     }
     public int getOptionSort(){
-        return (option_sort + 1);
+        return (option_sort);
     }
     public int getFilterGedner(){
         return (filter_gender);
