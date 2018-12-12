@@ -141,7 +141,17 @@ public class Converter {
         else
             return 0;
     }
-
+    public static int OidToClothingType(int oid){
+        if (StringOidToClothingType(oid) == CLOTHING_TOP){
+            if (oid == 17 || oid ==  2) return 1; //long sleeve or short top 1
+            else return 0; //else tops
+        }
+        else if (StringOidToClothingType(oid) == CLOTHING_BOTTOM){
+            if (oid == 31 || oid == 6 || oid == 9) return 3;//skirts
+            else return 2; //pants
+        }
+        return 4;
+    }
     public static int StringOidToClothingType(int oid){
         switch (oid){
             case 4:

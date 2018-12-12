@@ -93,7 +93,7 @@ public class FitRoomFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public native void tryClothing(Mat imgAvatar, Mat imgBasicClothing, int[] userArr, int[] sizeArr, int clothingType);
+    public native void tryClothing(Mat imgAvatar, Mat imgBasicClothing, int[] userArr, int[] sizeArr, int clothingType, int layout_height, int layout_width);
 
     static {
         System.loadLibrary("opencv_java3");
@@ -114,7 +114,7 @@ public class FitRoomFragment extends Fragment {
         imgAvatar.buildDrawingCache();
         Bitmap bitAvatar = imgAvatar.getDrawingCache();
 //        Bitmap bitBasic = Converter.getBitmapFromURL(RetroApiService.IMAGE_URL + topWishlist.getBasicURL());
-        Bitmap bitBasic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_clothing_short_top_collar);
+        Bitmap bitBasic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_hood);
 
         Utils.bitmapToMat(bitAvatar, matAvatar);
         Utils.bitmapToMat(bitBasic, matBasicClothing);
@@ -127,13 +127,17 @@ public class FitRoomFragment extends Fragment {
         intUserArr[4] = responseRegister.topsize;
         intUserArr[5] = responseRegister.waist;
         intUserArr[6] = responseRegister.down_length;
-        intUserArr[7] = 15;
+        intUserArr[7] = AvatarCreator.ARM_WIDTH;
         intUserArr[8] = (int) (responseRegister.topsize * 1.2);
 
         int[] intSizeArr = new int[2];
         intSizeArr[0] = topListAdapter.getCur_height();
-        intSizeArr[1] = topListAdapter.getCur_height();
-        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, 0);
+        intSizeArr[1] = topListAdapter.getCur_width();
+
+
+//        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, Converter.OidToClothingType(topWishlist.getOid()),
+//                layoutAvatar.getHeight(), layoutAvatar.getWidth()); //clothing top
+
         Bitmap bitResult = bitAvatar;
         Utils.matToBitmap(matAvatar, bitAvatar);
         imgAvatar.setImageBitmap(bitResult);
@@ -193,7 +197,7 @@ public class FitRoomFragment extends Fragment {
 
     @OnClick(R.id.fit_refresh_wishlist)
     void onAddWishlistClicked() {
-        ;
+
         txtTotalWishlists.setText("items loading...");
         topWishlists.clear();
         pantsWishlists.clear();
@@ -367,6 +371,7 @@ public class FitRoomFragment extends Fragment {
                     wishlist.setDscrp(Integer.toString(responseClothing.cost));
                     wishlist.setImgURL(responseClothing.photo1);
                     wishlist.setBasicURL(responseClothing.basicimage);
+                    wishlist.setOid(responseClothing.oid);
                     send_cnt++;
                     if (send_cnt >= combinedWishlist.size())
                         setWishlistToView();

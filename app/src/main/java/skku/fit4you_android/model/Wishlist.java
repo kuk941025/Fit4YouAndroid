@@ -9,7 +9,7 @@ public class Wishlist implements Serializable {
     public static final int CLOTHING_PANTS = Converter.CLOTHING_BOTTOM;
     public static final int CLOTHING_OUTER = Converter.CLOTHING_OUTER;
     private static int WISH_COUNT = 0;
-    private int cid, uid, sid, wid;
+    private int cid, uid, sid, wid, oid;
     private String name, dscrp; //dscrp == price
     private String imgURL, basicURL;
     private int type;
@@ -22,6 +22,14 @@ public class Wishlist implements Serializable {
     public Wishlist(int uid) {
         this.uid = uid;this.wid = WISH_COUNT++;
         isUserSelected = false;
+    }
+
+    public int getOid() {
+        return oid;
+    }
+
+    public void setOid(int oid) {
+        this.oid = oid;
     }
 
     public Wishlist(int cid, int uid, String name, String dscrp) {

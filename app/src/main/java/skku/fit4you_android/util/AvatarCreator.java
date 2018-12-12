@@ -14,7 +14,7 @@ import skku.fit4you_android.model.BodySize;
 import skku.fit4you_android.retrofit.response.ResponseRegister;
 
 public class AvatarCreator {
-    private final int ARM_WIDTH = 20;
+    public static final int ARM_WIDTH = 20;
     private ResponseRegister responseRegister;
     private Context mContext;
     private RelativeLayout layoutAvatar;
