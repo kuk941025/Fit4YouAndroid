@@ -162,14 +162,15 @@ Java_skku_fit4you_1android_fragment_FitRoomFragment_tryClothing(JNIEnv *env, job
         size2 = pix*(atof(clothingInfo[1].c_str()));
     }
 
-
+    Mat result;
     Mat output, body;
     //body = image_avatar;
     //cv::Mat clothe =
             //image_clothing;
-//    resize(image_clothing, image_clothing, Size(size1, size2));
+    resize(image_clothing, result, Size());
+//    resize(output, image_clothing, Size(size1, size2));
 
-    //image_avatar.copyTo(output);
+    image_avatar.copyTo(output);
 
     for (int y = std::max(pos.y, 0); y < image_avatar.rows; ++y){
         int fY = y - pos.y;
@@ -195,7 +196,7 @@ Java_skku_fit4you_1android_fragment_FitRoomFragment_tryClothing(JNIEnv *env, job
             }//End_opacity
         }//End posX
     }//End posY
-    //output.copyTo(image_avatar);
+    output.copyTo(image_avatar);
 //    image_avatar = output;
 
     __android_log_print(ANDROID_LOG_ERROR, "TRACKERS", "%s", clothingInfo[0].c_str());

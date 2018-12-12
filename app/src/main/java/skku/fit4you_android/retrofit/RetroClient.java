@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Multipart;
 import skku.fit4you_android.retrofit.response.ResponseComment;
 import skku.fit4you_android.retrofit.response.ResponseCommentInfo;
 import skku.fit4you_android.retrofit.response.ResponseFollow;
@@ -128,9 +129,9 @@ public class RetroClient {
         });
     }
 
-    public void postClothing(MultipartBody.Part basicImage, MultipartBody.Part photo1, MultipartBody.Part photo2, Map<String, RequestBody> partMap,
-                             final RetroCallback callback){
-        apiService.postClothing(basicImage, photo1, photo2, partMap).enqueue(new Callback<ResponseSuccessClothing>() {
+    public void postClothing(MultipartBody.Part basicImage, MultipartBody.Part photo1, MultipartBody.Part photo2, MultipartBody.Part photo3,
+                             Map<String, RequestBody> partMap, final RetroCallback callback){
+        apiService.postClothing(basicImage, photo1, photo2, photo3, partMap).enqueue(new Callback<ResponseSuccessClothing>() {
             @Override
             public void onResponse(Call<ResponseSuccessClothing> call, Response<ResponseSuccessClothing> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());

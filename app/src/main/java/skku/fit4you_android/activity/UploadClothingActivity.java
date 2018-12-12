@@ -11,6 +11,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -30,13 +32,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import skku.fit4you_android.crawling.BottomSize;
 import skku.fit4you_android.crawling.Clothing;
 import skku.fit4you_android.crawling.CrawlingAsyncTask;
 import skku.fit4you_android.crawling.TopSize;
 
 import java.util.concurrent.ExecutionException;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -106,7 +112,12 @@ public class UploadClothingActivity extends AppCompatActivity {
     EditText editURL;
     @BindView(R.id.layout_upload_toggle_type_clothing)
     ToggleSwitch toggleTyleClothing;
-
+    @BindView(R.id.layout_upload_add_size)
+    Button addSIze;
+    @BindView(R.id.layout_upload_delete_size)
+    Button deleteSize;
+    @BindView(R.id.layout_upload_txt_size)
+    TextView txtUploadSize;
 
     UploadClothingAdapter UCAdapter;
     ImageView ivImage;
@@ -118,12 +129,14 @@ public class UploadClothingActivity extends AppCompatActivity {
     private SetDefaultImageDialog ListDialog;
     boolean isActive1 = false, isActive2 = false, isActive3 = false; //for dialog checking
     private SizeFragmentAdapter sizeFragmentAdapter;
-    ArrayList<SizeFragment> sizeFragmentList;
+    private ArrayList<SizeFragment> sizeFragmentList, sizeCrawlFragments;
     private Context mContext;
     private Uri[] imgPath = new Uri[4];
     private RetroClient retroClient;
-    private int received_size_cnt = 0;
+    private int received_size_cnt = 0, flag_crawled = 0;
+    private ImageView imgCrawled = null;
     Clothing cloth;
+
     public native void addColorToClothing(long matAddrInput, int color_red, int color_blue, int color_green);
 
     static {
@@ -161,6 +174,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         UCAdapter = new UploadClothingAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(UCAdapter);
         viewPager.setOnPageChangeListener(pageChangeListener);
+
 
         //---------------
 
@@ -211,7 +225,7 @@ public class UploadClothingActivity extends AppCompatActivity {
             }
         });
         //Fragment fragging = UCAdapter.getItem(0);
-        //ivImage = (ImageView) UCAdapter.getItem(0).getView().findViewById(R.id.clothing_image);
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         selectImg.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -245,23 +259,14 @@ public class UploadClothingActivity extends AppCompatActivity {
             }
         }
     };
-
-    @OnClick(R.id.layout_upload_add_clothing)
-    void onUploadClicked() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Uploading...");
-        progressDialog.show();
-        DefaultImage.buildDrawingCache();
-        File basicImg = new File(getApplicationContext().getCacheDir(), "basicImg");
-        RequestBody defaultImg = null;
-        MultipartBody.Part defaultImgFile = null;
-        try {
+    MultipartBody.Part bitmapToMultipart(Bitmap bitmap, String title){
+        File basicImg = new File(getApplicationContext().getCacheDir(), title);
+        RequestBody img = null;
+        MultipartBody.Part imgFile = null;
+        try{
             basicImg.createNewFile();
-            DefaultImage.invalidate();
-            DefaultImage.buildDrawingCache();
-            Bitmap bitDefault = DefaultImage.getDrawingCache();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitDefault.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
             byte[] bitMapData = bos.toByteArray();
 
             FileOutputStream fos = new FileOutputStream(basicImg);
@@ -269,19 +274,54 @@ public class UploadClothingActivity extends AppCompatActivity {
             fos.flush();
             fos.close();
 
-            defaultImg = RequestBody.create(MediaType.parse("image/*"), basicImg);
-            defaultImgFile = MultipartBody.Part.createFormData("basicimage", basicImg.getName(), defaultImg);
-
-        } catch (IOException e) {
+            img = RequestBody.create(MediaType.parse("image/*"), basicImg);
+            imgFile = MultipartBody.Part.createFormData(title, basicImg.getName(), img);
+        } catch (IOException e){
             e.printStackTrace();
         }
+        return imgFile;
+    }
+    @OnClick(R.id.layout_upload_add_clothing)
+    void onUploadClicked() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
 
-        MultipartBody.Part photo1 = getMultiFile(imgPath[0], "image1");
-        MultipartBody.Part photo2 = getMultiFile(imgPath[1], "image2");
+        DefaultImage.invalidate();
+        DefaultImage.buildDrawingCache();
+        MultipartBody.Part defaultImgFile = bitmapToMultipart(DefaultImage.getDrawingCache(), "basicimage");
+        if (defaultImgFile == null) {
+            Toast.makeText(getApplicationContext(), "No default image selected.", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            return;
+        }
+
+        MultipartBody.Part photo1, photo2, photo3;
+        photo1 = photo2 = photo3 = null;
+
+        //Upload images
+        if (flag_crawled == 1 && imgCrawled != null) {
+            imgCrawled.invalidate();
+            imgCrawled.buildDrawingCache();
+            photo1 = bitmapToMultipart(imgCrawled.getDrawingCache(), "image1");
+        }
+        else {
+            if (imgPath[0] != null) photo1 = getMultiFile(imgPath[0], "image1");
+        }
+        if (imgPath[1] != null) photo2 = getMultiFile(imgPath[1], "image2");
+        else if (imgPath[2] != null) photo3 = getMultiFile(imgPath[2], "image3");
+
+        if (photo1 == null && photo2 == null && photo3 == null) {
+            Toast.makeText(getApplicationContext(), "No photos has been selected.", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            return;
+        }
+
         Map<String, RequestBody> params = getParams();
-        retroClient.postClothing(defaultImgFile, photo1, photo2, params, new RetroCallback() {
+        retroClient.postClothing(defaultImgFile, photo1, photo2, photo3, params, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
+
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
@@ -290,10 +330,16 @@ public class UploadClothingActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
                 ResponseSuccessClothing responseSuccessClothing = (ResponseSuccessClothing) receivedData;
                 received_size_cnt = 0;
+
                 if (responseSuccessClothing.success == skku.fit4you_android.retrofit.response.Response.RESPONSE_RECEIVED) {
                     for (final SizeFragment sizeFragment : sizeFragmentList) {
                         SizeInfoFragment sizeInfoFragment = (SizeInfoFragment) sizeFragment.getFragment();
-                        TopSizeInfo topSizeInfo = sizeInfoFragment.getSizeInfo();
+                        TopSizeInfo topSizeInfo;
+                        if (flag_crawled == 0)
+                            topSizeInfo = sizeInfoFragment.getSizeInfo(SizeInfoFragment.REQUEST_SIZE_NONE_CRAWL);
+                        else
+                            topSizeInfo = sizeInfoFragment.getSizeInfo(SizeInfoFragment.REQUEST_SIZE_CRAWL);
+
                         HashMap<String, Object> params = getSizeParams(topSizeInfo, responseSuccessClothing.cid, sizeFragment.getSizeTitle(),
                                 sizeInfoFragment.getType_of_clothing());
                         retroClient.postClothingAddSize(params, new RetroCallback() {
@@ -339,9 +385,11 @@ public class UploadClothingActivity extends AppCompatActivity {
         });
 
     }
+
     @OnClick(R.id.layout_upload_crawl)
-    void onCrawlingClicked(){
+    void onCrawlingClicked() {
         CrawlingAsyncTask crawlingAsyncTask = new CrawlingAsyncTask();//크롤링
+        sizeCrawlFragments = new ArrayList<>();
         try {
             //cloth = crawlingAsyncTask.execute(editURL.getText().toString()).get();
             cloth = crawlingAsyncTask.execute("https://store.musinsa.com/app/product/detail/312174/0").get();
@@ -350,51 +398,79 @@ public class UploadClothingActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        if(cloth!=null){//반환 값 널아니면 뭐라도 나온거임
+        ivImage = (ImageView) UCAdapter.getItem(0).getView().findViewById(R.id.clothing_image);
+        if (cloth != null) {//반환 값 널아니면 뭐라도 나온거임
+            flag_crawled = 1;
+            //hide all size information fields
+            deleteSize.setVisibility(View.GONE);
+            addSIze.setVisibility(View.GONE);
+            editSizeTitle.setVisibility(View.GONE);
+            tabLayoutSize.setVisibility(View.GONE);
+            sizeViewPager.setVisibility(View.GONE);
+            if (cloth.topSize != null) txtUploadSize.setText(cloth.topSize.size() + " sizes loaded.");
+            if (cloth.bottomSize != null) txtUploadSize.setText(cloth.bottomSize.size() + " sizes loaded.");
 
             editCName.setText(cloth.title);
             editCost.setText(cloth.cost);
             int sizeLength = sizeFragmentList.size();
-            Log.d("hey",sizeLength+"");
-            for(int i=0;i<sizeLength;i++){
-                sizeFragmentList.remove(0);
-                sizeFragmentAdapter.notifyDataSetChanged();
-            }
-            onAddSizeClicked();
-            if(cloth.clothType==1||cloth.clothType==2){//타입설정
+            Glide.with(this).asBitmap().load(cloth.url).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    ivImage.setImageBitmap(resource);
+                    imgCrawled = ivImage;
+                }
+            });
+//            Glide.with(this).load(cloth.url).into(ivImage);
+            Log.d("hey", sizeLength + "");
+
+            DefaultImage.setImageBitmap(ivImage.getDrawingCache());
+            sizeFragmentList.clear();
+            if (cloth.clothType == 1 || cloth.clothType == 2) {//타입설정
                 toggleTyleClothing.setCheckedTogglePosition(0);
                 sizeLength = cloth.topSize.size();
-                for(int j=0;j<sizeLength;j++){
+                for (int j = 0; j < sizeLength; j++) {
 
                 }
-                for(int j=0;j<sizeLength;j++){
-                    Bundle bundle = new Bundle();
+                for (int j = 0; j < sizeLength; j++) {
+//                    Bundle bundle = new Bundle();
                     SizeInfoFragment sizeInfoFragment = new SizeInfoFragment();
-                    TopSize topSize = cloth.topSize.get(j);
-                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_TOP);
-                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
-                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.chest);
-                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.shoulder);
-                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.sleeve);
-                    sizeInfoFragment.setArguments(bundle);
+//                    TopSize topSize = cloth.topSize.get(j);
+//                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_TOP);
+//                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
+//                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.chest);
+//                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.shoulder);
+//                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.sleeve);
+//                    sizeInfoFragment.setArguments(bundle);
+
+                    TopSizeInfo topSizeInfo = new TopSizeInfo();
+                    topSizeInfo.setTotalLength(cloth.topSize.get(j).length);
+                    topSizeInfo.setChest(cloth.topSize.get(j).chest);
+                    topSizeInfo.setArmLength(cloth.topSize.get(j).sleeve);
+                    topSizeInfo.setShoulderWidth(cloth.topSize.get(j).shoulder);
+                    sizeInfoFragment.setCrawlSizeInfo(topSizeInfo);
                     sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.topSize.get(j).type));
-                    sizeFragmentAdapter.notifyDataSetChanged();
+//                    sizeFragmentAdapter.notifyDataSetChanged();
                 }
 
-            }
-            else{
+            } else {
                 toggleTyleClothing.setCheckedTogglePosition(1);
                 sizeLength = cloth.bottomSize.size();
-                for(int j=0;j<sizeLength;j++){
-                    BottomSize topSize = cloth.bottomSize.get(j);
-                    Bundle bundle = new Bundle();
+                for (int j = 0; j < sizeLength; j++) {
+//                    BottomSize topSize = cloth.bottomSize.get(j);
+//                    Bundle bundle = new Bundle();
                     SizeInfoFragment sizeInfoFragment = new SizeInfoFragment();
-                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_PANTS);
-                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
-                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.rise);
-                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.thigh);
-                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.waist);
-                    sizeInfoFragment.setArguments(bundle);
+//                    bundle.putInt(SizeInfoFragment.TYPE_OF_CLOTHING, SizeInfoFragment.TYPE_SIZE_PANTS);
+//                    bundle.putInt(SizeInfoFragment.TOTAL_LENGTH,topSize.length);
+//                    bundle.putInt(SizeInfoFragment.CHEST_SIZE,topSize.rise);
+//                    bundle.putInt(SizeInfoFragment.SHOULDER_WIDTH,topSize.thigh);
+//                    bundle.putInt(SizeInfoFragment.ARM_LENGTH,topSize.waist);
+//                    sizeInfoFragment.setArguments(bundle);
+                    TopSizeInfo topSizeInfo = new TopSizeInfo();
+                    topSizeInfo.setTotalLength(cloth.bottomSize.get(j).length);
+                    topSizeInfo.setShoulderWidth(cloth.bottomSize.get(j).thigh);
+                    topSizeInfo.setChest(cloth.bottomSize.get(j).rise);
+                    topSizeInfo.setArmLength(cloth.bottomSize.get(j).waist);
+                    sizeInfoFragment.setCrawlSizeInfo(topSizeInfo);
                     sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.bottomSize.get(j).type));
                     sizeFragmentAdapter.notifyDataSetChanged();
                 }
@@ -404,6 +480,7 @@ public class UploadClothingActivity extends AppCompatActivity {
         }
 
     }
+
     @OnClick(R.id.layout_upload_delete_size)
     void onDeleteItemClicked() {
 
@@ -551,8 +628,6 @@ public class UploadClothingActivity extends AppCompatActivity {
 
     private void updateImageColor(ArrayList<Integer> colorRGB) {
 
-//        DefaultImage.buildDrawingCache();
-//        Bitmap bitmap = DefaultImage.getDrawingCache();
         Mat mat = new Mat();
         Utils.bitmapToMat(bitSelectedImage, mat);
         addColorToClothing(mat.getNativeObjAddr(), colorRGB.get(0), colorRGB.get(1), colorRGB.get(2));

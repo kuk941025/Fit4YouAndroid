@@ -108,7 +108,7 @@ public interface RetroApiService {
     @Multipart
     @POST("/clothing")
     Call<ResponseSuccessClothing> postClothing(@Part MultipartBody.Part basicImage, @Part MultipartBody.Part photo1, @Part MultipartBody.Part photo2,
-                                               @PartMap() Map<String, RequestBody> partMap);
+                                               @Part MultipartBody.Part photo3, @PartMap() Map<String, RequestBody> partMap);
     @FormUrlEncoded
     @POST("/clothing/addsize")
     Call<ResponseSuccess> postClothingAddSize(@FieldMap HashMap<String, Object> params);

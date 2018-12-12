@@ -135,8 +135,8 @@ public class FitRoomFragment extends Fragment {
         intSizeArr[1] = topListAdapter.getCur_width();
 
 
-//        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, Converter.OidToClothingType(topWishlist.getOid()),
-//                layoutAvatar.getHeight(), layoutAvatar.getWidth()); //clothing top
+        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, Converter.OidToClothingType(topWishlist.getOid()),
+                layoutAvatar.getHeight(), layoutAvatar.getWidth()); //clothing top
 
         Bitmap bitResult = bitAvatar;
         Utils.matToBitmap(matAvatar, bitAvatar);
