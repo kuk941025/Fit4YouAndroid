@@ -148,6 +148,34 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.register_btn_calculate_body)
+    void onCalculateClicked(){
+        int height = Integer.parseInt(editHeight.getText().toString());
+        int weight = Integer.parseInt(editWeight.getText().toString());
+
+        //for 179cm
+        int avg_head_height = 23;
+        int avg_body_length = 65;
+        int avg_leg = 87;
+
+        avg_head_height = avg_head_height + (int)((height - 179) * 0.1);
+        avg_body_length = avg_body_length + (int)((height - 179) * 0.25);
+        avg_leg = avg_leg + (int)((height - 179) * 0.8);
+
+        editHeadHeight.setText(String.valueOf(avg_head_height));
+        editTop.setText(String.valueOf(avg_body_length));
+        editLegLength.setText(String.valueOf(avg_leg));
+
+        int avg_head_width = 18;
+        int avg_shoulder = 41;
+        avg_head_width = avg_head_width + (int)((height - 179) * 0.05);
+        avg_shoulder = avg_shoulder + (int)((height - 179) * 0.4);
+        editHeadWidth.setText(String.valueOf(avg_head_width));
+        editShoulderWidth.setText(String.valueOf(avg_shoulder));
+        editWaist.setText(String.valueOf(avg_shoulder));
+
+
+    }
 
 
     @OnClick(R.id.register_profile)
