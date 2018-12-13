@@ -457,6 +457,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
                                 selectedPost.setLike(false);
                                 imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_like, null));
+                                txtComments.setText(selectedPost.getNum_likes() + " likes " + selectedPost.getNum_comments() + " comments");
 //                                notifyItemChanged(getLayoutPosition());
                             } else {
                                 Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
@@ -483,6 +484,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
                                 selectedPost.setLike(true);
                                 imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_like_clicked, null));
+                                txtComments.setText(selectedPost.getNum_likes() + " likes " + selectedPost.getNum_comments() + " comments");
                                 //notifyItemChanged(getLayoutPosition());
                             } else {
                                 Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();

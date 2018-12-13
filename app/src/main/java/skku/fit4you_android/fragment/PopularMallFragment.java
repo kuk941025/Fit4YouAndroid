@@ -91,11 +91,14 @@ public class PopularMallFragment extends Fragment {
     public void initMallListWithRecommendation(){
         if (is_server_called) return;
         is_server_called = false;
+        sharedPosts.clear();
+        if (parentFragment != null) parentFragment.postStartRefreshing();
         retroClient.getRecommendation(new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 Toast.makeText(getContext(), "Recommendation error", Toast.LENGTH_SHORT).show();
                 is_server_called = false;
+                if (parentFragment != null) parentFragment.postEndRefreshing();
             }
 
             @Override
@@ -104,12 +107,14 @@ public class PopularMallFragment extends Fragment {
                 Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
                 sharedPostAdapter.notifyDataSetChanged();
                 is_server_called = false;
+                if (parentFragment != null) parentFragment.postEndRefreshing();
             }
 
             @Override
             public void onFailure(int code) {
                 Toast.makeText(getContext(), "Recommendation failure", Toast.LENGTH_SHORT).show();
                 is_server_called = false;
+                if (parentFragment != null) parentFragment.postEndRefreshing();
             }
         });
     }
