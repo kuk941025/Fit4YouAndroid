@@ -102,4 +102,7 @@ public class SizeInfoFragment extends Fragment {
     public int getType_of_clothing() {
         return type_of_clothing;
     }
+    public void setType_of_clothing(int type){
+        this.type_of_clothing = type;
+    }
 }

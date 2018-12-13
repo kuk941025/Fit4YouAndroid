@@ -335,6 +335,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                     for (final SizeFragment sizeFragment : sizeFragmentList) {
                         SizeInfoFragment sizeInfoFragment = (SizeInfoFragment) sizeFragment.getFragment();
                         TopSizeInfo topSizeInfo;
+                        //topSizeInfo = sizeInfoFragment.getSizeInfo(flag_crawled ? SizeInfoFragment.REQUEST_SIZE_CRAWL : SizeInfoFragment.REQUEST_SIZE_NONE_CRAWL);
                         if (flag_crawled == 0)
                             topSizeInfo = sizeInfoFragment.getSizeInfo(SizeInfoFragment.REQUEST_SIZE_NONE_CRAWL);
                         else
@@ -391,8 +392,8 @@ public class UploadClothingActivity extends AppCompatActivity {
         CrawlingAsyncTask crawlingAsyncTask = new CrawlingAsyncTask();//크롤링
         sizeCrawlFragments = new ArrayList<>();
         try {
-            //cloth = crawlingAsyncTask.execute(editURL.getText().toString()).get();
-            cloth = crawlingAsyncTask.execute("https://store.musinsa.com/app/product/detail/312174/0").get();
+            cloth = crawlingAsyncTask.execute(editURL.getText().toString()).get();
+            //cloth = crawlingAsyncTask.execute("https://store.musinsa.com/app/product/detail/312174/0").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -448,6 +449,7 @@ public class UploadClothingActivity extends AppCompatActivity {
                     topSizeInfo.setArmLength(cloth.topSize.get(j).sleeve);
                     topSizeInfo.setShoulderWidth(cloth.topSize.get(j).shoulder);
                     sizeInfoFragment.setCrawlSizeInfo(topSizeInfo);
+                    sizeInfoFragment.setType_of_clothing(SizeInfoFragment.TYPE_SIZE_TOP);
                     sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.topSize.get(j).type));
 //                    sizeFragmentAdapter.notifyDataSetChanged();
                 }
@@ -471,12 +473,16 @@ public class UploadClothingActivity extends AppCompatActivity {
                     topSizeInfo.setChest(cloth.bottomSize.get(j).rise);
                     topSizeInfo.setArmLength(cloth.bottomSize.get(j).waist);
                     sizeInfoFragment.setCrawlSizeInfo(topSizeInfo);
+                    sizeInfoFragment.setType_of_clothing(SizeInfoFragment.TYPE_SIZE_PANTS);
                     sizeFragmentList.add(new SizeFragment(sizeInfoFragment, cloth.bottomSize.get(j).type));
                     sizeFragmentAdapter.notifyDataSetChanged();
                 }
             }
 //            onDeleteItemClicked();
 
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Crawling failed", Toast.LENGTH_SHORT).show();
         }
 
     }
