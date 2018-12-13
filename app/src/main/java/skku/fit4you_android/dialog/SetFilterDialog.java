@@ -36,6 +36,7 @@ public class SetFilterDialog extends Dialog {
         ArrayList<String> genderArray = new ArrayList<>();
         ArrayList<String> weatherArray = new ArrayList<>();
         Collections.addAll(genderArray, Constants.GENDER);
+
         Collections.addAll(weatherArray, Constants.CLOTHING_WEATHER);
 
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, genderArray);

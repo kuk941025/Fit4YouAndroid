@@ -40,7 +40,8 @@ public class PopularClothesFragment extends Fragment {
     private ArrayList<SharedPost> sharedPosts;
     private RetroClient retroClient;
     private HomeFragment parentFragment;
-    private int filter_gender = 3, filter_weather = 4, option_sort = 1;
+    private int filter_gender = 3, filter_weather = 0, option_sort = 1;
+    private boolean is_server_called = false;
 /*
 each fragment has unique cur_page_num
 option, gender, weather data are from parentFragment
@@ -96,13 +97,20 @@ option, gender, weather data are from parentFragment
     private void loadClothingList() {
         if (parentFragment != null) {
             parentFragment.clothingStartRefreshing();
-            setOptionFilterValues();
+            if (!setOptionFilterValues()) {
+                sharedPosts.clear();
+                sharedPostAdapter.notifyDataSetChanged();
+            }
+
         }
+        if (is_server_called) return;
+        is_server_called = true;
         retroClient.getClothingAll(Integer.toString(cur_page_num), Integer.toString(option_sort), Integer.toString(filter_gender),
                 Integer.toString(filter_weather), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                is_server_called = false;
             }
 
             @Override
@@ -117,11 +125,13 @@ option, gender, weather data are from parentFragment
                     sharedPostAdapter.notifyDataSetChanged();
                     Toast.makeText(FitApp.getInstance().getApplicationContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
                 }
+                is_server_called = false;
             }
 
             @Override
             public void onFailure(int code) {
                 if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                is_server_called = false;
             }
         });
     }
@@ -136,13 +146,23 @@ option, gender, weather data are from parentFragment
         cur_page_num++;
         loadClothingList();
     }
-    private void setOptionFilterValues(){
+    private boolean setOptionFilterValues(){
+        int prev_gender = filter_gender;
+        int prev_sort = option_sort;
+        int prev_weather = filter_weather;
+
         filter_gender = parentFragment.getFilterGedner();
         filter_weather = parentFragment.getFilterWeather();
         option_sort = parentFragment.getOptionSort();
+
+        if (prev_gender == filter_gender && prev_sort == option_sort && prev_weather == filter_weather)
+            return  true; // no change
+        else return  false;
     }
     public void searchClothesKeyWords(String keywords){
         sharedPosts.clear();
+        if (is_server_called) return;
+        is_server_called = true;
         if (keywords == "") loadClothingList();
         else{
             if (parentFragment != null) {
@@ -152,6 +172,7 @@ option, gender, weather data are from parentFragment
                 @Override
                 public void onError(Throwable t) {
                     if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                    is_server_called = false;
                 }
 
                 @Override
@@ -165,11 +186,13 @@ option, gender, weather data are from parentFragment
                         sharedPostAdapter.notifyDataSetChanged();
                     }
                     if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                    is_server_called = false;
                 }
 
                 @Override
                 public void onFailure(int code) {
                     if (parentFragment != null) parentFragment.clothingEndRefreshing();
+                    is_server_called = false;
                 }
             });
         }

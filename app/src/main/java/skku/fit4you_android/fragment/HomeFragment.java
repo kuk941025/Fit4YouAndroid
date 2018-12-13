@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
 
     @Override
     public void onOkClicked(int gender, int weather) {
+
         txtSelectedFilter.setText(Constants.GENDER[gender] + ", " + Constants.CLOTHING_WEATHER[weather]);
         filter_gender = gender;
         filter_weather = weather;

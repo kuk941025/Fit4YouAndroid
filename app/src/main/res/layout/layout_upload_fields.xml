@@ -103,9 +103,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_upload_edit_cost"
         app:separatorColor="@color/colorBrightGray"
-        app:textToggleCenter="Female"
-        app:textToggleLeft="Male"
-        app:textToggleRight="ALL"
+        app:textToggleLeft="ALL"
+        app:textToggleCenter="Male"
+        app:textToggleRight="Female"
         app:toggleWidth="100dp" />
 
     <belka.us.androidtoggleswitch.widgets.ToggleSwitch

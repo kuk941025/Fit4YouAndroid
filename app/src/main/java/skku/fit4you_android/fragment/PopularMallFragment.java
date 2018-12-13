@@ -43,7 +43,7 @@ public class PopularMallFragment extends Fragment {
     private RetroClient retroClient;
     private HomeFragment parentFragment;
     private int option_sort = 1, flag_init = 0;
-
+    private boolean is_server_called = false;
     public PopularMallFragment() {
         // Required empty public constructor
     }
@@ -82,14 +82,20 @@ public class PopularMallFragment extends Fragment {
         if (flag_init == 0) initMallListWithRecommendation();
         else loadMallList();
     }
-    private void setFilterOptionValues(){
+    private boolean setFilterOptionValues(){
+        int prev_option = option_sort;
         option_sort = parentFragment.getOptionSort();
+        if (prev_option == option_sort) return true;
+        else return false;
     }
     private void initMallListWithRecommendation(){
+        if (is_server_called) return;
+        is_server_called = false;
         retroClient.getRecommendation(new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 Toast.makeText(getContext(), "Recommendation error", Toast.LENGTH_SHORT).show();
+                is_server_called = false;
             }
 
             @Override
@@ -97,23 +103,28 @@ public class PopularMallFragment extends Fragment {
                 //List <ResponsePost> responsePosts = (List<ResponsePost>) receivedData;
                 Converter.responsePostToSharedPost((ArrayList<ResponsePost>) receivedData, sharedPosts);
                 sharedPostAdapter.notifyDataSetChanged();
+                is_server_called = false;
             }
 
             @Override
             public void onFailure(int code) {
                 Toast.makeText(getContext(), "Recommendation failure", Toast.LENGTH_SHORT).show();
+                is_server_called = false;
             }
         });
     }
     private void loadMallList() {
         if (parentFragment != null) {
             parentFragment.postStartRefreshing();
-            setFilterOptionValues();
+            if (!setFilterOptionValues()) sharedPosts.clear();//change in option detected
         }
+        if (is_server_called) return;
+        is_server_called = true;
         retroClient.getPostAll(Integer.toString(cur_page_num), Integer.toString(option_sort), new RetroCallback() {
             @Override
             public void onError(Throwable t) {
                 if (parentFragment != null) parentFragment.postEndRefreshing();
+                is_server_called = false;
             }
 
             @Override
@@ -127,12 +138,13 @@ public class PopularMallFragment extends Fragment {
                 else{
                     sharedPostAdapter.notifyDataSetChanged();
                 }
-
+                is_server_called = false;
             }
 
             @Override
             public void onFailure(int code) {
                 if (parentFragment != null) parentFragment.postEndRefreshing();
+                is_server_called = false;
             }
         });
     }
@@ -150,7 +162,10 @@ public class PopularMallFragment extends Fragment {
 
 
     public void searchPostKeyWords(String keywords){
+        if (is_server_called) return;
+        is_server_called = true;
         sharedPosts.clear();
+
         if (keywords =="") loadMallList();
         else{
             if (parentFragment != null) parentFragment.postStartRefreshing();
@@ -158,6 +173,7 @@ public class PopularMallFragment extends Fragment {
                 @Override
                 public void onError(Throwable t) {
                     if (parentFragment != null) parentFragment.postStartRefreshing();
+                    is_server_called = false;
                 }
 
                 @Override
@@ -171,11 +187,13 @@ public class PopularMallFragment extends Fragment {
                         sharedPostAdapter.notifyDataSetChanged();
                     }
                     if (parentFragment != null) parentFragment.postEndRefreshing();
+                    is_server_called = false;
                 }
 
                 @Override
                 public void onFailure(int code) {
                     if (parentFragment != null) parentFragment.postStartRefreshing();
+                    is_server_called = false;
                 }
             });
         }

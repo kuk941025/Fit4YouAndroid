@@ -174,7 +174,10 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         @OnClick(R.id.template_post_item_user_name)
         void onUserNameClicked() {
-
+            if (sharedPosts.size() == 0){
+                Toast.makeText(mContext, "share post error. please restart", Toast.LENGTH_SHORT).show();
+                return;
+            }
             //0 following not loaded
             //1 following, 2 not following
             if (sharedPosts.get(getLayoutPosition()).getIsFollowing() == 0) { //data is yet to be loaded

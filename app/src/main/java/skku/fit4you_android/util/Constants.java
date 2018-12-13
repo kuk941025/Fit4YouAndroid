@@ -24,7 +24,7 @@ public class Constants {
     public static final String[] CLOTHING_TYPE = {"hood", "long pants", "long skirt", "long sleeve", "shirt top",
     "short pants", "short skirt", "short top", "short top collar", "short wrinkled skirt"};
     public static final String[] CLOTHING_WEATHER = {"Four seasons", "Spring", "Summer", "Fall", "Winter", "All"};
-    public static final String[] GENDER = {"Uni", "Male", "Female", "ALL"};
+    public static final String[] GENDER = {"Uni", "Male", "Female", "All"};
     public static final int REGISTER_MODIFIED = 1;
     public static final int REGISTER_NOT_MODIFIED = 0;
 }
