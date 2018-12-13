@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -52,6 +53,11 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
     View viewSelectLayout;
     @BindView(R.id.layout_home_selected_filter)
     TextView txtSelectedFilter;
+    @BindView(R.id.layout_home_btn_recommend)
+    Button btnReoommend;
+    @BindView(R.id.layout_home_btn_set_filter)
+    Button btnSetFilter;
+
 
     private View fragView;
     private PopularClothesFragment popularClothesFragment = null;
@@ -168,11 +174,17 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
             Fragment selectedFragment = popularMallFragment;
             if (pos == 0) {
                 selectedFragment = popularClothesFragment;
-                viewSelectLayout.setVisibility(View.VISIBLE);
+                txtSelectedFilter.setVisibility(View.VISIBLE);
+                btnSetFilter.setVisibility(View.VISIBLE);
+                btnReoommend.setVisibility(View.GONE);
+//                viewSelectLayout.setVisibility(View.VISIBLE);
 //                popularClothesFragment.notifyFrag();
             } else if (pos == 1) {
                 selectedFragment = popularMallFragment;
-                viewSelectLayout.setVisibility(View.GONE);
+                txtSelectedFilter.setVisibility(View.GONE);
+                btnSetFilter.setVisibility(View.GONE);
+                btnReoommend.setVisibility(View.VISIBLE);
+//                viewSelectLayout.setVisibility(View.GONE);
 //                popularMallFragment.notifyFrag();
             }
 
@@ -190,7 +202,10 @@ public class HomeFragment extends Fragment implements FilterDialogInterface {
 
         }
     };
-
+    @OnClick(R.id.layout_home_btn_recommend)
+    void onRecommendClicked(){
+        popularMallFragment.initMallListWithRecommendation();
+    }
     @OnClick(R.id.layout_home_btn_set_filter)
     void onSetFilterClicked(){
         SetFilterDialog setFilterDialog = new SetFilterDialog(getActivity(), this);

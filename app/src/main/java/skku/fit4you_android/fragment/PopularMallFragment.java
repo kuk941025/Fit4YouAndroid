@@ -88,7 +88,7 @@ public class PopularMallFragment extends Fragment {
         if (prev_option == option_sort) return true;
         else return false;
     }
-    private void initMallListWithRecommendation(){
+    public void initMallListWithRecommendation(){
         if (is_server_called) return;
         is_server_called = false;
         retroClient.getRecommendation(new RetroCallback() {
