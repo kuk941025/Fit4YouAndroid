@@ -632,4 +632,19 @@ public class RetroClient {
             }
         });
     }
+
+    public void postDeleteClothing(String cid, final RetroCallback callback){
+        apiService.postDeleteClothing(cid).enqueue(new Callback<ResponseSuccess>() {
+            @Override
+            public void onResponse(Call<ResponseSuccess> call, Response<ResponseSuccess> response) {
+                if (response.isSuccessful()) callback.onSuccess(response.code(), response.body());
+                else callback.onFailure(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSuccess> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

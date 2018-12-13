@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
     android:layout_marginTop="@dimen/margin_side"
     android:layout_marginBottom="@dimen/margin_side"
-    android:paddingBottom="@dimen/margin_side"
-    >
+    android:background="#ffffff"
+    android:paddingBottom="@dimen/margin_side">
 
-    <TextView
-        android:id="@+id/template_post_item_name"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/template_post_title_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_side"
         android:layout_marginTop="@dimen/margin_side"
-        android:text="Clothing Title"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_large"
-        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/template_post_item_delete_post"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/template_post_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="50,000 won"
-        android:textSize="@dimen/text_default"
-        app:layout_constraintBottom_toBottomOf="@+id/template_post_item_name"
-        app:layout_constraintStart_toEndOf="@+id/template_post_item_name"
-        app:layout_constraintTop_toTopOf="@+id/template_post_item_name" />
+        <TextView
+            android:id="@+id/template_post_item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_side"
+            android:text="Clothing Title"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/template_post_item_price"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/template_post_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="50,000 won"
+            android:textSize="@dimen/text_default"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/template_post_item_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_side"
         android:layout_marginStart="@dimen/margin_side"
+        android:layout_marginTop="@dimen/margin_side"
         android:text="User Name"
         android:textColor="@color/colorBlack"
-        android:textStyle="bold"
         android:textSize="@dimen/text_default"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/template_post_item_name" />
+        app:layout_constraintTop_toBottomOf="@+id/template_post_title_layout" />
 
     <TextView
         android:id="@+id/template_post_item_views"
@@ -57,6 +65,7 @@
         android:text="0 views"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/template_post_item_frame" />
+
     <TextView
         android:id="@+id/template_post_item_date"
         android:layout_width="wrap_content"
@@ -64,9 +73,9 @@
         android:layout_marginStart="@dimen/margin_side"
         android:layout_marginEnd="@dimen/margin_side"
         android:text="2018-10-16"
-        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintBottom_toBottomOf="@+id/template_post_item_user_name"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@+id/template_post_item_user_name"
         app:layout_constraintTop_toTopOf="@+id/template_post_item_user_name" />
 
@@ -84,10 +93,21 @@
         android:id="@+id/template_post_item_add_wishlist"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
         android:background="@drawable/img_add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/template_post_item_delete_post"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginTop="@dimen/margin_side"
+        android:layout_marginEnd="@dimen/margin_side"
+        android:background="@drawable/img_delete"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@id/template_post_item_add_wishlist"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
@@ -96,14 +116,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_side"
         app:layout_constraintTop_toBottomOf="@id/template_post_item_date">
+
         <include
             android:id="@+id/template_post_item_view_clothing"
-            android:visibility="gone"
-            layout="@layout/template_post_item_clothing"/>
+            layout="@layout/template_post_item_clothing"
+            android:visibility="gone" />
+
         <include
             android:id="@+id/template_post_item_view_style"
-            android:visibility="gone"
-            layout="@layout/template_post_item_style"/>
+            layout="@layout/template_post_item_style"
+            android:visibility="gone" />
     </FrameLayout>
 
     <TextView
@@ -113,8 +135,8 @@
         android:layout_marginStart="@dimen/margin_side"
         android:layout_marginTop="@dimen/margin_side"
         android:text="#hash_tag #hashbrown"
-        android:textSize="@dimen/text_default"
         android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_default"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/template_post_item_views" />
 
@@ -135,8 +157,8 @@
         android:layout_marginStart="8dp"
         android:text="0 likes 0 comments"
         android:textColor="@color/colorBlack"
-        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintBottom_toBottomOf="@+id/template_post_item_like"
         app:layout_constraintStart_toEndOf="@+id/template_post_item_like"
-        app:layout_constraintTop_toTopOf="@+id/template_post_item_like" />
+        app:layout_constraintTop_toTopOf="@+id/template_post_item_like"
+        app:layout_constraintVertical_bias="0.5" />
 </android.support.constraint.ConstraintLayout>

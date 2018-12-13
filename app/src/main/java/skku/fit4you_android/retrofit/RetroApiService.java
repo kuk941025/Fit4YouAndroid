@@ -75,12 +75,21 @@ public interface RetroApiService {
     @FormUrlEncoded
     @POST("/post/modify/{pid}")
     Call <ResponseSuccess> postPostModify(@Path("pid") String pid, @FieldMap HashMap<String, Object> parameter);
-    @FormUrlEncoded
+
     @POST("post/delete/{pid}")
     Call <ResponseSuccess> postPostDelete(@Path("pid") String pid);
     @GET("/post/recomendation")
     Call <List<ResponsePost>> getRecommendation();
-
+    @GET("/post/all/{page_num}/{option_num}")
+    Call <List<ResponsePost>> getPostAll(@Path("page_num") String page_num, @Path("option_num") String option_num);
+    @GET("/post/user/{uid}")
+    Call <List<ResponsePost>> getUserPost(@Path("uid") String uid);
+    @FormUrlEncoded
+    @POST("/post/addlike")
+    Call <ResponseLike> postPostAddLike(@Field("pid") String pid);
+    @FormUrlEncoded
+    @POST("/post/deletelike")
+    Call <ResponseLike> postPostDeleteLike(@Field("pid") String pid);
 
     //WISHLIST
     @GET("/wishlist")
@@ -114,24 +123,21 @@ public interface RetroApiService {
     Call<ResponseSuccess> postClothingAddSize(@FieldMap HashMap<String, Object> params);
     @GET("/clothing/sizes/{cid}")
     Call <List<ResponseSize>> getClothingSizes(@Path("cid") String cid);
+    @POST("/clothing/delete/{cid}")
+    Call <ResponseSuccess> postDeleteClothing(@Path("cid") String cid);
 
-    //POST
-    @GET("/post/all/{page_num}/{option_num}")
-    Call <List<ResponsePost>> getPostAll(@Path("page_num") String page_num, @Path("option_num") String option_num);
-    @GET("/post/user/{uid}")
-    Call <List<ResponsePost>> getUserPost(@Path("uid") String uid);
-    @FormUrlEncoded
-    @POST("/post/addlike")
-    Call <ResponseLike> postPostAddLike(@Field("pid") String pid);
-    @FormUrlEncoded
-    @POST("/post/deletelike")
-    Call <ResponseLike> postPostDeleteLike(@Field("pid") String pid);
+
+//    @FormUrlEncoded
+//    @POST("/post/delete/{pid}")
+//    Call <ResponseSuccess> postPostDelete(@Path("pid") String pid, @Field("pid") String pid_field);
+
     //COMMENT
     @FormUrlEncoded
     @POST("/comment/add")
     Call <ResponseComment> postAddComment(@Field("pid") String pid,@Field("contents") String contents);
     @GET("/comment/get/{pid}")
     Call <List<ResponseCommentInfo>> getComment(@Path("pid") String pid);
+
 
     //FOLLOWING
     @FormUrlEncoded

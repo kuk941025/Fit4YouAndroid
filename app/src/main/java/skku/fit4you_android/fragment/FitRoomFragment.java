@@ -101,46 +101,46 @@ public class FitRoomFragment extends Fragment {
     }
 
     @OnClick(R.id.fit_btn_add)
-    void onAddWearClicked() {
-        Wishlist topWishlist = null;
-        for (Wishlist wishlist : topWishlists) {
-            if (wishlist.isUserSelected()) {
-                topWishlist = wishlist;
-            }
-        }
-        Mat matAvatar = new Mat();
-        Mat matBasicClothing = new Mat();
-        imgAvatar.invalidate();
-        imgAvatar.buildDrawingCache();
-        Bitmap bitAvatar = imgAvatar.getDrawingCache();
-//        Bitmap bitBasic = Converter.getBitmapFromURL(RetroApiService.IMAGE_URL + topWishlist.getBasicURL());
-        Bitmap bitBasic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_hood);
-
-        Utils.bitmapToMat(bitAvatar, matAvatar);
-        Utils.bitmapToMat(bitBasic, matBasicClothing);
-        int[] intUserArr = new int[9];
-        ResponseRegister responseRegister = FitApp.getInstance().getUserData();
-        intUserArr[0] = responseRegister.height;
-        intUserArr[1] = responseRegister.head_width;
-        intUserArr[2] = responseRegister.head_height;
-        intUserArr[3] = responseRegister.shoulder;
-        intUserArr[4] = responseRegister.topsize;
-        intUserArr[5] = responseRegister.waist;
-        intUserArr[6] = responseRegister.down_length;
-        intUserArr[7] = AvatarCreator.ARM_WIDTH;
-        intUserArr[8] = (int) (responseRegister.topsize * 1.2);
-
-        int[] intSizeArr = new int[2];
-        intSizeArr[0] = topListAdapter.getCur_height();
-        intSizeArr[1] = topListAdapter.getCur_width();
-
-
-        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, Converter.OidToClothingType(topWishlist.getOid()),
-                layoutAvatar.getHeight(), layoutAvatar.getWidth()); //clothing top
-
-        Bitmap bitResult = bitAvatar;
-        Utils.matToBitmap(matAvatar, bitAvatar);
-        imgAvatar.setImageBitmap(bitResult);
+    void onAddWearClicked() { //OPENCV not connected, this may crash the application.
+//        Wishlist topWishlist = null;
+//        for (Wishlist wishlist : topWishlists) {
+//            if (wishlist.isUserSelected()) {
+//                topWishlist = wishlist;
+//            }
+//        }
+//        Mat matAvatar = new Mat();
+//        Mat matBasicClothing = new Mat();
+//        imgAvatar.invalidate();
+//        imgAvatar.buildDrawingCache();
+//        Bitmap bitAvatar = imgAvatar.getDrawingCache();
+////        Bitmap bitBasic = Converter.getBitmapFromURL(RetroApiService.IMAGE_URL + topWishlist.getBasicURL());
+//        Bitmap bitBasic = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.img_hood);
+//
+//        Utils.bitmapToMat(bitAvatar, matAvatar);
+//        Utils.bitmapToMat(bitBasic, matBasicClothing);
+//        int[] intUserArr = new int[9];
+//        ResponseRegister responseRegister = FitApp.getInstance().getUserData();
+//        intUserArr[0] = responseRegister.height;
+//        intUserArr[1] = responseRegister.head_width;
+//        intUserArr[2] = responseRegister.head_height;
+//        intUserArr[3] = responseRegister.shoulder;
+//        intUserArr[4] = responseRegister.topsize;
+//        intUserArr[5] = responseRegister.waist;
+//        intUserArr[6] = responseRegister.down_length;
+//        intUserArr[7] = AvatarCreator.ARM_WIDTH;
+//        intUserArr[8] = (int) (responseRegister.topsize * 1.2);
+//
+//        int[] intSizeArr = new int[2];
+//        intSizeArr[0] = topListAdapter.getCur_height();
+//        intSizeArr[1] = topListAdapter.getCur_width();
+//
+//
+//        tryClothing(matAvatar, matBasicClothing, intUserArr, intSizeArr, Converter.OidToClothingType(topWishlist.getOid()),
+//                layoutAvatar.getHeight(), layoutAvatar.getWidth()); //clothing top
+//
+//        Bitmap bitResult = bitAvatar;
+//        Utils.matToBitmap(matAvatar, bitAvatar);
+//        imgAvatar.setImageBitmap(bitResult);
     }
 
     @Override
@@ -195,9 +195,10 @@ public class FitRoomFragment extends Fragment {
 
     }
 
+    //refresh wishlist items and update avatar
     @OnClick(R.id.fit_refresh_wishlist)
     void onAddWishlistClicked() {
-
+        if (avatarCreator != null) avatarCreator.createAvatar();
         txtTotalWishlists.setText("items loading...");
         topWishlists.clear();
         pantsWishlists.clear();

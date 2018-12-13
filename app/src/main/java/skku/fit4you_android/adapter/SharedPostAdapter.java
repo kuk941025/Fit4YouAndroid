@@ -113,6 +113,7 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
 
         if (selectedPost.getUid() == FitApp.getInstance().getUid()) {
             holder.txtIsFollowing.setText("(Me)");
+            holder.imgDelete.setVisibility(View.VISIBLE);
         } else holder.txtIsFollowing.setText("");
 
     }
@@ -160,12 +161,16 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
         ImageView imgLike;
         @BindView(R.id.template_post_txt_is_following)
         TextView txtIsFollowing;
+        @BindView(R.id.template_post_item_delete_post)
+        ImageView imgDelete;
 
         public postViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
         }
+
+
 
         @OnClick(R.id.template_post_item_user_name)
         void onUserNameClicked() {
@@ -339,6 +344,73 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
             }
         };
 
+        @OnClick(R.id.template_post_item_delete_post)
+        void onDeletePostClicked(){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+            //if deleting a post
+            if (sharedPosts.get(getLayoutPosition()).getType_of_post() == SharedPost.POST_STYLE_SHARE) {
+                builder.setMessage("Do you want to delete your post?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        retroClient.postPostDelete(String.valueOf(sharedPosts.get(getLayoutPosition()).getId()), new RetroCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+                                Toast.makeText(mContext, "Error on deletion", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                                ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                                if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
+                                    Toast.makeText(mContext, "Deleted successfully", Toast.LENGTH_SHORT).show();
+                                    sharedPosts.remove(getLayoutPosition());
+                                    notifyItemRemoved(getLayoutPosition());
+                                } else {
+                                    Toast.makeText(mContext, responseSuccess.text, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                Toast.makeText(mContext, "Failure on deletion", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).setNegativeButton("No", null).show();
+            }
+            else{
+                builder.setMessage("Do you want to delete your uploaded clothing?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        retroClient.postDeleteClothing(String.valueOf(sharedPosts.get(getLayoutPosition()).getId()), new RetroCallback() {
+                            @Override
+                            public void onError(Throwable t) {
+                                Toast.makeText(mContext, "Error on deletion", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(int code, Object receivedData) {
+                                ResponseSuccess responseSuccess = (ResponseSuccess) receivedData;
+                                if (responseSuccess.success == Response.RESPONSE_RECEIVED) {
+                                    Toast.makeText(mContext, "Deleted successfully", Toast.LENGTH_SHORT).show();
+                                    sharedPosts.remove(getLayoutPosition());
+                                    notifyItemRemoved(getLayoutPosition());
+                                } else {
+                                    Toast.makeText(mContext, responseSuccess.text, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int code) {
+                                Toast.makeText(mContext, "Failure on deletion", Toast.LENGTH_SHORT).show();                            }
+                        });
+                    }
+                }).setNegativeButton("No", null).show();
+            }
+        }
+
         @OnClick(R.id.template_post_item_add_wishlist)
         void onAddWishListClicked() {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -381,7 +453,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 Toast.makeText(mContext, "Like removed.", Toast.LENGTH_SHORT).show();
                                 selectedPost.setNum_likes(selectedPost.getNum_likes() - 1);
                                 selectedPost.setLike(false);
-                                notifyItemChanged(getLayoutPosition());
+                                imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_like, null));
+//                                notifyItemChanged(getLayoutPosition());
                             } else {
                                 Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                             }
@@ -406,7 +479,8 @@ public class SharedPostAdapter extends RecyclerView.Adapter<SharedPostAdapter.po
                                 Toast.makeText(mContext, "Like added.", Toast.LENGTH_SHORT).show();
                                 selectedPost.setNum_likes(selectedPost.getNum_likes() + 1);
                                 selectedPost.setLike(true);
-                                notifyItemChanged(getLayoutPosition());
+                                imgLike.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img_like_clicked, null));
+                                //notifyItemChanged(getLayoutPosition());
                             } else {
                                 Toast.makeText(mContext, responseLike.text, Toast.LENGTH_LONG).show();
                             }
